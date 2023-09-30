@@ -30,12 +30,12 @@ Partial Class ItemsFrm
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me._MP = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuNew = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuFind = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuFNm = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuFBa = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuDel = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuEdit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.MnuPOrdrs = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuDisp = New System.Windows.Forms.ToolStripMenuItem()
@@ -46,6 +46,9 @@ Partial Class ItemsFrm
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me._MPback = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.TextBox7 = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.CboNm = New System.Windows.Forms.TextBox()
         Me.TextBox6 = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.TextBox5 = New System.Windows.Forms.TextBox()
@@ -57,14 +60,15 @@ Partial Class ItemsFrm
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
-        Me.DGready = New System.Windows.Forms.DataGridView()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.CboKind = New System.Windows.Forms.ComboBox()
-        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.CboKind = New System.Windows.Forms.ComboBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.DGready = New System.Windows.Forms.DataGridView()
         Me.PID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Pname = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Pdesc = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -72,17 +76,16 @@ Partial Class ItemsFrm
         Me.MinQ = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.BarCode = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Pnotes = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CboNm = New System.Windows.Forms.TextBox()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
-        CType(Me.DGready, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.DGready, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.BackColor = System.Drawing.Color.Gainsboro
+        Me.MenuStrip1.BackColor = System.Drawing.Color.Snow
         Me.MenuStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me._MP})
@@ -99,6 +102,7 @@ Partial Class ItemsFrm
         Me._MP.BackColor = System.Drawing.Color.Transparent
         Me._MP.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuNew, Me.MnuSave, Me.MnuFind, Me.MnuDel, Me.MnuEdit, Me.ToolStripMenuItem1, Me.MnuPOrdrs, Me.MnuDisp, Me.ToolStripMenuItem2, Me.MnuUnt, Me.MnuStr, Me.MnuKnd, Me.ToolStripMenuItem3, Me._MPback})
         Me._MP.Font = New System.Drawing.Font("Traditional Arabic", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me._MP.ForeColor = System.Drawing.Color.Brown
         Me._MP.Name = "_MP"
         Me._MP.Padding = New System.Windows.Forms.Padding(40, 0, 4, 0)
         Me._MP.Size = New System.Drawing.Size(140, 51)
@@ -112,6 +116,16 @@ Partial Class ItemsFrm
         Me.MnuNew.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
         Me.MnuNew.Size = New System.Drawing.Size(243, 26)
         Me.MnuNew.Text = "جديد"
+        '
+        'MnuSave
+        '
+        Me.MnuSave.Enabled = False
+        Me.MnuSave.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.MnuSave.Name = "MnuSave"
+        Me.MnuSave.ShortcutKeyDisplayString = "Ctrl+S"
+        Me.MnuSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.MnuSave.Size = New System.Drawing.Size(243, 26)
+        Me.MnuSave.Text = "حفظ أصناف"
         '
         'MnuFind
         '
@@ -157,16 +171,6 @@ Partial Class ItemsFrm
         Me.MnuEdit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.E), System.Windows.Forms.Keys)
         Me.MnuEdit.Size = New System.Drawing.Size(243, 26)
         Me.MnuEdit.Text = "تعديل"
-        '
-        'MnuSave
-        '
-        Me.MnuSave.Enabled = False
-        Me.MnuSave.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.MnuSave.Name = "MnuSave"
-        Me.MnuSave.ShortcutKeyDisplayString = "Ctrl+S"
-        Me.MnuSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.MnuSave.Size = New System.Drawing.Size(243, 26)
-        Me.MnuSave.Text = "حفظ أصناف"
         '
         'ToolStripMenuItem1
         '
@@ -230,7 +234,12 @@ Partial Class ItemsFrm
         '
         'GroupBox1
         '
-        Me.GroupBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.GroupBox1.Controls.Add(Me.TextBox7)
+        Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.CboNm)
         Me.GroupBox1.Controls.Add(Me.TextBox6)
         Me.GroupBox1.Controls.Add(Me.Label5)
@@ -242,25 +251,64 @@ Partial Class ItemsFrm
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(893, 59)
+        Me.GroupBox1.Location = New System.Drawing.Point(13, 59)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox1.Size = New System.Drawing.Size(276, 472)
+        Me.GroupBox1.Size = New System.Drawing.Size(1156, 158)
         Me.GroupBox1.TabIndex = 371
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "بيانات أساسية"
+        '
+        'TextBox7
+        '
+        Me.TextBox7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox7.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.TextBox7.Font = New System.Drawing.Font("Traditional Arabic", 10.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.TextBox7.Location = New System.Drawing.Point(12, 67)
+        Me.TextBox7.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextBox7.Multiline = True
+        Me.TextBox7.Name = "TextBox7"
+        Me.TextBox7.Size = New System.Drawing.Size(169, 77)
+        Me.TextBox7.TabIndex = 12
+        Me.TextBox7.Text = "لا يوجد"
+        '
+        'Label8
+        '
+        Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label8.AutoEllipsis = True
+        Me.Label8.BackColor = System.Drawing.Color.Transparent
+        Me.Label8.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.Label8.Location = New System.Drawing.Point(12, 34)
+        Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(169, 29)
+        Me.Label8.TabIndex = 11
+        Me.Label8.Text = "ملاحظات"
+        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'CboNm
+        '
+        Me.CboNm.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CboNm.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.CboNm.Font = New System.Drawing.Font("Traditional Arabic", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.CboNm.Location = New System.Drawing.Point(887, 67)
+        Me.CboNm.Margin = New System.Windows.Forms.Padding(4)
+        Me.CboNm.Name = "CboNm"
+        Me.CboNm.Size = New System.Drawing.Size(262, 37)
+        Me.CboNm.TabIndex = 1
+        Me.CboNm.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'TextBox6
         '
         Me.TextBox6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox6.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.TextBox6.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.TextBox6.Location = New System.Drawing.Point(7, 307)
+        Me.TextBox6.Font = New System.Drawing.Font("Traditional Arabic", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.TextBox6.Location = New System.Drawing.Point(366, 67)
         Me.TextBox6.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(262, 43)
+        Me.TextBox6.Size = New System.Drawing.Size(207, 37)
         Me.TextBox6.TabIndex = 4
         Me.TextBox6.Text = "0.00 جنية"
         Me.TextBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -271,10 +319,10 @@ Partial Class ItemsFrm
         Me.Label5.AutoEllipsis = True
         Me.Label5.BackColor = System.Drawing.Color.Transparent
         Me.Label5.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label5.Location = New System.Drawing.Point(7, 263)
+        Me.Label5.Location = New System.Drawing.Point(366, 34)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(262, 40)
+        Me.Label5.Size = New System.Drawing.Size(207, 29)
         Me.Label5.TabIndex = 8
         Me.Label5.Text = "تكلفة الوحدة"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -283,12 +331,12 @@ Partial Class ItemsFrm
         '
         Me.TextBox5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox5.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.TextBox5.Font = New System.Drawing.Font("Traditional Arabic", 10.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.TextBox5.Location = New System.Drawing.Point(86, 147)
+        Me.TextBox5.Font = New System.Drawing.Font("Traditional Arabic", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.TextBox5.Location = New System.Drawing.Point(780, 67)
         Me.TextBox5.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(99, 35)
-        Me.TextBox5.TabIndex = 3
+        Me.TextBox5.Size = New System.Drawing.Size(99, 37)
+        Me.TextBox5.TabIndex = 2
         Me.TextBox5.Text = "1"
         Me.TextBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -298,10 +346,10 @@ Partial Class ItemsFrm
         Me.Label4.AutoEllipsis = True
         Me.Label4.BackColor = System.Drawing.Color.Transparent
         Me.Label4.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label4.Location = New System.Drawing.Point(7, 117)
+        Me.Label4.Location = New System.Drawing.Point(780, 34)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(262, 26)
+        Me.Label4.Size = New System.Drawing.Size(103, 29)
         Me.Label4.TabIndex = 6
         Me.Label4.Text = "أقل كمية"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -311,12 +359,12 @@ Partial Class ItemsFrm
         Me.TextBox4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox4.BackColor = System.Drawing.Color.WhiteSmoke
         Me.TextBox4.Font = New System.Drawing.Font("Traditional Arabic", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.TextBox4.Location = New System.Drawing.Point(7, 222)
+        Me.TextBox4.Location = New System.Drawing.Point(581, 67)
         Me.TextBox4.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.ReadOnly = True
-        Me.TextBox4.Size = New System.Drawing.Size(262, 37)
-        Me.TextBox4.TabIndex = 2
+        Me.TextBox4.Size = New System.Drawing.Size(191, 37)
+        Me.TextBox4.TabIndex = 3
         Me.TextBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label3
@@ -325,10 +373,10 @@ Partial Class ItemsFrm
         Me.Label3.AutoEllipsis = True
         Me.Label3.BackColor = System.Drawing.Color.Transparent
         Me.Label3.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label3.Location = New System.Drawing.Point(7, 186)
+        Me.Label3.Location = New System.Drawing.Point(581, 34)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(266, 32)
+        Me.Label3.Size = New System.Drawing.Size(191, 32)
         Me.Label3.TabIndex = 4
         Me.Label3.Text = "رقم باركود"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -338,11 +386,11 @@ Partial Class ItemsFrm
         Me.TextBox3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox3.BackColor = System.Drawing.Color.WhiteSmoke
         Me.TextBox3.Font = New System.Drawing.Font("Traditional Arabic", 10.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.TextBox3.Location = New System.Drawing.Point(7, 389)
+        Me.TextBox3.Location = New System.Drawing.Point(189, 67)
         Me.TextBox3.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox3.Multiline = True
         Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(262, 77)
+        Me.TextBox3.Size = New System.Drawing.Size(169, 77)
         Me.TextBox3.TabIndex = 5
         Me.TextBox3.Text = "لا يوجد"
         '
@@ -352,10 +400,10 @@ Partial Class ItemsFrm
         Me.Label2.AutoEllipsis = True
         Me.Label2.BackColor = System.Drawing.Color.Transparent
         Me.Label2.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label2.Location = New System.Drawing.Point(7, 354)
+        Me.Label2.Location = New System.Drawing.Point(189, 34)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(262, 31)
+        Me.Label2.Size = New System.Drawing.Size(169, 29)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "وصف الصنف"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -366,10 +414,10 @@ Partial Class ItemsFrm
         Me.Label1.AutoEllipsis = True
         Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label1.Location = New System.Drawing.Point(7, 46)
+        Me.Label1.Location = New System.Drawing.Point(887, 34)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(261, 26)
+        Me.Label1.Size = New System.Drawing.Size(262, 29)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "اسم الصنف"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -402,6 +450,114 @@ Partial Class ItemsFrm
         Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label18.UseCompatibleTextRendering = True
         '
+        'TextBox1
+        '
+        Me.TextBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox1.BackColor = System.Drawing.Color.Snow
+        Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.TextBox1.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.TextBox1.ForeColor = System.Drawing.Color.Brown
+        Me.TextBox1.Location = New System.Drawing.Point(296, 670)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextBox1.MaxLength = 20
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.TextBox1.Size = New System.Drawing.Size(873, 35)
+        Me.TextBox1.TabIndex = 413
+        Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TextBox1.WordWrap = False
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1.Location = New System.Drawing.Point(326, 668)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(41, 41)
+        Me.PictureBox1.TabIndex = 423
+        Me.PictureBox1.TabStop = False
+        '
+        'Panel1
+        '
+        Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.Label9)
+        Me.Panel1.Controls.Add(Me.TextBox2)
+        Me.Panel1.Controls.Add(Me.Label7)
+        Me.Panel1.Controls.Add(Me.CboKind)
+        Me.Panel1.Controls.Add(Me.Label6)
+        Me.Panel1.Enabled = False
+        Me.Panel1.Location = New System.Drawing.Point(13, 225)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.Panel1.Size = New System.Drawing.Size(276, 232)
+        Me.Panel1.TabIndex = 424
+        '
+        'Label9
+        '
+        Me.Label9.AutoEllipsis = True
+        Me.Label9.BackColor = System.Drawing.Color.Snow
+        Me.Label9.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Label9.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.Label9.Location = New System.Drawing.Point(0, 0)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(274, 55)
+        Me.Label9.TabIndex = 14
+        Me.Label9.Text = "اسعار البيع"
+        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TextBox2
+        '
+        Me.TextBox2.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.TextBox2.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.TextBox2.Location = New System.Drawing.Point(2, 185)
+        Me.TextBox2.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(268, 43)
+        Me.TextBox2.TabIndex = 7
+        Me.TextBox2.Text = "0.00 جنية"
+        Me.TextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label7
+        '
+        Me.Label7.AutoEllipsis = True
+        Me.Label7.BackColor = System.Drawing.Color.Transparent
+        Me.Label7.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.Label7.Location = New System.Drawing.Point(2, 151)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(268, 30)
+        Me.Label7.TabIndex = 13
+        Me.Label7.Text = "سعر بيع الوحدة"
+        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'CboKind
+        '
+        Me.CboKind.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.CboKind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CboKind.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CboKind.Font = New System.Drawing.Font("Traditional Arabic", 10.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.CboKind.FormattingEnabled = True
+        Me.CboKind.Location = New System.Drawing.Point(4, 103)
+        Me.CboKind.Name = "CboKind"
+        Me.CboKind.Size = New System.Drawing.Size(268, 35)
+        Me.CboKind.TabIndex = 6
+        '
+        'Label6
+        '
+        Me.Label6.AutoEllipsis = True
+        Me.Label6.BackColor = System.Drawing.Color.Transparent
+        Me.Label6.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.Label6.Location = New System.Drawing.Point(2, 74)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(268, 26)
+        Me.Label6.TabIndex = 10
+        Me.Label6.Text = "النوع"
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'DGready
         '
         Me.DGready.AllowUserToAddRows = False
@@ -409,7 +565,7 @@ Partial Class ItemsFrm
         Me.DGready.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DGready.BackgroundColor = System.Drawing.Color.WhiteSmoke
+        Me.DGready.BackgroundColor = System.Drawing.Color.Snow
         Me.DGready.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DGready.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
@@ -425,15 +581,15 @@ Partial Class ItemsFrm
         Me.DGready.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PID, Me.Pname, Me.Pdesc, Me.Pcost, Me.MinQ, Me.BarCode, Me.Pnotes})
         DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.MediumSlateBlue
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Times New Roman", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightSteelBlue
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.DarkRed
         DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
         Me.DGready.DefaultCellStyle = DataGridViewCellStyle3
         Me.DGready.EnableHeadersVisualStyles = False
         Me.DGready.GridColor = System.Drawing.Color.DeepSkyBlue
-        Me.DGready.Location = New System.Drawing.Point(13, 78)
+        Me.DGready.Location = New System.Drawing.Point(296, 225)
         Me.DGready.Margin = New System.Windows.Forms.Padding(4)
         Me.DGready.MultiSelect = False
         Me.DGready.Name = "DGready"
@@ -441,7 +597,7 @@ Partial Class ItemsFrm
         Me.DGready.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
         DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
         DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black
         DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.MintCream
         DataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.DimGray
@@ -449,100 +605,8 @@ Partial Class ItemsFrm
         Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.DGready.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DGready.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DGready.Size = New System.Drawing.Size(872, 453)
-        Me.DGready.TabIndex = 412
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBox1.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.TextBox1.ForeColor = System.Drawing.Color.White
-        Me.TextBox1.Location = New System.Drawing.Point(13, 657)
-        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBox1.MaxLength = 20
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.TextBox1.Size = New System.Drawing.Size(873, 35)
-        Me.TextBox1.TabIndex = 413
-        Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.TextBox1.WordWrap = False
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1.Location = New System.Drawing.Point(63, 655)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(41, 41)
-        Me.PictureBox1.TabIndex = 423
-        Me.PictureBox1.TabStop = False
-        '
-        'Panel1
-        '
-        Me.Panel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel1.Controls.Add(Me.TextBox2)
-        Me.Panel1.Controls.Add(Me.Label7)
-        Me.Panel1.Controls.Add(Me.CboKind)
-        Me.Panel1.Controls.Add(Me.Label6)
-        Me.Panel1.Location = New System.Drawing.Point(893, 538)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Panel1.Size = New System.Drawing.Size(276, 167)
-        Me.Panel1.TabIndex = 424
-        '
-        'CboKind
-        '
-        Me.CboKind.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.CboKind.Font = New System.Drawing.Font("Traditional Arabic", 10.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.CboKind.FormattingEnabled = True
-        Me.CboKind.Location = New System.Drawing.Point(7, 34)
-        Me.CboKind.Name = "CboKind"
-        Me.CboKind.Size = New System.Drawing.Size(262, 35)
-        Me.CboKind.TabIndex = 11
-        '
-        'Label6
-        '
-        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label6.AutoEllipsis = True
-        Me.Label6.BackColor = System.Drawing.Color.Transparent
-        Me.Label6.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label6.Location = New System.Drawing.Point(7, 5)
-        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(262, 26)
-        Me.Label6.TabIndex = 10
-        Me.Label6.Text = "النوع"
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TextBox2
-        '
-        Me.TextBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox2.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.TextBox2.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.TextBox2.Location = New System.Drawing.Point(7, 116)
-        Me.TextBox2.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(262, 43)
-        Me.TextBox2.TabIndex = 12
-        Me.TextBox2.Text = "0.00 جنية"
-        Me.TextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Label7
-        '
-        Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label7.AutoEllipsis = True
-        Me.Label7.BackColor = System.Drawing.Color.Transparent
-        Me.Label7.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label7.Location = New System.Drawing.Point(7, 72)
-        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(262, 40)
-        Me.Label7.TabIndex = 13
-        Me.Label7.Text = "سعر بيع الوحدة"
-        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.DGready.Size = New System.Drawing.Size(873, 437)
+        Me.DGready.TabIndex = 425
         '
         'PID
         '
@@ -596,28 +660,16 @@ Partial Class ItemsFrm
         Me.Pnotes.HeaderText = "ملاحظات"
         Me.Pnotes.Name = "Pnotes"
         '
-        'CboNm
-        '
-        Me.CboNm.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CboNm.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.CboNm.Font = New System.Drawing.Font("Traditional Arabic", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.CboNm.Location = New System.Drawing.Point(7, 76)
-        Me.CboNm.Margin = New System.Windows.Forms.Padding(4)
-        Me.CboNm.Name = "CboNm"
-        Me.CboNm.Size = New System.Drawing.Size(262, 37)
-        Me.CboNm.TabIndex = 9
-        Me.CboNm.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'ItemsFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1182, 718)
+        Me.Controls.Add(Me.DGready)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.TextBox1)
-        Me.Controls.Add(Me.DGready)
         Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.GroupBox1)
@@ -632,10 +684,10 @@ Partial Class ItemsFrm
         Me.MenuStrip1.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        CType(Me.DGready, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.DGready, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -670,7 +722,6 @@ Partial Class ItemsFrm
     Friend WithEvents MnuFBa As ToolStripMenuItem
     Friend WithEvents MnuDel As ToolStripMenuItem
     Friend WithEvents MnuEdit As ToolStripMenuItem
-    Friend WithEvents DGready As DataGridView
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Panel1 As Panel
@@ -678,6 +729,10 @@ Partial Class ItemsFrm
     Friend WithEvents Label6 As Label
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents Label7 As Label
+    Friend WithEvents CboNm As TextBox
+    Friend WithEvents TextBox7 As TextBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents DGready As DataGridView
     Friend WithEvents PID As DataGridViewTextBoxColumn
     Friend WithEvents Pname As DataGridViewTextBoxColumn
     Friend WithEvents Pdesc As DataGridViewTextBoxColumn
@@ -685,5 +740,5 @@ Partial Class ItemsFrm
     Friend WithEvents MinQ As DataGridViewTextBoxColumn
     Friend WithEvents BarCode As DataGridViewTextBoxColumn
     Friend WithEvents Pnotes As DataGridViewTextBoxColumn
-    Friend WithEvents CboNm As TextBox
+    Friend WithEvents Label9 As Label
 End Class

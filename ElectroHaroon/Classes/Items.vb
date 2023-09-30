@@ -14,6 +14,76 @@ Public Class Items
     Public Sub New()
         ConnectionString = GetEncryConStr()
     End Sub
+    Public Function GetsellPrice() As Double
+        Dim Ndbl As Double = 0.00
+        Dim SelectSql = <sql>
+                            SELECT SellPriceGrps.GSellPrice 
+        FROM SellPriceGrps WHERE SellPriceGrps.PID=? AND SellPriceGrps.KindID=?;
+                        </sql>
+        Using CN As New OleDbConnection(ConnectionString),
+                SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text}
+            SelectCMD.Parameters.AddWithValue("?", ItmID)
+            SelectCMD.Parameters.AddWithValue("?", KID)
+            Try
+                CN.Open()
+                Using Rdr As OleDbDataReader = SelectCMD.ExecuteReader
+                    While Rdr.Read
+                        If Rdr.HasRows Then
+                            Ndbl = Rdr.GetValue(0)
+                        Else
+                            Ndbl = 0.00
+                        End If
+                    End While
+                End Using
+            Catch ex As Exception
+                MsgBox("خطأ 1 : " & vbCrLf & ex.Message,
+                       MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
+                       "خطأ")
+                SelectCMD.Parameters.Clear()
+                SelectCMD.Dispose()
+                CN.Close()
+            Finally
+                SelectCMD.Parameters.Clear()
+                SelectCMD.Dispose()
+                CN.Close()
+            End Try
+        End Using
+        Return Ndbl
+    End Function
+    Public Function SellPriceExists() As Boolean
+        Dim Exists As Boolean = False
+        Dim SelectSql = <sql>
+                            SELECT Count([PID]) AS CountPID
+FROM Kinds INNER JOIN SellPriceGrps ON Kinds.KindID = SellPriceGrps.KindID
+WHERE (((Kinds.KindID)=?) AND ((SellPriceGrps.PID)=?));
+                        </sql>
+        Using CN As New OleDbConnection(ConnectionString),
+                SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text}
+            SelectCMD.Parameters.AddWithValue("?", KID)
+            SelectCMD.Parameters.AddWithValue("?", ItmID)
+            Try
+                CN.Open()
+                Dim Found = SelectCMD.ExecuteScalar
+                If IsNothing(Found) Or CInt(Found) = 0 Then
+                    Exists = False
+                ElseIf CInt(Found) > 0 Then
+                    Exists = True
+                End If
+            Catch ex As Exception
+                MsgBox("خطأ 1 : " & vbCrLf & ex.Message,
+                       MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
+                       "خطأ")
+                SelectCMD.Parameters.Clear()
+                SelectCMD.Dispose()
+                CN.Close()
+            Finally
+                SelectCMD.Parameters.Clear()
+                SelectCMD.Dispose()
+                CN.Close()
+            End Try
+        End Using
+        Return Exists
+    End Function
     Public Function GetData() As DataTable
         Dim Ntbl As New DataTable
         Dim SelectSql = <sql>

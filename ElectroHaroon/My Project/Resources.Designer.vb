@@ -63,6 +63,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property _131_1311087_banner_png_clipart_transparent_background_colorfulness() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("_131_1311087_banner_png_clipart_transparent_background_colorfulness", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property _3d_hd_wallpapers_cool_for_windows_8() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("_3d_hd_wallpapers_cool_for_windows_8", resourceCulture)

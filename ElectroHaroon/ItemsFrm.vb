@@ -10,34 +10,8 @@ Public Class ItemsFrm
     Private Sub ItemsFrm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
     End Sub
-    Private Sub DGREady1_CellClick(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs)
-        If e.ColumnIndex = -1 Or e.ColumnIndex = -1 Then Exit Sub
-        Dim i As Integer
-        With DGREady1
-            If e.RowIndex >= 0 Then
-                i = .CurrentRow.Index
-                ItmID = .Rows(i).Cells("PID").Value.ToString
-                CboNm.Text = .Rows(i).Cells("Pname").Value.ToString
-                TextBox4.Text = .Rows(i).Cells("BarCode").Value.ToString
-                TextBox5.Text = .Rows(i).Cells("MinQ").Value.ToString
-                TextBox6.Text = FormatCurrency(.Rows(i).Cells("Pcost").Value.ToString)
-                TextBox3.Text = .Rows(i).Cells("Pdesc").Value.ToString
-                MnuEdit.Enabled = True
-                MnuDel.Enabled = True
-                MnuSave.Enabled = False
-            End If
-        End With
-    End Sub
-    Private Sub DGREady1_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs)
-        If DGREady1.Columns(e.ColumnIndex).Name = "Pcost" And IsNumeric(e.Value) Then
-            e.Value = FormatCurrency(e.Value, 2)
-        End If
-    End Sub
     Private Sub ItemsFrm_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
-        If e.KeyChar = ChrW(Keys.F5) Then
-            DisplayAll()
-        End If
     End Sub
     Private Sub MnuSave_Click(sender As Object, e As EventArgs) Handles MnuSave.Click
         If CboNm.Text.Length <= 0 Or
@@ -47,8 +21,8 @@ Public Class ItemsFrm
             Exit Sub
         End If
         Dim OItems As New Items With
-            {.ItmNm = CboNm.Text, .ItmDesc = TextBox3.Text, .ItmCost = CDbl(TextBox6.Text), .ItmBCode = TextBox4.Text,
-            .ItmMinQ = Convert.ToInt32(TextBox5.Text), .ItmNotes = TextBox3.Text}
+            {.ItmNm = CboNm.Text, .ItmDesc = TextBox3.Text, .ItmCost = Convert.ToDouble(TextBox6.Text), .ItmBCode = TextBox4.Text,
+            .ItmMinQ = Convert.ToInt32(TextBox5.Text), .ItmNotes = TextBox7.Text}
 #Region "Save"
         Dim Onh = OItems.SaveNewItm.ToString
 #End Region
@@ -80,6 +54,7 @@ Public Class ItemsFrm
         TextBox4.Text = RandomString()
         CboNm.Focus()
         CboNm.Select()
+        Panel1.Enabled = False
     End Sub
     Private Sub _MPback_Click(sender As Object, e As EventArgs) Handles _MPback.Click
         Close()
@@ -87,6 +62,7 @@ Public Class ItemsFrm
     Private Sub MnuNew_Click(sender As Object, e As EventArgs) Handles MnuNew.Click
         MnuSave.Enabled = True
         TextBox4.Text = GenerateRandomString()
+        Panel1.Enabled = False
         NewItem()
     End Sub
     Private Sub MenuStrip1_MouseDown(sender As Object, e As MouseEventArgs) Handles MenuStrip1.MouseDown
@@ -114,6 +90,7 @@ Public Class ItemsFrm
     Private Sub ItemsFrm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         '        RemoveHandler DGREady1.CellFormatting, AddressOf DGREady1_CellFormatting
         '       RemoveHandler DGREady1.CellClick, AddressOf DGREady1_CellClick
+
     End Sub
     Private Sub Label18_Click(sender As Object, e As EventArgs) Handles Label18.Click
         Location = New Point(0, 0)
@@ -133,11 +110,7 @@ Public Class ItemsFrm
     End Sub
     Private Sub TextBox6_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox6.KeyPress
         e.Handled = Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = "." Or (e.KeyChar) = ChrW(Keys.Back))
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            If String.IsNullOrEmpty(TextBox6.Text) Then TextBox6.Text = Val(0)
-            Dim DisPO = TextBox6.Text
-            TextBox6.Text = FormatCurrency(DisPO, 2)
-        End If
+
     End Sub
     Private Sub MnuDisp_Click(sender As Object, e As EventArgs) Handles MnuDisp.Click
         Dim OItems As New Items
@@ -152,28 +125,16 @@ Public Class ItemsFrm
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             .ColumnHeadersDefaultCellStyle.BackColor = Color.Azure
             .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            .RowTemplate.Height = 50
         End With
         TextBox1.Text = ("لديك عدد " & TblItems.Rows.Count & " صنف")
         TblItems.Dispose()
 #End Region
         DGready.ClearSelection()
         DGready.CurrentCell = Nothing
+        RemoveHandler DGready.RowEnter, AddressOf DGready_RowEnter
     End Sub
-    Private Sub DisplayAll()
-        'If MnuDisp.Enabled = True Then
-        ' With DGREady1
-        ' .DataSource = New BindingSource(GetData("SELECT * FROM Products;"), Nothing)
-        ' .Columns("PID").HeaderText = "كود الصنف"
-        ' .Columns("Pname").HeaderText = "اسم الصنف"
-        ' .Columns("Pdesc").HeaderText = "الوصف"
-        ' .Columns("Pcost").HeaderText = "التكلفة"
-        ' .Columns("MinQ").HeaderText = "أقل كمية"
-        ' .Columns("BarCode").HeaderText = "باركود"
-        ' .Refresh()
-        ' End With
-        'End If
-    End Sub
-    Private Sub cbonm_KeyPress(sender As Object, e As KeyPressEventArgs)
+    Private Sub cbonm_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CboNm.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) And Not String.IsNullOrEmpty(CboNm.Text) Then
             'search for name
             Dim Onh As Object
@@ -200,13 +161,6 @@ Public Class ItemsFrm
                 End Try
             End Using
         End If
-    End Sub
-
-    Private Sub cbonm_TextChanged(sender As Object, e As EventArgs)
-
-    End Sub
-    Private Sub cbonm_Click(sender As Object, e As EventArgs)
-        CboNm.SelectAll()
     End Sub
     Private Sub TextBox5_Click(sender As Object, e As EventArgs) Handles TextBox5.Click
         TextBox5.SelectAll()
@@ -449,5 +403,95 @@ Public Class ItemsFrm
     Private Sub ItemsFrm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         'Load Item Names Into Combobox
 
+    End Sub
+
+    Private Sub DGready_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.CellClick
+        AddHandler DGready.RowEnter, AddressOf DGready_RowEnter
+        DGready_RowEnter(sender, e)
+    End Sub
+    Private Sub DGready_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.RowEnter
+        If e.RowIndex = -1 OrElse e.ColumnIndex = -1 OrElse IsNothing(DGready.CurrentRow) Then Exit Sub
+        Dim ThisID = CInt(DGready.CurrentRow.Cells("PID").Value.ToString)
+        CboNm.Text = DGready("Pname", e.RowIndex).Value.ToString
+        TextBox3.Text = DGready("Pdesc", e.RowIndex).Value.ToString
+        TextBox6.Text = CDbl(DGready("Pcost", e.RowIndex).Value.ToString).ToString("C2")
+        TextBox7.Text = DGready("Pnotes", e.RowIndex).Value.ToString
+        TextBox5.Text = CInt(DGready("MinQ", e.RowIndex).Value.ToString).ToString
+        TextBox4.Text = DGready("BarCode", e.RowIndex).Value.ToString
+#Region "Get All SellPrice Kinds into ComBobox"
+        TextBox2.Text = 0.00.ToString("C2")
+        CboKind.DataSource = Nothing
+#End Region
+        Panel1.Enabled = True
+        MnuSave.Enabled = False
+        MnuNew.Enabled = True
+        MnuEdit.Enabled = True
+        MnuDel.Enabled = True
+    End Sub
+    Private Sub TextBox6_Leave(sender As Object, e As EventArgs) Handles TextBox6.Leave
+        Try
+            TextBox6.Text = CDbl(TextBox6.Text).ToString("C2")
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub CboKind_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboKind.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub ItemsFrm_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.F5 Then
+            MnuDisp_Click(sender, e)
+        End If
+    End Sub
+    Dim KindsPrice As DataTable, BS1 As BindingSource
+    Private Sub CboKind_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles CboKind.SelectionChangeCommitted
+        'Get SellPrice according to Item Kind
+        TextBox2.Text = 0.00.ToString("C2")
+        Dim OItmSellKind As New Items With {.ItmID = DGready.CurrentRow.Cells("PID").Value.ToString,
+            .KID = CboKind.SelectedValue.ToString}
+        TextBox2.Text = OItmSellKind.GetsellPrice.ToString("C2")
+    End Sub
+
+    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
+
+    End Sub
+
+    Private Sub CboKind_DropDown(sender As Object, e As EventArgs) Handles CboKind.DropDown
+        Try
+            Cursor = Cursors.WaitCursor
+            Dim Okinds As New Kinds
+            KindsPrice = New DataTable
+            KindsPrice = Okinds.GetData
+            BS1 = New BindingSource
+            BS1.DataSource = KindsPrice
+            CboKind.DisplayMember = "KindNm"
+            CboKind.ValueMember = "KindID"
+            CboKind.DataSource = BS1
+            Cursor = Cursors.Default
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub Panel1_EnabledChanged(sender As Object, e As EventArgs) Handles Panel1.EnabledChanged
+
+    End Sub
+
+    Private Sub TextBox2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox2.KeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            Dim OItmSellKind As New Items With {.ItmID = DGready.CurrentRow.Cells("PID").Value.ToString,
+            .KID = CboKind.SelectedValue.ToString}
+            Dim CurSellPricefound = OItmSellKind.SellPriceExists
+            Select Case CurSellPricefound
+                Case Is = True
+                    'Update
+                    TextBox1.Text = "Updated"
+                Case Is = False
+                    'Insert Into SellPriceGrps
+                    TextBox1.Text = "Inserted"
+            End Select
+        End If
     End Sub
 End Class
