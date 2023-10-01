@@ -166,4 +166,20 @@ Module Module1
         Next
         Return sResult
     End Function
+    Public Sub formatDG(ByVal DG As DataGridView)
+        With DG
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
+            .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            .RowTemplate.Height = 40
+            With .DefaultCellStyle
+                .Alignment = DataGridViewContentAlignment.MiddleCenter
+                .BackColor = Color.Snow
+                .ForeColor = Color.Black
+                .SelectionBackColor = Color.Beige
+                .SelectionForeColor = Color.Firebrick
+                .Font = New Font("Times New Roman", 11, FontStyle.Regular)
+            End With
+        End With
+    End Sub
 End Module

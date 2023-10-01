@@ -57,9 +57,7 @@ Public Class Custms
             With CustDG
                 .AutoGenerateColumns = False
                 .DataSource = BS
-                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-                .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
-                .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+                formatDG(CustDG)
             End With
             LblSt.Text = ("تم حذف (" & Onh & ") عميل و لديك الان (" & TblCusts.Rows.Count & ") عميل")
             TblCusts.Dispose()
@@ -95,9 +93,7 @@ Public Class Custms
         With CustDG
             .AutoGenerateColumns = False
             .DataSource = BS
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
-            .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            formatDG(CustDG)
         End With
         LblSt.Text = ("تم حفظ (" & Onh & ")" & " عميل. لديك الأن (" & SrchTbl.Rows.Count & ") عميل.")
         SrchTbl.Dispose()
@@ -147,9 +143,7 @@ Public Class Custms
         With CustDG
             .AutoGenerateColumns = False
             .DataSource = BS
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
-            .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            formatDG(CustDG)
         End With
         LblSt.Text = ("تم تعديل بيانات العميل بنجاح")
         SrchTbl.Dispose()
@@ -171,12 +165,10 @@ Public Class Custms
         With CustDG
             .AutoGenerateColumns = False
             .DataSource = BS
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
-            .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            formatDG(CustDG)
         End With
-        LblSt.Text = ("لديك عدد " & TblCusts.Rows.Count & " عميل")
         TblCusts.Dispose()
+        LblSt.Text = ("لديك عدد " & TblCusts.Rows.Count & " عميل")
 #End Region
         CustDG.ClearSelection()
         CustDG.CurrentCell = Nothing
@@ -437,6 +429,10 @@ Public Class Custms
         Try
             Dim Filter As String = "CustNm LIKE '%" & Tsearch.Text & "%'"
             BS1.Filter = Filter
+            With CustDG
+                .DataSource = BS1
+            End With
+            formatDG(CustDG)
         Catch ex As Exception
             LblSt.Text = ("عملية غير صحيحة : ") & ex.Message
         End Try
@@ -448,12 +444,6 @@ Public Class Custms
         Mysrch = Ocust.GetData
         BS1 = New BindingSource
         BS1.DataSource = Mysrch
-        With CustDG
-            .DataSource = BS1
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .RowTemplate.Height = 40
-            .DefaultCellStyle.WrapMode = DataGridViewTriState.True
-        End With
     End Sub
     Private Sub CustDG_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles CustDG.CellMouseClick
         If e.Button = MouseButtons.Left Then

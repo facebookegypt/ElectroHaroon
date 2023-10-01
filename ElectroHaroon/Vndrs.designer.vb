@@ -72,14 +72,14 @@ Partial Class Vndrs
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.VendG = New System.Windows.Forms.DataGridView()
-        Me.Tsearch = New System.Windows.Forms.TextBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.VenID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.VendNm = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Mob = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Tel = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Address = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Notes = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Tsearch = New System.Windows.Forms.TextBox()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me._MV.SuspendLayout()
         CType(Me.VendG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -758,29 +758,6 @@ Partial Class Vndrs
         Me.VendG.Size = New System.Drawing.Size(884, 265)
         Me.VendG.TabIndex = 419
         '
-        'Tsearch
-        '
-        Me.Tsearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Tsearch.BackColor = System.Drawing.Color.Silver
-        Me.Tsearch.Font = New System.Drawing.Font("Tahoma", 11.25!)
-        Me.Tsearch.Location = New System.Drawing.Point(445, 73)
-        Me.Tsearch.Margin = New System.Windows.Forms.Padding(4)
-        Me.Tsearch.Name = "Tsearch"
-        Me.Tsearch.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Tsearch.Size = New System.Drawing.Size(316, 30)
-        Me.Tsearch.TabIndex = 420
-        Me.Tsearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1.Location = New System.Drawing.Point(65, 375)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(41, 36)
-        Me.PictureBox1.TabIndex = 423
-        Me.PictureBox1.TabStop = False
-        '
         'VenID
         '
         Me.VenID.DataPropertyName = "VenID"
@@ -823,6 +800,29 @@ Partial Class Vndrs
         Me.Notes.HeaderText = "ملاحظات"
         Me.Notes.Name = "Notes"
         Me.Notes.ReadOnly = True
+        '
+        'Tsearch
+        '
+        Me.Tsearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Tsearch.BackColor = System.Drawing.Color.Silver
+        Me.Tsearch.Font = New System.Drawing.Font("Tahoma", 11.25!)
+        Me.Tsearch.Location = New System.Drawing.Point(445, 73)
+        Me.Tsearch.Margin = New System.Windows.Forms.Padding(4)
+        Me.Tsearch.Name = "Tsearch"
+        Me.Tsearch.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.Tsearch.Size = New System.Drawing.Size(316, 30)
+        Me.Tsearch.TabIndex = 420
+        Me.Tsearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1.Location = New System.Drawing.Point(65, 375)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(41, 36)
+        Me.PictureBox1.TabIndex = 423
+        Me.PictureBox1.TabStop = False
         '
         'Vndrs
         '

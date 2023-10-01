@@ -17,8 +17,8 @@ Public Class Items
     Public Function GetsellPrice() As Double
         Dim Ndbl As Double = 0.00
         Dim SelectSql = <sql>
-                            SELECT SellPriceGrps.GSellPrice 
-        FROM SellPriceGrps WHERE SellPriceGrps.PID=? AND SellPriceGrps.KindID=?;
+                            SELECT SellPriceGrps.GSellPrice FROM SellPriceGrps 
+        WHERE SellPriceGrps.PID=? AND SellPriceGrps.KindID=?;
                         </sql>
         Using CN As New OleDbConnection(ConnectionString),
                 SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text}
@@ -53,9 +53,9 @@ Public Class Items
     Public Function SellPriceExists() As Boolean
         Dim Exists As Boolean = False
         Dim SelectSql = <sql>
-                            SELECT Count([PID]) AS CountPID
-FROM Kinds INNER JOIN SellPriceGrps ON Kinds.KindID = SellPriceGrps.KindID
-WHERE (((Kinds.KindID)=?) AND ((SellPriceGrps.PID)=?));
+                            SELECT Count([PID]) AS CountPID FROM Kinds 
+        INNER JOIN SellPriceGrps ON Kinds.KindID = SellPriceGrps.KindID 
+        WHERE (((Kinds.KindID)=?) AND ((SellPriceGrps.PID)=?));
                         </sql>
         Using CN As New OleDbConnection(ConnectionString),
                 SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text}
@@ -84,6 +84,44 @@ WHERE (((Kinds.KindID)=?) AND ((SellPriceGrps.PID)=?));
         End Using
         Return Exists
     End Function
+    Public Sub UpdateInsertSellP(ByVal Exists As Boolean)
+        Dim SqlStr As String
+        Using CN As New OleDbConnection(ConnectionString)
+            Dim CMD As OleDbCommand
+            If Exists Then
+                'Update
+                SqlStr = <SQL>UPDATE SellPriceGrps SET GSellPrice=? WHERE (KindID=?) AND (PID=?);</SQL>
+                CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+                With CMD.Parameters
+                    .AddWithValue("?", ItmSellPrice)
+                    .AddWithValue("?", KID)
+                    .AddWithValue("?", ItmID)
+                End With
+            Else
+                'Insert
+                SqlStr = <sql>INSERT INTO SellPriceGrps (KindID,PID,GSellPrice) VALUES (?,?,?);</sql>
+                CMD = New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+                With CMD.Parameters
+                    .AddWithValue("?", KID)
+                    .AddWithValue("?", ItmID)
+                    .AddWithValue("?", ItmSellPrice)
+                End With
+            End If
+            Try
+                CN.Open()
+                CMD.ExecuteNonQuery()
+            Catch ex As Exception
+                MsgBox("خطأ فى جدول اسعار الاصناف : " & ex.Message)
+                CMD.Parameters.Clear()
+                CMD.Dispose()
+                CN.Close()
+            Finally
+                CMD.Parameters.Clear()
+                CMD.Dispose()
+                CN.Close()
+            End Try
+        End Using
+    End Sub
     Public Function GetData() As DataTable
         Dim Ntbl As New DataTable
         Dim SelectSql = <sql>
@@ -140,5 +178,67 @@ WHERE (((Kinds.KindID)=?) AND ((SellPriceGrps.PID)=?));
             End Try
         End Using
         Return Saved
+    End Function
+    Public Function UpdateItems() As Integer
+        Dim Updated As Integer = 0
+        Dim UpdateSql = <sql>
+                            UPDATE Products SET Pname=?, Pdesc=?, Pcost=?, MinQ=?, Pnotes=? WHERE PID=? AND BarCode=?;
+                        </sql>
+        Using CN As New OleDbConnection(ConnectionString),
+                UpdateCmd As New OleDbCommand(UpdateSql, CN) With {.CommandType = CommandType.Text}
+            With UpdateCmd.Parameters
+                .AddWithValue("?", ItmNm)
+                .AddWithValue("?", ItmDesc)
+                .AddWithValue("?", ItmCost)
+                .AddWithValue("?", ItmMinQ)
+                .AddWithValue("?", ItmNotes)
+                .AddWithValue("?", ItmID)
+                .AddWithValue("?", ItmBCode)
+            End With
+            Try
+                CN.Open()
+                Updated = UpdateCmd.ExecuteNonQuery
+            Catch ex As Exception
+                MsgBox("خطأ فى تعديل بيانات الصنف : " & vbCrLf & ex.Message,
+                       MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
+                       "خطأ")
+                UpdateCmd.Parameters.Clear()
+                UpdateCmd.Dispose()
+                CN.Close()
+            Finally
+                UpdateCmd.Parameters.Clear()
+                UpdateCmd.Dispose()
+                CN.Close()
+            End Try
+        End Using
+        Return Updated
+    End Function
+    Public Function DeleteItem() As Integer
+        Dim Deleted As Integer = 0
+        Dim DeleteSql = <sql>
+                            DELETE * FROM Products WHERE PID=?;
+                        </sql>
+        Using CN As New OleDbConnection(ConnectionString),
+                DeleteCmd As New OleDbCommand(DeleteSql, CN) With {.CommandType = CommandType.Text}
+            With DeleteCmd.Parameters
+                .AddWithValue("?", ItmID)
+            End With
+            Try
+                CN.Open()
+                Deleted = DeleteCmd.ExecuteNonQuery
+            Catch ex As Exception
+                MsgBox("خطأ فى حذف عميل : " & vbCrLf & ex.Message,
+                       MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
+                       "خطأ")
+                DeleteCmd.Parameters.Clear()
+                DeleteCmd.Dispose()
+                CN.Close()
+            Finally
+                DeleteCmd.Parameters.Clear()
+                DeleteCmd.Dispose()
+                CN.Close()
+            End Try
+        End Using
+        Return Deleted
     End Function
 End Class

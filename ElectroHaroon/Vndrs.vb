@@ -48,9 +48,7 @@ Public Class Vndrs
         With VendG
             .AutoGenerateColumns = False
             .DataSource = BS
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
-            .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            formatDG(VendG)
         End With
         lblSt.Text = ("تم حفظ (" & Onh & ")" & " مورد. لديك الأن (" & SrchTbl.Rows.Count & ") مورد.")
         SrchTbl.Dispose()
@@ -94,12 +92,10 @@ Public Class Vndrs
         With VendG
             .AutoGenerateColumns = False
             .DataSource = BS
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
-            .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            formatDG(VendG)
         End With
-        lblSt.Text = ("تم تعديل بيانات المورد بنجاح")
         SrchTbl.Dispose()
+        lblSt.Text = ("تم تعديل بيانات المورد بنجاح")
         PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
         PictureBox1.Image = New Bitmap(My.Resources.Apply)
 #End Region
@@ -131,15 +127,13 @@ Public Class Vndrs
             With VendG
                 .AutoGenerateColumns = False
                 .DataSource = BS
-                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-                .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
-                .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+                formatDG(VendG)
             End With
             lblSt.Text = ("تم حذف (" & Onh & ") مورد و لديك الان (" & TblCusts.Rows.Count & ") مورد")
-            TblCusts.Dispose()
-            Clearall()
             PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
             PictureBox1.Image = New Bitmap(My.Resources.Apply)
+            TblCusts.Dispose()
+            Clearall()
 #End Region
             _Vadd.Enabled = True
             _Vsave.Enabled = False
@@ -242,9 +236,7 @@ Public Class Vndrs
         With VendG
             .AutoGenerateColumns = False
             .DataSource = BS
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
-            .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            formatDG(VendG)
         End With
         lblSt.Text = ("لديك عدد " & TblCusts.Rows.Count & " مورد")
         TblCusts.Dispose()
@@ -412,6 +404,10 @@ Public Class Vndrs
         Try
             Dim Filter As String = "VendNm LIKE '%" & Tsearch.Text & "%'"
             BS1.Filter = Filter
+            With VendG
+                .DataSource = BS1
+            End With
+            formatDG(VendG)
         Catch ex As Exception
             lblSt.Text = ("عملية غير صحيحة : ") & ex.Message
         End Try
@@ -428,12 +424,6 @@ Public Class Vndrs
         Mysrch = Ocust.GetData
         BS1 = New BindingSource
         BS1.DataSource = Mysrch
-        With VendG
-            .DataSource = BS1
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .RowTemplate.Height = 40
-            .DefaultCellStyle.WrapMode = DataGridViewTriState.True
-        End With
     End Sub
 
     Private Sub VendG_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles VendG.CellMouseClick
@@ -456,6 +446,7 @@ Public Class Vndrs
             _Vdel.Enabled = True 'Del
             _Vadd.Enabled = True 'New
 
+            If e.RowIndex = -1 OrElse e.ColumnIndex = -1 Then Cursor = Cursors.Default : Exit Sub
             TextBox3.Text = AllPOInv(VendG("VenID", e.RowIndex).Value).ToString
             Dim numbs As Decimal() = VenDebts(VendG("VenID", e.RowIndex).Value)
             TextBox1.Text = FormatCurrency(numbs.First().ToString, 2)
@@ -465,7 +456,6 @@ Public Class Vndrs
             Cursor = Cursors.Default
         End If
     End Sub
-
     Private Sub Vndrs_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.Control AndAlso e.KeyCode = Keys.F Then
             Tsearch.Focus()

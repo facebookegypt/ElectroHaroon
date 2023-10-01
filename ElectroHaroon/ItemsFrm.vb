@@ -14,6 +14,7 @@ Public Class ItemsFrm
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
     End Sub
     Private Sub MnuSave_Click(sender As Object, e As EventArgs) Handles MnuSave.Click
+        'Save New Item
         If CboNm.Text.Length <= 0 Or
                 TextBox4.Text.Length <= 0 Then
             MsgBox("أدخل اسم الصنف و الباركود أولا",
@@ -21,7 +22,7 @@ Public Class ItemsFrm
             Exit Sub
         End If
         Dim OItems As New Items With
-            {.ItmNm = CboNm.Text, .ItmDesc = TextBox3.Text, .ItmCost = Convert.ToDouble(TextBox6.Text), .ItmBCode = TextBox4.Text,
+            {.ItmNm = CboNm.Text, .ItmDesc = TextBox3.Text, .ItmCost = TextBox6.Text, .ItmBCode = TextBox4.Text,
             .ItmMinQ = Convert.ToInt32(TextBox5.Text), .ItmNotes = TextBox7.Text}
 #Region "Save"
         Dim Onh = OItems.SaveNewItm.ToString
@@ -34,9 +35,7 @@ Public Class ItemsFrm
         With DGready
             .AutoGenerateColumns = False
             .DataSource = BS
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
-            .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            formatDG(DGready)
         End With
         TextBox1.Text = ("تم حفظ (" & Onh & ")" & " صنف. لديك الأن (" & SrchTbl.Rows.Count & ") صنف.")
         SrchTbl.Dispose()
@@ -72,8 +71,9 @@ Public Class ItemsFrm
         End If
     End Sub
     Private Sub MnuPOrdrs_Click(sender As Object, e As EventArgs) Handles MnuPOrdrs.Click
-        Close()
-        PurOrdrs.Show()
+        Dim PurOrdrsFrm As New PurOrdrs
+        PurOrdrsFrm.Show()
+        Me.Close()
     End Sub
     Private Sub MnuUnt_Click(sender As Object, e As EventArgs) Handles MnuUnt.Click
         Basics.TargetForm = "Units"
@@ -86,11 +86,6 @@ Public Class ItemsFrm
     Private Sub MnuKnd_Click(sender As Object, e As EventArgs) Handles MnuKnd.Click
         Basics.TargetForm = "Kinds"
         Basics.ShowDialog()
-    End Sub
-    Private Sub ItemsFrm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        '        RemoveHandler DGREady1.CellFormatting, AddressOf DGREady1_CellFormatting
-        '       RemoveHandler DGREady1.CellClick, AddressOf DGREady1_CellClick
-
     End Sub
     Private Sub Label18_Click(sender As Object, e As EventArgs) Handles Label18.Click
         Location = New Point(0, 0)
@@ -110,7 +105,6 @@ Public Class ItemsFrm
     End Sub
     Private Sub TextBox6_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox6.KeyPress
         e.Handled = Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = "." Or (e.KeyChar) = ChrW(Keys.Back))
-
     End Sub
     Private Sub MnuDisp_Click(sender As Object, e As EventArgs) Handles MnuDisp.Click
         Dim OItems As New Items
@@ -122,273 +116,97 @@ Public Class ItemsFrm
         With DGready
             .AutoGenerateColumns = False
             .DataSource = BS
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.Azure
-            .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True
-            .RowTemplate.Height = 50
+            formatDG(DGready)
         End With
-        TextBox1.Text = ("لديك عدد " & TblItems.Rows.Count & " صنف")
         TblItems.Dispose()
+        TextBox1.Text = ("لديك عدد " & TblItems.Rows.Count & " صنف")
 #End Region
         DGready.ClearSelection()
         DGready.CurrentCell = Nothing
         RemoveHandler DGready.RowEnter, AddressOf DGready_RowEnter
     End Sub
-    Private Sub cbonm_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CboNm.KeyPress
-        If e.KeyChar = ChrW(Keys.Enter) And Not String.IsNullOrEmpty(CboNm.Text) Then
-            'search for name
-            Dim Onh As Object
-            Using CN As New OleDbConnection(ConnectionString),
-            CMD As New OleDbCommand("SELECT Count(Products.PID) AS CountOfPID FROM Products HAVING (([products].[pname]=?));", CN)
-                CMD.Parameters.AddWithValue("?", CboNm.Text)
-                Try
-                    CN.Open()
-                    Onh = CInt(CMD.ExecuteScalar)
-                    If Onh Is DBNull.Value Then
-                        Exit Sub
-                    ElseIf Onh > 0 Then
-                        Dim AreUsURE As MsgBoxResult =
-                            MsgBox("اسم الصنف مسجل من قبل .. اذا اخترت Yes سيتم انشاء صنف جديد بنفس الاسم",
-                                   MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.YesNoCancel + MsgBoxStyle.Information + MsgBoxStyle.MsgBoxRight,
-                                   "برنامج المبيعات و المشتريات")
-                        If AreUsURE <> MsgBoxResult.Yes Then
-                            Exit Sub
-                        End If
-                    End If
-                Catch ex As OleDbException
-                Finally
-                    CN.Close()
-                End Try
-            End Using
-        End If
-    End Sub
-    Private Sub TextBox5_Click(sender As Object, e As EventArgs) Handles TextBox5.Click
-        TextBox5.SelectAll()
-    End Sub
-    Private Sub TextBox6_Click(sender As Object, e As EventArgs) Handles TextBox6.Click
-        TextBox6.SelectAll()
-    End Sub
-    Private Sub MnuFNm_Click(sender As Object, e As EventArgs) Handles MnuFNm.Click
-        'search ItmName..
-        Dim AreuSure As MsgBoxResult
-        If DGREady1.Rows.Count > 0 Then
-            AreuSure =
-                MsgBox("هل ترغب فى الغاء العملية الحالية و البدء فى البحث ؟",
-                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.YesNoCancel + MsgBoxStyle.Critical,
-                       "برنامج المبيعات و المشتريات")
-            If AreuSure = MsgBoxResult.Yes Then
-                Dim SearchRslt As String =
-                        InputBox("أدخل اسم الصنف", "بحث - برنامج المبيعات و المشتريات")
-                If String.IsNullOrEmpty(SearchRslt) Or
-                                String.IsNullOrWhiteSpace(SearchRslt) OrElse SearchRslt.Length <= 0 Then Exit Sub
-                Dim Newtble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-                Newtble = GetData("SELECT * FROM Products WHERE Pname Like '%" & SearchRslt & "%';")
-                If Newtble.Rows.Count <= 0 Then
-                    MnuEdit.Enabled = False
-                    MnuDel.Enabled = False
-                    MnuSave.Enabled = True
-                    MsgBox("لا يوجد صنف بهذا الاسم",, "برنامج المبيعات و المشتريات")
-                    Exit Sub
-                End If
-                MnuEdit.Enabled = True
-                MnuDel.Enabled = True
-                MnuSave.Enabled = False
-                With DGREady1
-                    .DataSource = New BindingSource(Newtble, Nothing)
-                    .Columns("PID").HeaderText = "كود الصنف"
-                    .Columns("Pname").HeaderText = "اسم الصنف"
-                    .Columns("Pdesc").HeaderText = "الوصف"
-                    .Columns("Pcost").HeaderText = "التكلفة"
-                    .Columns("MinQ").HeaderText = "أقل كمية"
-                    .Columns("BarCode").HeaderText = "باركود"
-                    .Refresh()
-                End With
-            Else
-                Exit Sub
-            End If
-        Else
-            Dim SearchRslt As String =
-                        InputBox("أدخل اسم الصنف", "بحث - برنامج المبيعات و المشتريات")
-            If String.IsNullOrEmpty(SearchRslt) Or
-                                String.IsNullOrWhiteSpace(SearchRslt) OrElse SearchRslt.Length <= 0 Then Exit Sub
-            Dim Newtble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-            Newtble = GetData("SELECT * FROM Products WHERE Pname LIKE '%" & SearchRslt & "%';")
-            If Newtble.Rows.Count <= 0 Then
-                MnuEdit.Enabled = False
-                MnuDel.Enabled = False
-                MnuSave.Enabled = True
-                MsgBox("لا يوجد صنف بهذا الاسم",, "برنامج المبيعات و المشتريات")
-                Exit Sub
-            End If
-            MnuEdit.Enabled = True
-            MnuDel.Enabled = True
-            MnuSave.Enabled = False
-            With DGREady1
-                .DataSource = New BindingSource(Newtble, Nothing)
-                .Columns("PID").HeaderText = "كود الصنف"
-                .Columns("Pname").HeaderText = "اسم الصنف"
-                .Columns("Pdesc").HeaderText = "الوصف"
-                .Columns("Pcost").HeaderText = "التكلفة"
-                .Columns("MinQ").HeaderText = "أقل كمية"
-                .Columns("BarCode").HeaderText = "باركود"
-                .Refresh()
-            End With
-        End If
-    End Sub
-    Private Sub MnuFBa_Click(sender As Object, e As EventArgs) Handles MnuFBa.Click
-        'search Barcode..
-        Dim AreuSure As MsgBoxResult
-        If DGREady1.Rows.Count > 0 Then
-            AreuSure =
-                MsgBox("هل ترغب فى الغاء العملية الحالية و البدء فى البحث ؟",
-                       MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.YesNoCancel + MsgBoxStyle.Critical,
-                       "برنامج المبيعات و المشتريات")
-            If AreuSure = MsgBoxResult.Yes Then
-                Dim SearchRslt As String =
-                        InputBox("أدخل رقم الباركود", "بحث - برنامج المبيعات و المشتريات")
-                If String.IsNullOrEmpty(SearchRslt) Or
-                                String.IsNullOrWhiteSpace(SearchRslt) OrElse SearchRslt.Length <= 0 Then Exit Sub
-                Dim Newtble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-                Newtble = GetData("SELECT * FROM Products WHERE BarCode = '" & SearchRslt & "';")
-                If Newtble.Rows.Count <= 0 Then
-                    MnuEdit.Enabled = False
-                    MnuDel.Enabled = False
-                    MnuSave.Enabled = True
-                    MsgBox("رقم الباركود غير موجود",, "برنامج المبيعات و المشتريات")
-                    Exit Sub
-                End If
-                MnuEdit.Enabled = True
-                MnuDel.Enabled = True
-                MnuSave.Enabled = False
-                With DGREady1
-                    .DataSource = New BindingSource(Newtble, Nothing)
-                    .Columns("PID").HeaderText = "كود الصنف"
-                    .Columns("Pname").HeaderText = "اسم الصنف"
-                    .Columns("Pdesc").HeaderText = "الوصف"
-                    .Columns("Pcost").HeaderText = "التكلفة"
-                    .Columns("MinQ").HeaderText = "أقل كمية"
-                    .Columns("BarCode").HeaderText = "باركود"
-                    .Refresh()
-                End With
-            Else
-                Exit Sub
-            End If
-        Else
-            Dim SearchRslt As String =
-                        InputBox("أدخل رقم الباركود", "بحث - برنامج المبيعات و المشتريات")
-            If String.IsNullOrEmpty(SearchRslt) Or
-                                String.IsNullOrWhiteSpace(SearchRslt) OrElse SearchRslt.Length <= 0 Then Exit Sub
-            Dim Newtble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-            Newtble = GetData("SELECT * FROM Products WHERE BarCode = '" & SearchRslt & "';")
-            If Newtble.Rows.Count <= 0 Then
-                MnuEdit.Enabled = False
-                MnuDel.Enabled = False
-                MnuSave.Enabled = True
-                MsgBox("رقم الباركود غير موجود",, "برنامج المبيعات و المشتريات")
-                Exit Sub
-            End If
-            MnuEdit.Enabled = True
-            MnuDel.Enabled = True
-            MnuSave.Enabled = False
-            With DGREady1
-                .DataSource = New BindingSource(Newtble, Nothing)
-                .Columns("PID").HeaderText = "كود الصنف"
-                .Columns("Pname").HeaderText = "اسم الصنف"
-                .Columns("Pdesc").HeaderText = "الوصف"
-                .Columns("Pcost").HeaderText = "التكلفة"
-                .Columns("MinQ").HeaderText = "أقل كمية"
-                .Columns("BarCode").HeaderText = "باركود"
-                .Refresh()
-            End With
-        End If
-    End Sub
-    Private Sub DelItem()
-        If Not MnuDel.Enabled = False And Not IsNothing(ItmID) Then
-            Dim NewTble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-            NewTble = GetData("SELECT * FROM PODetails WHERE PID=" & ItmID & ";")
-            If NewTble.Rows.Count > 0 Then
-                MsgBox("لا يمكن حذف هذا الصنف", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading +
-                                   MsgBoxStyle.Critical)
-                Exit Sub
-            Else
-                Dim QUERY As String = "DELETE * FROM Products WHERE PID=?;"
-                Using CN As New OleDbConnection(ConnectionString),
-                    CMD As New OleDbCommand(QUERY, CN) With {.CommandType = CommandType.Text}
-                    CMD.Parameters.AddWithValue("?", ItmID)
-                    Try
-                        CN.Open()
-                        Dim Onh As Object = CMD.ExecuteNonQuery
-                        If Onh Is DBNull.Value Or CInt(Onh) = 0 Then
-                            MsgBox("عملية غير صحيحة - لم يتم الحذف", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading +
-                                   MsgBoxStyle.Critical, "برنامج المبيعات و المشتريات")
-                        Else
-                            MsgBox("تم حذف الصنف بنجاح", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading +
-                                   MsgBoxStyle.Information, "برنامج المبيعات و المشتريات")
-                            DGREady1.DataSource = New BindingSource(GetData("SELECT * FROM Products WHERE PID=" & Onh & ";"), Nothing)
-                            DGREady1.Refresh()
-                        End If
-                    Catch ex As OleDbException
-                        MsgBox("عملية غير صحيحة - لم يتم الحذف" & ex.Message)
-                    Finally
-                        CN.Close()
-                    End Try
-                End Using
-            End If
-        End If
-    End Sub
-    Private Sub EditItem()
-        If Not MnuEdit.Enabled = False And Not IsNothing(ItmID) Then
-            Dim NewTble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-            NewTble = GetData("SELECT * FROM PODetails WHERE PID=" & ItmID & ";")
-            If NewTble.Rows.Count > 0 Then
-                MsgBox("لا يمكن تعديل هذا الصنف", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading +
-                                   MsgBoxStyle.Critical)
-                Exit Sub
-            Else
-                Dim QUERY As String = "UPDATE Products SET Pname=?, Pdesc=?, Pcost=?, MinQ=? WHERE PID=?;"
-                Using CN As New OleDbConnection(ConnectionString),
-                    CMD As New OleDbCommand(QUERY, CN) With {.CommandType = CommandType.Text}
-                    CMD.Parameters.AddWithValue("?", CboNm.Text)
-                    CMD.Parameters.AddWithValue("?", TextBox3.Text)
-                    CMD.Parameters.AddWithValue("?", CDbl(TextBox6.Text))
-                    CMD.Parameters.AddWithValue("?", CInt(TextBox5.Text))
-                    CMD.Parameters.AddWithValue("?", ItmID)
-                    Try
-                        CN.Open()
-                        Dim Onh As Object = CMD.ExecuteNonQuery
-                        If Onh Is DBNull.Value Or CInt(Onh) = 0 Then
-                            MsgBox("عملية غير صحيحة - لم يتم التعديل", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading +
-                                   MsgBoxStyle.Critical, "برنامج المبيعات و المشتريات")
-                        Else
-                            MsgBox("تم تعديل الصنف بنجاح", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading +
-                                   MsgBoxStyle.Information, "برنامج المبيعات و المشتريات")
-                            DGREady1.DataSource = New BindingSource(GetData("SELECT * FROM Products WHERE PID=" & Onh & ";"), Nothing)
-                            DGREady1.Refresh()
-                        End If
-                    Catch ex As OleDbException
-                        MsgBox("عملية غير صحيحة - لم يتم التعديل" & ex.Message)
-                    Finally
-                        CN.Close()
-                    End Try
-                End Using
-            End If
-        End If
-    End Sub
     Private Sub MnuDel_Click(sender As Object, e As EventArgs) Handles MnuDel.Click
-        DelItem()
+        If MnuEdit.Enabled = False AndAlso IsNothing(DGready.CurrentCell) Then
+            TextBox1.Text = "عملية غير صحيحة - يجب اختيار صنف أولا"
+            Exit Sub
+        End If
+        Dim NewTble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        NewTble = GetData("SELECT * FROM PODetails WHERE PID=" & ItmID & ";")
+        If NewTble.Rows.Count > 0 Then
+            MsgBox("لا يمكن حذف هذا الصنف", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            NewTble.Dispose()
+            Exit Sub
+        End If
+        Dim AreYouSure As String =
+            MsgBox("تأكيد حذف صنف ؟",
+                   MsgBoxStyle.YesNoCancel + MsgBoxStyle.MsgBoxRight + MsgBoxStyle.Critical, "حذف")
+        If AreYouSure = vbYes Then
+            Dim OItems As New Items With
+        {.ItmID = DGready.CurrentRow.Cells("PID").Value.ToString}
+#Region "Delete"
+            Dim Onh = OItems.DeleteItem.ToString
+#End Region
+#Region "Get All Data into DGReady"
+            Dim TblItems As New DataTable
+            TblItems = OItems.GetData
+            BS = New BindingSource
+            BS.DataSource = TblItems
+            With DGready
+                .AutoGenerateColumns = False
+                .DataSource = BS
+                formatDG(DGready)
+            End With
+            TblItems.Dispose()
+            TextBox1.Text = ("تم حذف (" & Onh & ") صنف و لديك الان (" & TblItems.Rows.Count & ") صنف")
+            PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
+            PictureBox1.Image = New Bitmap(My.Resources.Apply)
+            NewItem()
+            MnuDisp_Click(sender, e)
+        End If
+#End Region
     End Sub
     Private Sub MnuEdit_Click(sender As Object, e As EventArgs) Handles MnuEdit.Click
-        EditItem()
+        If MnuEdit.Enabled = False AndAlso IsNothing(DGready.CurrentCell) Then
+            TextBox1.Text = "عملية غير صحيحة - يجب اختيار صنف أولا"
+            Exit Sub
+        End If
+        Dim NewTble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        NewTble = GetData("SELECT * FROM PODetails WHERE PID=" & ItmID & ";")
+        If NewTble.Rows.Count > 0 Then
+            MsgBox("لا يمكن تعديل هذا الصنف", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
+            NewTble.Dispose()
+            Exit Sub
+        End If
+        Dim ThisID = CInt(DGready.CurrentRow.Cells("PID").Value.ToString)
+        Dim OItems As New Items With
+            {.ItmID = ThisID,
+            .ItmNm = CboNm.Text,
+            .ItmDesc = TextBox3.Text,
+            .ItmNotes = TextBox7.Text,
+            .ItmBCode = TextBox4.Text,
+            .ItmCost = TextBox6.Text,
+            .ItmMinQ = TextBox5.Text}
+#Region "Update"
+        Dim Onh = OItems.UpdateItems.ToString
+#End Region
+#Region "Get All Data into DGReady"
+        SrchTbl = New DataTable
+        SrchTbl = OItems.GetData
+        BS = New BindingSource
+        BS.DataSource = SrchTbl
+        With DGready
+            .AutoGenerateColumns = False
+            .DataSource = BS
+            formatDG(DGready)
+        End With
+        TextBox1.Text = ("تم تعديل بيانات الصنف بنجاح")
+        SrchTbl.Dispose()
+        PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
+        PictureBox1.Image = New Bitmap(My.Resources.Apply)
+        NewItem()
+        MnuDisp_Click(sender, e)
+#End Region
     End Sub
-
-    Private Sub TextBox6_TextChanged(sender As Object, e As EventArgs) Handles TextBox6.TextChanged
-
-    End Sub
-
-    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
-
-    End Sub
-
     Private Function GetData(query As String) As DataTable
         Using CN As New OleDbConnection(ConnectionString),
             CMD As New OleDbCommand(query, CN),
@@ -399,12 +217,6 @@ Public Class ItemsFrm
             Return MyTable
         End Using
     End Function
-
-    Private Sub ItemsFrm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        'Load Item Names Into Combobox
-
-    End Sub
-
     Private Sub DGready_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.CellClick
         AddHandler DGready.RowEnter, AddressOf DGready_RowEnter
         DGready_RowEnter(sender, e)
@@ -435,11 +247,10 @@ Public Class ItemsFrm
 
         End Try
     End Sub
-
     Private Sub CboKind_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboKind.SelectedIndexChanged
-
+        LblSt.Text = String.Empty
+        PictureBox2.Image = Nothing
     End Sub
-
     Private Sub ItemsFrm_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.F5 Then
             MnuDisp_Click(sender, e)
@@ -453,11 +264,6 @@ Public Class ItemsFrm
             .KID = CboKind.SelectedValue.ToString}
         TextBox2.Text = OItmSellKind.GetsellPrice.ToString("C2")
     End Sub
-
-    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
-
-    End Sub
-
     Private Sub CboKind_DropDown(sender As Object, e As EventArgs) Handles CboKind.DropDown
         Try
             Cursor = Cursors.WaitCursor
@@ -469,29 +275,61 @@ Public Class ItemsFrm
             CboKind.DisplayMember = "KindNm"
             CboKind.ValueMember = "KindID"
             CboKind.DataSource = BS1
+            LblSt.Text = String.Empty
+            PictureBox2.Image = Nothing
             Cursor = Cursors.Default
         Catch ex As Exception
 
         End Try
     End Sub
-
-    Private Sub Panel1_EnabledChanged(sender As Object, e As EventArgs) Handles Panel1.EnabledChanged
-
-    End Sub
-
     Private Sub TextBox2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox2.KeyPress
+        'Check for SellGrps Exists
         If e.KeyChar = ChrW(Keys.Enter) Then
-            Dim OItmSellKind As New Items With {.ItmID = DGready.CurrentRow.Cells("PID").Value.ToString,
-            .KID = CboKind.SelectedValue.ToString}
+            Dim OItmSellKind As New Items With
+                {.ItmID = DGready.CurrentRow.Cells("PID").Value.ToString,
+                .KID = CboKind.SelectedValue.ToString,
+                .ItmSellPrice = TextBox2.Text}
             Dim CurSellPricefound = OItmSellKind.SellPriceExists
             Select Case CurSellPricefound
                 Case Is = True
                     'Update
-                    TextBox1.Text = "Updated"
+                    OItmSellKind.UpdateInsertSellP(True)
+                    LblSt.Text = "تم تحديث السعر"
+                    PictureBox2.Image = My.Resources.Apply
                 Case Is = False
                     'Insert Into SellPriceGrps
-                    TextBox1.Text = "Inserted"
+                    OItmSellKind.UpdateInsertSellP(False)
+                    LblSt.Text = "تم اضافة سعر"
+                    PictureBox2.Image = My.Resources.Apply
             End Select
         End If
+    End Sub
+    Private MySrch As DataTable, BS2 As BindingSource
+    Private Sub CboNm_GotFocus(sender As Object, e As EventArgs) Handles CboNm.GotFocus
+        Dim OItems As New Items
+        Mysrch = New DataTable
+        MySrch = OItems.GetData
+        BS2 = New BindingSource
+        BS2.DataSource = MySrch
+    End Sub
+    Private Sub CboNm_KeyUp(sender As Object, e As KeyEventArgs) Handles CboNm.KeyUp
+        If e.Control OrElse
+            e.Shift OrElse
+            e.Alt OrElse
+            e.KeyCode = Keys.Escape OrElse
+            e.KeyCode = Keys.Delete Then
+            e.Handled = True
+            Exit Sub
+        End If
+        Try
+            Dim Filter As String = "Pname LIKE '%" & CboNm.Text & "%'"
+            BS2.Filter = Filter
+            With DGready
+                .DataSource = BS2
+                formatDG(DGready)
+            End With
+        Catch ex As Exception
+            LblSt.Text = ("عملية غير صحيحة : ") & ex.Message
+        End Try
     End Sub
 End Class

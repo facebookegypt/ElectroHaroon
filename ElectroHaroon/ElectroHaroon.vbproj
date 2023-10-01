@@ -471,6 +471,9 @@
     <Content Include="Files\Interop.JRO.dll" />
     <Content Include="Files\Interop.Microsoft.Office.Interop.Access.Dao.dll" />
     <Content Include="Files\Tulpep.NotificationWindow.dll" />
+    <EmbeddedResource Include="Resources\Png_Prices.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\131-1311087_banner-png-clipart-transparent-background-colorfulness.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
