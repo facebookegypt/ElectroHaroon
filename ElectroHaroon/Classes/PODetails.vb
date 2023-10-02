@@ -1,9 +1,8 @@
 ﻿Imports System.Data.OleDb
-Public Class Kinds
+Public Class PODetails
     Inherits DataOperations
     Private ConnectionString As String
-    Public Property KID As Integer
-    Public Property Knm As String
+
     Public Sub New()
         ConnectionString = GetEncryConStr()
     End Sub
@@ -30,15 +29,4 @@ Public Class Kinds
         End Using
         Return Ntbl
     End Function
-    Public Sub BindDGColumnKinds(ByVal DG As DataGridView)
-        Dim KindsCboColumn As DataGridViewComboBoxColumn =
-            DirectCast(DG.Columns("Kinds"), DataGridViewComboBoxColumn)
-        'Tells the combobox which column in the bound data is the value to save in the database
-        'and which column is the value to display to the user.
-        With KindsCboColumn
-            .ValueMember = "KindID"
-            .DisplayMember = "KindNm"
-            .DataSource = GetData()
-        End With
-    End Sub
 End Class

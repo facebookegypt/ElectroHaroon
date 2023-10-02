@@ -236,4 +236,8 @@ Public Class MainF
         popupNotifier1.Popup()
         AddHandler popupNotifier1.Click, AddressOf popupNotifier1_Click
     End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs)
+
+    End Sub
 End Class

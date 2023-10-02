@@ -132,7 +132,10 @@
     <Compile Include="Classes\Effects.vb" />
     <Compile Include="Classes\Items.vb" />
     <Compile Include="Classes\Kinds.vb" />
+    <Compile Include="Classes\PODetails.vb" />
     <Compile Include="Classes\Simple3Des.vb" />
+    <Compile Include="Classes\Stores.vb" />
+    <Compile Include="Classes\Units.vb" />
     <Compile Include="Classes\Vendors.vb" />
     <Compile Include="Custms.designer.vb">
       <DependentUpon>Custms.vb</DependentUpon>

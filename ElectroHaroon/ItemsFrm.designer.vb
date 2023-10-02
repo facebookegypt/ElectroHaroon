@@ -23,8 +23,9 @@ Partial Class ItemsFrm
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ItemsFrm))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me._MP = New System.Windows.Forms.ToolStripMenuItem()
@@ -61,14 +62,6 @@ Partial Class ItemsFrm
         Me.Label18 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
-        Me.LblSt = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.CboKind = New System.Windows.Forms.ComboBox()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.DGready = New System.Windows.Forms.DataGridView()
         Me.PID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Pname = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -77,11 +70,11 @@ Partial Class ItemsFrm
         Me.MinQ = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.BarCode = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Pnotes = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Kinds = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.GsellPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel1.SuspendLayout()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DGready, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -460,13 +453,13 @@ Partial Class ItemsFrm
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBox1.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
         Me.TextBox1.ForeColor = System.Drawing.Color.Brown
-        Me.TextBox1.Location = New System.Drawing.Point(296, 670)
+        Me.TextBox1.Location = New System.Drawing.Point(155, 670)
         Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox1.MaxLength = 20
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
         Me.TextBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.TextBox1.Size = New System.Drawing.Size(873, 35)
+        Me.TextBox1.Size = New System.Drawing.Size(1014, 35)
         Me.TextBox1.TabIndex = 413
         Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.TextBox1.WordWrap = False
@@ -475,120 +468,11 @@ Partial Class ItemsFrm
         '
         Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1.Location = New System.Drawing.Point(326, 668)
+        Me.PictureBox1.Location = New System.Drawing.Point(192, 664)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(41, 41)
+        Me.PictureBox1.Size = New System.Drawing.Size(47, 46)
         Me.PictureBox1.TabIndex = 423
         Me.PictureBox1.TabStop = False
-        '
-        'Panel1
-        '
-        Me.Panel1.BackColor = System.Drawing.Color.Transparent
-        Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel1.Controls.Add(Me.PictureBox2)
-        Me.Panel1.Controls.Add(Me.LblSt)
-        Me.Panel1.Controls.Add(Me.Label9)
-        Me.Panel1.Controls.Add(Me.TextBox2)
-        Me.Panel1.Controls.Add(Me.Label7)
-        Me.Panel1.Controls.Add(Me.CboKind)
-        Me.Panel1.Controls.Add(Me.Label6)
-        Me.Panel1.Enabled = False
-        Me.Panel1.Location = New System.Drawing.Point(13, 225)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Panel1.Size = New System.Drawing.Size(276, 282)
-        Me.Panel1.TabIndex = 424
-        '
-        'PictureBox2
-        '
-        Me.PictureBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PictureBox2.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox2.Location = New System.Drawing.Point(1, 234)
-        Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(41, 41)
-        Me.PictureBox2.TabIndex = 424
-        Me.PictureBox2.TabStop = False
-        '
-        'LblSt
-        '
-        Me.LblSt.AutoEllipsis = True
-        Me.LblSt.BackColor = System.Drawing.Color.Snow
-        Me.LblSt.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.LblSt.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.LblSt.ForeColor = System.Drawing.Color.Firebrick
-        Me.LblSt.Location = New System.Drawing.Point(0, 232)
-        Me.LblSt.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.LblSt.Name = "LblSt"
-        Me.LblSt.Size = New System.Drawing.Size(274, 48)
-        Me.LblSt.TabIndex = 15
-        Me.LblSt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.LblSt.UseCompatibleTextRendering = True
-        '
-        'Label9
-        '
-        Me.Label9.AutoEllipsis = True
-        Me.Label9.BackColor = System.Drawing.Color.Snow
-        Me.Label9.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Label9.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Label9.Location = New System.Drawing.Point(0, 0)
-        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(274, 51)
-        Me.Label9.TabIndex = 14
-        Me.Label9.Text = "اسعار البيع"
-        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.Label9.UseCompatibleTextRendering = True
-        '
-        'TextBox2
-        '
-        Me.TextBox2.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.TextBox2.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.TextBox2.Location = New System.Drawing.Point(2, 185)
-        Me.TextBox2.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(268, 43)
-        Me.TextBox2.TabIndex = 7
-        Me.TextBox2.Text = "0.00 جنية"
-        Me.TextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Label7
-        '
-        Me.Label7.AutoEllipsis = True
-        Me.Label7.BackColor = System.Drawing.Color.Transparent
-        Me.Label7.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label7.Location = New System.Drawing.Point(2, 151)
-        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(268, 30)
-        Me.Label7.TabIndex = 13
-        Me.Label7.Text = "سعر بيع الوحدة"
-        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'CboKind
-        '
-        Me.CboKind.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.CboKind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CboKind.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CboKind.Font = New System.Drawing.Font("Traditional Arabic", 10.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.CboKind.FormattingEnabled = True
-        Me.CboKind.Location = New System.Drawing.Point(4, 103)
-        Me.CboKind.Name = "CboKind"
-        Me.CboKind.Size = New System.Drawing.Size(268, 35)
-        Me.CboKind.TabIndex = 6
-        '
-        'Label6
-        '
-        Me.Label6.AutoEllipsis = True
-        Me.Label6.BackColor = System.Drawing.Color.Transparent
-        Me.Label6.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label6.Location = New System.Drawing.Point(2, 74)
-        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(268, 26)
-        Me.Label6.TabIndex = 10
-        Me.Label6.Text = "النوع"
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'DGready
         '
@@ -610,26 +494,26 @@ Partial Class ItemsFrm
         Me.DGready.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DGready.ColumnHeadersHeight = 50
         Me.DGready.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Me.DGready.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PID, Me.Pname, Me.Pdesc, Me.Pcost, Me.MinQ, Me.BarCode, Me.Pnotes})
+        Me.DGready.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PID, Me.Pname, Me.Pdesc, Me.Pcost, Me.MinQ, Me.BarCode, Me.Pnotes, Me.Kinds, Me.GsellPrice})
         Me.DGready.EnableHeadersVisualStyles = False
         Me.DGready.GridColor = System.Drawing.Color.DeepSkyBlue
-        Me.DGready.Location = New System.Drawing.Point(296, 225)
+        Me.DGready.Location = New System.Drawing.Point(13, 225)
         Me.DGready.Margin = New System.Windows.Forms.Padding(4)
         Me.DGready.MultiSelect = False
         Me.DGready.Name = "DGready"
         Me.DGready.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DGready.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.MintCream
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.DimGray
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.MintCream
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.DimGray
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.DGready.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DGready.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.DGready.Size = New System.Drawing.Size(873, 437)
+        Me.DGready.Size = New System.Drawing.Size(1156, 437)
         Me.DGready.TabIndex = 425
         '
         'PID
@@ -684,6 +568,24 @@ Partial Class ItemsFrm
         Me.Pnotes.HeaderText = "ملاحظات"
         Me.Pnotes.Name = "Pnotes"
         '
+        'Kinds
+        '
+        Me.Kinds.DataPropertyName = "KindID"
+        Me.Kinds.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox
+        Me.Kinds.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Kinds.HeaderText = "أسعار البيع"
+        Me.Kinds.Name = "Kinds"
+        '
+        'GsellPrice
+        '
+        Me.GsellPrice.DataPropertyName = "GsellPrice"
+        DataGridViewCellStyle3.Format = "C2"
+        DataGridViewCellStyle3.NullValue = "0.00"
+        Me.GsellPrice.DefaultCellStyle = DataGridViewCellStyle3
+        Me.GsellPrice.HeaderText = "السعر"
+        Me.GsellPrice.Name = "GsellPrice"
+        Me.GsellPrice.ReadOnly = True
+        '
         'ItemsFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -691,7 +593,6 @@ Partial Class ItemsFrm
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1182, 718)
         Me.Controls.Add(Me.DGready)
-        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label17)
@@ -709,9 +610,6 @@ Partial Class ItemsFrm
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DGready, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -749,11 +647,6 @@ Partial Class ItemsFrm
     Friend WithEvents MnuEdit As ToolStripMenuItem
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents Panel1 As Panel
-    Friend WithEvents CboKind As ComboBox
-    Friend WithEvents Label6 As Label
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents Label7 As Label
     Friend WithEvents CboNm As TextBox
     Friend WithEvents TextBox7 As TextBox
     Friend WithEvents Label8 As Label
@@ -765,7 +658,6 @@ Partial Class ItemsFrm
     Friend WithEvents MinQ As DataGridViewTextBoxColumn
     Friend WithEvents BarCode As DataGridViewTextBoxColumn
     Friend WithEvents Pnotes As DataGridViewTextBoxColumn
-    Friend WithEvents Label9 As Label
-    Friend WithEvents LblSt As Label
-    Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents Kinds As DataGridViewComboBoxColumn
+    Friend WithEvents GsellPrice As DataGridViewTextBoxColumn
 End Class

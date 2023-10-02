@@ -218,27 +218,40 @@ Public Class Items
         Dim DeleteSql = <sql>
                             DELETE * FROM Products WHERE PID=?;
                         </sql>
+        Dim DeleteSql1 = <sql>
+                            DELETE * FROM SellPriceGrps WHERE PID=?;
+                        </sql>
         Using CN As New OleDbConnection(ConnectionString),
-                DeleteCmd As New OleDbCommand(DeleteSql, CN) With {.CommandType = CommandType.Text}
+                DeleteCmd As New OleDbCommand(DeleteSql, CN) With {.CommandType = CommandType.Text},
+                DeleteCmd1 As New OleDbCommand(DeleteSql1, CN) With {.CommandType = CommandType.Text}
             With DeleteCmd.Parameters
+                .AddWithValue("?", ItmID)
+            End With
+            With DeleteCmd1.Parameters
                 .AddWithValue("?", ItmID)
             End With
             Try
                 CN.Open()
                 Deleted = DeleteCmd.ExecuteNonQuery
+                Deleted += DeleteCmd1.ExecuteNonQuery
             Catch ex As Exception
                 MsgBox("خطأ فى حذف عميل : " & vbCrLf & ex.Message,
                        MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
                        "خطأ")
                 DeleteCmd.Parameters.Clear()
                 DeleteCmd.Dispose()
+                DeleteCmd1.Parameters.Clear()
+                DeleteCmd1.Dispose()
                 CN.Close()
             Finally
                 DeleteCmd.Parameters.Clear()
                 DeleteCmd.Dispose()
+                DeleteCmd1.Parameters.Clear()
+                DeleteCmd1.Dispose()
                 CN.Close()
             End Try
         End Using
         Return Deleted
     End Function
 End Class
+

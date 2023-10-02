@@ -2,11 +2,6 @@
 Public Class ItemsFrm
     Private SrchTbl As DataTable
     Private BS As BindingSource
-
-    Private Ops As New DataOperations
-    Private ConnectionString = Ops.GetEncryConStr
-    Private WithEvents DGREady1 As DataGridView, DT As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-    Private ItmID As Integer
     Private Sub ItemsFrm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
     End Sub
@@ -35,6 +30,8 @@ Public Class ItemsFrm
         With DGready
             .AutoGenerateColumns = False
             .DataSource = BS
+            Dim Ikind As New Kinds
+            Ikind.BindDGColumnKinds(DGready)
             formatDG(DGready)
         End With
         TextBox1.Text = ("تم حفظ (" & Onh & ")" & " صنف. لديك الأن (" & SrchTbl.Rows.Count & ") صنف.")
@@ -53,7 +50,6 @@ Public Class ItemsFrm
         TextBox4.Text = RandomString()
         CboNm.Focus()
         CboNm.Select()
-        Panel1.Enabled = False
     End Sub
     Private Sub _MPback_Click(sender As Object, e As EventArgs) Handles _MPback.Click
         Close()
@@ -61,7 +57,6 @@ Public Class ItemsFrm
     Private Sub MnuNew_Click(sender As Object, e As EventArgs) Handles MnuNew.Click
         MnuSave.Enabled = True
         TextBox4.Text = GenerateRandomString()
-        Panel1.Enabled = False
         NewItem()
     End Sub
     Private Sub MenuStrip1_MouseDown(sender As Object, e As MouseEventArgs) Handles MenuStrip1.MouseDown
@@ -116,6 +111,8 @@ Public Class ItemsFrm
         With DGready
             .AutoGenerateColumns = False
             .DataSource = BS
+            Dim Ikind As New Kinds
+            Ikind.BindDGColumnKinds(DGready)
             formatDG(DGready)
         End With
         TblItems.Dispose()
@@ -131,7 +128,7 @@ Public Class ItemsFrm
             Exit Sub
         End If
         Dim NewTble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-        NewTble = GetData("SELECT * FROM PODetails WHERE PID=" & ItmID & ";")
+        NewTble = GetData("SELECT * FROM PODetails WHERE PID=" & CInt(DGready.CurrentRow.Cells("PID").Value.ToString) & ";")
         If NewTble.Rows.Count > 0 Then
             MsgBox("لا يمكن حذف هذا الصنف", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             NewTble.Dispose()
@@ -154,6 +151,8 @@ Public Class ItemsFrm
             With DGready
                 .AutoGenerateColumns = False
                 .DataSource = BS
+                Dim Ikind As New Kinds
+                Ikind.BindDGColumnKinds(DGready)
                 formatDG(DGready)
             End With
             TblItems.Dispose()
@@ -171,7 +170,7 @@ Public Class ItemsFrm
             Exit Sub
         End If
         Dim NewTble As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-        NewTble = GetData("SELECT * FROM PODetails WHERE PID=" & ItmID & ";")
+        NewTble = GetData("SELECT * FROM PODetails WHERE PID=" & CInt(DGready.CurrentRow.Cells("PID").Value.ToString) & ";")
         If NewTble.Rows.Count > 0 Then
             MsgBox("لا يمكن تعديل هذا الصنف", MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical)
             NewTble.Dispose()
@@ -197,6 +196,8 @@ Public Class ItemsFrm
         With DGready
             .AutoGenerateColumns = False
             .DataSource = BS
+            Dim Ikind As New Kinds
+            Ikind.BindDGColumnKinds(DGready)
             formatDG(DGready)
         End With
         TextBox1.Text = ("تم تعديل بيانات الصنف بنجاح")
@@ -208,6 +209,8 @@ Public Class ItemsFrm
 #End Region
     End Sub
     Private Function GetData(query As String) As DataTable
+        Dim Ops As New DataOperations
+        Dim ConnectionString = Ops.GetEncryConStr
         Using CN As New OleDbConnection(ConnectionString),
             CMD As New OleDbCommand(query, CN),
             Sda As New OleDbDataAdapter(CMD),
@@ -230,11 +233,6 @@ Public Class ItemsFrm
         TextBox7.Text = DGready("Pnotes", e.RowIndex).Value.ToString
         TextBox5.Text = CInt(DGready("MinQ", e.RowIndex).Value.ToString).ToString
         TextBox4.Text = DGready("BarCode", e.RowIndex).Value.ToString
-#Region "Get All SellPrice Kinds into ComBobox"
-        TextBox2.Text = 0.00.ToString("C2")
-        CboKind.DataSource = Nothing
-#End Region
-        Panel1.Enabled = True
         MnuSave.Enabled = False
         MnuNew.Enabled = True
         MnuEdit.Enabled = True
@@ -247,67 +245,15 @@ Public Class ItemsFrm
 
         End Try
     End Sub
-    Private Sub CboKind_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboKind.SelectedIndexChanged
-        LblSt.Text = String.Empty
-        PictureBox2.Image = Nothing
-    End Sub
     Private Sub ItemsFrm_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.F5 Then
             MnuDisp_Click(sender, e)
         End If
     End Sub
-    Dim KindsPrice As DataTable, BS1 As BindingSource
-    Private Sub CboKind_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles CboKind.SelectionChangeCommitted
-        'Get SellPrice according to Item Kind
-        TextBox2.Text = 0.00.ToString("C2")
-        Dim OItmSellKind As New Items With {.ItmID = DGready.CurrentRow.Cells("PID").Value.ToString,
-            .KID = CboKind.SelectedValue.ToString}
-        TextBox2.Text = OItmSellKind.GetsellPrice.ToString("C2")
-    End Sub
-    Private Sub CboKind_DropDown(sender As Object, e As EventArgs) Handles CboKind.DropDown
-        Try
-            Cursor = Cursors.WaitCursor
-            Dim Okinds As New Kinds
-            KindsPrice = New DataTable
-            KindsPrice = Okinds.GetData
-            BS1 = New BindingSource
-            BS1.DataSource = KindsPrice
-            CboKind.DisplayMember = "KindNm"
-            CboKind.ValueMember = "KindID"
-            CboKind.DataSource = BS1
-            LblSt.Text = String.Empty
-            PictureBox2.Image = Nothing
-            Cursor = Cursors.Default
-        Catch ex As Exception
-
-        End Try
-    End Sub
-    Private Sub TextBox2_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox2.KeyPress
-        'Check for SellGrps Exists
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            Dim OItmSellKind As New Items With
-                {.ItmID = DGready.CurrentRow.Cells("PID").Value.ToString,
-                .KID = CboKind.SelectedValue.ToString,
-                .ItmSellPrice = TextBox2.Text}
-            Dim CurSellPricefound = OItmSellKind.SellPriceExists
-            Select Case CurSellPricefound
-                Case Is = True
-                    'Update
-                    OItmSellKind.UpdateInsertSellP(True)
-                    LblSt.Text = "تم تحديث السعر"
-                    PictureBox2.Image = My.Resources.Apply
-                Case Is = False
-                    'Insert Into SellPriceGrps
-                    OItmSellKind.UpdateInsertSellP(False)
-                    LblSt.Text = "تم اضافة سعر"
-                    PictureBox2.Image = My.Resources.Apply
-            End Select
-        End If
-    End Sub
     Private MySrch As DataTable, BS2 As BindingSource
     Private Sub CboNm_GotFocus(sender As Object, e As EventArgs) Handles CboNm.GotFocus
         Dim OItems As New Items
-        Mysrch = New DataTable
+        MySrch = New DataTable
         MySrch = OItems.GetData
         BS2 = New BindingSource
         BS2.DataSource = MySrch
@@ -326,10 +272,62 @@ Public Class ItemsFrm
             BS2.Filter = Filter
             With DGready
                 .DataSource = BS2
+                Dim Ikind As New Kinds
+                Ikind.BindDGColumnKinds(DGready)
                 formatDG(DGready)
             End With
         Catch ex As Exception
-            LblSt.Text = ("عملية غير صحيحة : ") & ex.Message
+            TextBox1.Text = ("عملية غير صحيحة : ") & ex.Message
         End Try
+    End Sub
+
+    Private Sub DGready_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DGready.EditingControlShowing
+        If (TypeOf (e.Control) Is ComboBox) Then
+            Dim combo = CType(e.Control, ComboBox)
+            RemoveHandler combo.SelectionChangeCommitted, AddressOf CboKind_SelectionChangeCommitted
+            AddHandler combo.SelectionChangeCommitted, AddressOf CboKind_SelectionChangeCommitted
+        End If
+    End Sub
+    Private KindsPrice As DataTable, BS1 As BindingSource
+    Private Sub CboKind_SelectionChangeCommitted(sender As Object, e As EventArgs)
+        If (DGready.Columns(DGready.CurrentCell.ColumnIndex).Name = "Kinds") Then
+            Dim combo = CType(sender, ComboBox)
+            'Do something with combo
+            'Get SellPrice according to Item Kind
+            DGready.CurrentRow.Cells("GsellPrice").Value = 0.00.ToString("C2")
+            Dim OItmSellKind As New Items With {.ItmID = DGready.CurrentRow.Cells("PID").Value.ToString,
+                .KID = combo.SelectedValue.ToString}
+            DGready.CurrentRow.Cells("GsellPrice").Value = OItmSellKind.GetsellPrice.ToString("C2")
+            DGready.CurrentRow.Cells("GsellPrice").ReadOnly = False
+        End If
+    End Sub
+    Private Sub DGready_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.CellEndEdit
+        If DGready.CurrentCell.OwningColumn.Name = "GsellPrice" Then
+            'Check for SellGrps Exists
+            Dim OItmSellKind As New Items With
+                    {.ItmID = DGready.CurrentRow.Cells("PID").Value.ToString,
+                    .KID = DGready.CurrentRow.Cells("Kinds").Value.ToString,
+                    .ItmSellPrice = DGready.CurrentRow.Cells("GsellPrice").Value.ToString}
+            Dim CurSellPricefound = OItmSellKind.SellPriceExists
+            Try
+                Select Case CurSellPricefound
+                    Case Is = True
+                        'Update
+                        OItmSellKind.UpdateInsertSellP(True)
+                        TextBox1.Text = "تم تحديث السعر"
+                        PictureBox1.Image = My.Resources.Apply
+                    Case Is = False
+                        'Insert Into SellPriceGrps
+                        OItmSellKind.UpdateInsertSellP(False)
+                        TextBox1.Text = "تم تحديث السعر"
+                        PictureBox1.Image = My.Resources.Apply
+                End Select
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        End If
+    End Sub
+    Private Sub DGready_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles DGready.DataError
+        e.Cancel = True
     End Sub
 End Class

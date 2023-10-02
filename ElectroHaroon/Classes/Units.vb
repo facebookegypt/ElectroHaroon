@@ -1,16 +1,16 @@
 ﻿Imports System.Data.OleDb
-Public Class Kinds
+Public Class Units
     Inherits DataOperations
     Private ConnectionString As String
-    Public Property KID As Integer
-    Public Property Knm As String
+    Public Property UnitID As Integer
+    Public Property UnitNm As String
     Public Sub New()
         ConnectionString = GetEncryConStr()
     End Sub
     Public Function GetData() As DataTable
         Dim Ntbl As New DataTable
         Dim SelectSql = <sql>
-                            SELECT KindID,KindNm FROM Kinds;
+                            SELECT UnitID,UnitNm FROM Units;
                         </sql>
         Using CN As New OleDbConnection(ConnectionString),
                 SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text}
@@ -30,14 +30,14 @@ Public Class Kinds
         End Using
         Return Ntbl
     End Function
-    Public Sub BindDGColumnKinds(ByVal DG As DataGridView)
-        Dim KindsCboColumn As DataGridViewComboBoxColumn =
-            DirectCast(DG.Columns("Kinds"), DataGridViewComboBoxColumn)
+    Public Sub BindDGColumn(ByVal DG As DataGridView)
+        Dim UnitsCboColumn As DataGridViewComboBoxColumn =
+            DirectCast(DG.Columns("Units"), DataGridViewComboBoxColumn)
         'Tells the combobox which column in the bound data is the value to save in the database
         'and which column is the value to display to the user.
-        With KindsCboColumn
-            .ValueMember = "KindID"
-            .DisplayMember = "KindNm"
+        With UnitsCboColumn
+            .ValueMember = "UnitID"
+            .DisplayMember = "UnitNm"
             .DataSource = GetData()
         End With
     End Sub

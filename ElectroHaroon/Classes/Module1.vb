@@ -168,6 +168,7 @@ Module Module1
     End Function
     Public Sub formatDG(ByVal DG As DataGridView)
         With DG
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
             .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True

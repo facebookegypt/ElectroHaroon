@@ -936,67 +936,67 @@ Public Class PurOrdrs
         ItemsFrm.Activate()
     End Sub
     Private Sub TextBox8_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox8.KeyPress
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            Dim MyTable As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-            Dim MyTable1 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-            Dim Icol As DataColumn = New DataColumn With {.ColumnName = "IcolK", .DataType = GetType(Decimal), .[ReadOnly] = False,
-                .Caption = "سعر البيع"}
-            Dim Icol1 As DataColumn = New DataColumn With {.ColumnName = "IcolP", .DataType = GetType(Decimal), .[ReadOnly] = True}
-            Icol.DefaultValue = 0
-            MyTable1.Columns.AddRange({Icol, Icol1})
-            Dim SqlStr As String =
-                "Select Products.PID, Products.Pname, Products.Pdesc, Products.Pcost, Products.MinQ , Products.BarCode FROM Products " &
-                "WHERE Pname Like '%' & ? & '%' OR Pdesc LIKE '%' & ? & '%';"
-            Dim SqlStr1 As String = "SELECT * FROM Kinds;"
-            Using CN As OleDbConnection = New OleDbConnection(connectionstring),
-                    MyCmdStr As New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
-                    MyCmdStr1 As New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text},
-                    Da As OleDbDataAdapter = New OleDbDataAdapter(MyCmdStr),
-                    Da1 As OleDbDataAdapter = New OleDbDataAdapter(MyCmdStr1)
-                Da.SelectCommand.Parameters.AddWithValue("?", TextBox8.Text)
-                Da.SelectCommand.Parameters.AddWithValue("?", TextBox8.Text)
-                Try
-                    CN.Open()
-                    Da.Fill(MyTable)
-                    Da1.Fill(MyTable1)
-                Catch ex As OleDbException
-                    MsgBox("Error - Fetching" & vbCrLf & ex.Message)
-                    Exit Sub
-                End Try
-            End Using
-            With DGSells
-                .Columns.Clear()
-                .DataSource = New BindingSource(MyTable1.DefaultView, Nothing)
-                .Columns("KindID").Visible = False
-                .Columns("IcolP").Visible = False
-                .Columns("KindNm").HeaderText = "نوع"
-                .Columns("KindNm").ReadOnly = True
-                .Columns("IcolK").HeaderText = "سعر البيع"
-                .Columns("IcolK").DisplayIndex = 2
-                If Tempdt2.Columns.Count <> DGSells.Columns.Count Then
-                    For Each Col As DataGridViewColumn In DGSells.Columns
-                        With Tempdt2
-                            .Columns.Add(Col.Name, Col.ValueType)
-                        End With
-                    Next
-                End If
+        'If e.KeyChar = ChrW(Keys.Enter) Then
+        '    Dim MyTable As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        '    Dim MyTable1 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
+        '    Dim Icol As DataColumn = New DataColumn With {.ColumnName = "IcolK", .DataType = GetType(Decimal), .[ReadOnly] = False,
+        '        .Caption = "سعر البيع"}
+        '    Dim Icol1 As DataColumn = New DataColumn With {.ColumnName = "IcolP", .DataType = GetType(Decimal), .[ReadOnly] = True}
+        '    Icol.DefaultValue = 0
+        '    MyTable1.Columns.AddRange({Icol, Icol1})
+        '    Dim SqlStr As String =
+        '        "Select Products.PID, Products.Pname, Products.Pdesc, Products.Pcost, Products.MinQ , Products.BarCode FROM Products " &
+        '        "WHERE Pname Like '%' & ? & '%' OR Pdesc LIKE '%' & ? & '%';"
+        '    Dim SqlStr1 As String = "SELECT * FROM Kinds;"
+        '    Using CN As OleDbConnection = New OleDbConnection(connectionstring),
+        '            MyCmdStr As New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
+        '            MyCmdStr1 As New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text},
+        '            Da As OleDbDataAdapter = New OleDbDataAdapter(MyCmdStr),
+        '            Da1 As OleDbDataAdapter = New OleDbDataAdapter(MyCmdStr1)
+        '        Da.SelectCommand.Parameters.AddWithValue("?", TextBox8.Text)
+        '        Da.SelectCommand.Parameters.AddWithValue("?", TextBox8.Text)
+        '        Try
+        '            CN.Open()
+        '            Da.Fill(MyTable)
+        '            Da1.Fill(MyTable1)
+        '        Catch ex As OleDbException
+        '            MsgBox("Error - Fetching" & vbCrLf & ex.Message)
+        '            Exit Sub
+        '        End Try
+        '    End Using
+        '    With DGSells
+        '        .Columns.Clear()
+        '        .DataSource = New BindingSource(MyTable1.DefaultView, Nothing)
+        '        .Columns("KindID").Visible = False
+        '        .Columns("IcolP").Visible = False
+        '        .Columns("KindNm").HeaderText = "نوع"
+        '        .Columns("KindNm").ReadOnly = True
+        '        .Columns("IcolK").HeaderText = "سعر البيع"
+        '        .Columns("IcolK").DisplayIndex = 2
+        '        If Tempdt2.Columns.Count <> DGSells.Columns.Count Then
+        '            For Each Col As DataGridViewColumn In DGSells.Columns
+        '                With Tempdt2
+        '                    .Columns.Add(Col.Name, Col.ValueType)
+        '                End With
+        '            Next
+        '        End If
 
-            End With
+        '    End With
 
-            With DGReady
-                .Columns.Clear()
-                AddColumnsToDG(MyTable)
-                If .RowCount <= 0 Then Exit Sub
-                .ClearSelection()
-                .CurrentCell = DGReady.Item("Qnty", 0)
-                .BeginEdit(True)
-                If Tempdt1.Columns.Count <> DGReady.Columns.Count Then
-                    For Each column As DataGridViewColumn In .Columns
-                        Tempdt1.Columns.Add(column.Name, column.ValueType)
-                    Next
-                End If
-            End With
-        End If
+        '    With DGReady
+        '        .Columns.Clear()
+        '        AddColumnsToDG(MyTable)
+        '        If .RowCount <= 0 Then Exit Sub
+        '        .ClearSelection()
+        '        .CurrentCell = DGReady.Item("Qnty", 0)
+        '        .BeginEdit(True)
+        '        If Tempdt1.Columns.Count <> DGReady.Columns.Count Then
+        '            For Each column As DataGridViewColumn In .Columns
+        '                Tempdt1.Columns.Add(column.Name, column.ValueType)
+        '            Next
+        '        End If
+        '    End With
+        'End If
     End Sub
     Private Sub PurOrdrs_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.F5 Then
@@ -1006,5 +1006,40 @@ Public Class PurOrdrs
 
     Private Sub Pno1_DoubleClick(sender As Object, e As EventArgs) Handles Pno1.DoubleClick
         Pno1.ReadOnly = False
+    End Sub
+
+    Private Sub TextBox8_GotFocus(sender As Object, e As EventArgs) Handles TextBox8.GotFocus
+        'LOAD Datatable
+        Dim Oitems As New Items
+        MySrch = New DataTable
+        MySrch = Oitems.GetData
+        BS2 = New BindingSource
+        BS2.DataSource = MySrch
+        Dim TblUnits As New Units
+        TblUnits.BindDGColumn(DG1)
+        Dim TblStores As New Stores
+
+    End Sub
+    Private MySrch As DataTable, BS2 As BindingSource
+    Private Sub TextBox8_KeyUp(sender As Object, e As KeyEventArgs) Handles TextBox8.KeyUp
+        If e.Control OrElse
+            e.Shift OrElse
+            e.Alt OrElse
+            e.KeyCode = Keys.Escape OrElse
+            e.KeyCode = Keys.Delete Then
+            e.Handled = True
+            Exit Sub
+        End If
+        Try
+            Dim Filter As String = "Pname LIKE '%" & TextBox8.Text & "%'"
+            BS2.Filter = Filter
+            With DG1
+                .AutoGenerateColumns = False
+                .DataSource = BS2
+                formatDG(DG1)
+            End With
+        Catch ex As Exception
+            MsgBox("عملية غير صحيحة : " & ex.Message)
+        End Try
     End Sub
 End Class

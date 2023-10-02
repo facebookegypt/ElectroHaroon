@@ -25,13 +25,13 @@ Partial Class MainF
         Me.lblSt = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.B10 = New System.Windows.Forms.Button()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Button5 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button9 = New System.Windows.Forms.Button()
         Me.Button8 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -54,7 +54,7 @@ Partial Class MainF
         Me.Button6.Name = "Button6"
         Me.Button6.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Button6.Size = New System.Drawing.Size(185, 190)
-        Me.Button6.TabIndex = 12
+        Me.Button6.TabIndex = 8
         Me.Button6.Text = "الخروج"
         Me.Button6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.Button6.UseCompatibleTextRendering = True
@@ -114,7 +114,7 @@ Partial Class MainF
         Me.B10.Name = "B10"
         Me.B10.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.B10.Size = New System.Drawing.Size(185, 190)
-        Me.B10.TabIndex = 71
+        Me.B10.TabIndex = 7
         Me.B10.Text = "الاعدادات"
         Me.B10.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.B10.UseCompatibleTextRendering = True
@@ -139,7 +139,7 @@ Partial Class MainF
         Me.Button5.Name = "Button5"
         Me.Button5.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Button5.Size = New System.Drawing.Size(185, 190)
-        Me.Button5.TabIndex = 70
+        Me.Button5.TabIndex = 6
         Me.Button5.Text = "النقدية"
         Me.Button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.Button5.UseCompatibleTextRendering = True
@@ -164,7 +164,7 @@ Partial Class MainF
         Me.Button7.Name = "Button7"
         Me.Button7.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Button7.Size = New System.Drawing.Size(185, 190)
-        Me.Button7.TabIndex = 69
+        Me.Button7.TabIndex = 4
         Me.Button7.Text = "المبيعات"
         Me.Button7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.Button7.UseCompatibleTextRendering = True
@@ -189,7 +189,7 @@ Partial Class MainF
         Me.Button1.Name = "Button1"
         Me.Button1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Button1.Size = New System.Drawing.Size(185, 190)
-        Me.Button1.TabIndex = 68
+        Me.Button1.TabIndex = 3
         Me.Button1.Text = "المشتريات"
         Me.Button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.Button1.UseCompatibleTextRendering = True
@@ -214,7 +214,7 @@ Partial Class MainF
         Me.Button9.Name = "Button9"
         Me.Button9.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Button9.Size = New System.Drawing.Size(185, 190)
-        Me.Button9.TabIndex = 67
+        Me.Button9.TabIndex = 5
         Me.Button9.Text = "المخازن"
         Me.Button9.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.Button9.UseCompatibleTextRendering = True
@@ -239,7 +239,7 @@ Partial Class MainF
         Me.Button8.Name = "Button8"
         Me.Button8.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Button8.Size = New System.Drawing.Size(185, 190)
-        Me.Button8.TabIndex = 66
+        Me.Button8.TabIndex = 2
         Me.Button8.Text = "العملاء"
         Me.Button8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.Button8.UseCompatibleTextRendering = True
@@ -264,11 +264,14 @@ Partial Class MainF
         Me.Button2.Name = "Button2"
         Me.Button2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Button2.Size = New System.Drawing.Size(185, 190)
-        Me.Button2.TabIndex = 65
+        Me.Button2.TabIndex = 1
         Me.Button2.Text = " الموردين"
         Me.Button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         Me.Button2.UseCompatibleTextRendering = True
         Me.Button2.UseVisualStyleBackColor = False
+        '
+        'Timer1
+        '
         '
         'MainF
         '
