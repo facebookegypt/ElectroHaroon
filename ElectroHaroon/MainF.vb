@@ -27,8 +27,8 @@ Public Class MainF
                 Dim MyAccDB As New Microsoft.Office.Interop.Access.Dao.DBEngine
                 Try
                     MyAccDB.CompactDatabase(OriginalDB,
-                                    ThisBackPath & "backup" & RandomString() & ".accdb.bak", , ,
-                                    ";pwd=" & Cryp.DecryptData(My.Settings.DatabasePass))
+                                    ThisBackPath & "backup" & GenerateRandomString() & ".accdb.bak", , ,
+                                    ";pwd=" & Cryp.DecryptData(My.Settings.DataBasePass))
                 Catch ex As Exception
                     MsgBox("Error : " & ex.Message)
                 End Try

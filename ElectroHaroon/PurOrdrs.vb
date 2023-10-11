@@ -1,4 +1,6 @@
 ﻿Imports System.Data.OleDb
+Imports ElectroHaroon.Pur_Sell_Ordrs
+
 Public Class PurOrdrs
     Private Ops As New DataOperations
     Private ConnectionString = Ops.GetEncryConStr
@@ -81,112 +83,6 @@ Public Class PurOrdrs
             .Columns("KindID").Visible = False
         End With
     End Sub
-    Sub LoadComboT()
-        ComboItemsT.Clear()
-        Dim SqlStrT As String = "SELECT * FROM PayTypes;"
-        Using CN As OleDbConnection = New OleDbConnection(connectionstring),
-                CMDTypes As OleDbCommand = New OleDbCommand(SqlStrT, CN) With {.CommandType = CommandType.Text}
-            Try
-                CN.Open()
-                Using TypReadr As OleDbDataReader = CMDTypes.ExecuteReader
-                    If TypReadr.HasRows Then
-                        While TypReadr.Read
-                            ComboItemsT.Add(TypReadr.GetInt32(0), TypReadr.GetString(1))
-                        End While
-                    Else
-                        Exit Sub
-                    End If
-                End Using
-            Catch ex As OleDbException
-                MsgBox(ex.Message)
-            End Try
-        End Using
-    End Sub
-    Sub LoadComboV()
-        ComboItemsV.Clear()
-        Dim SqlStrv As String = "SELECT * FROM Vendors;"
-        Using CN As OleDbConnection = New OleDbConnection(connectionstring),
-                cmdVendors As OleDbCommand = New OleDbCommand(SqlStrv, CN) With {.CommandType = CommandType.Text}
-            Try
-                CN.Open()
-                Using VendReadr As OleDbDataReader = cmdVendors.ExecuteReader
-                    If VendReadr.HasRows Then
-                        While VendReadr.Read
-                            ComboItemsV.Add(VendReadr.GetInt32(0), VendReadr.GetString(1))
-                        End While
-                    Else
-                        Exit Sub
-                    End If
-                End Using
-            Catch ex As OleDbException
-                MsgBox(ex.Message)
-            End Try
-        End Using
-    End Sub
-    Sub LoadComboU()
-        ComboItemsU.Clear()
-        Dim SqlStrU As String = "SELECT * FROM Units;"
-        Using CN As OleDbConnection = New OleDbConnection(connectionstring),
-               CmdUnits As OleDbCommand = New OleDbCommand(SqlStrU, CN) With {.CommandType = CommandType.Text}
-            Try
-                CN.Open()
-                Using UReadr As OleDbDataReader = CmdUnits.ExecuteReader
-                    If UReadr.HasRows Then
-                        While UReadr.Read
-                            ComboItemsU.Add(UReadr.GetInt32(0), UReadr.GetString(1))
-                        End While
-                    Else
-                        Exit Sub
-                    End If
-                End Using
-            Catch ex As OleDbException
-                MsgBox(ex.Message)
-            End Try
-        End Using
-    End Sub
-    Sub LoadComboS()
-        ComboItemsS.Clear()
-        Dim SqlStrs As String = "SELECT * FROM Stores;"
-        Using CN As OleDbConnection = New OleDbConnection(connectionstring),
-               cmdStores As OleDbCommand = New OleDbCommand(SqlStrs, CN) With {.CommandType = CommandType.Text}
-            Try
-                CN.Open()
-                Using SReadr As OleDbDataReader = cmdStores.ExecuteReader
-                    If SReadr.HasRows Then
-                        While SReadr.Read
-                            ComboItemsS.Add(SReadr.GetInt32(0), SReadr.GetString(1))
-                        End While
-                    Else
-                        Exit Sub
-                    End If
-                End Using
-            Catch ex As OleDbException
-                MsgBox(ex.Message)
-            End Try
-        End Using
-    End Sub
-    Sub LoadComboK()
-        ComboItemsK.Clear()
-        Dim SqlStrk As String = "SELECT * FROM Kinds;"
-        Using CN As OleDbConnection = New OleDbConnection(connectionstring),
-                cmdkiNds As OleDbCommand = New OleDbCommand(SqlStrk, CN) With {.CommandType = CommandType.Text}
-            Try
-                CN.Open()
-                Using KReadr As OleDbDataReader = cmdkiNds.ExecuteReader
-                    If KReadr.HasRows Then
-                        While KReadr.Read
-                            ComboItemsK.Add(KReadr.GetInt32(0), KReadr.GetString(1))
-                        End While
-                    Else
-                        Exit Sub
-                    End If
-                End Using
-            Catch ex As OleDbException
-                MsgBox("Combo Units : " & ex.Message)
-                Exit Sub
-            End Try
-        End Using
-    End Sub
     Private Sub AddColumnsToDG(MyTable As DataTable)
         If DGReady.DataSource Is MyTable Then Exit Sub
         If ComboItemsS.Count <= 0 Or ComboItemsU.Count <= 0 Then
@@ -196,12 +92,12 @@ Public Class PurOrdrs
             Basics.ShowDialog()
             Exit Sub
         End If
-        LoadComboU()
+        'LoadComboU()
         Dim Icol0 As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn With {
                     .Name = "Units", .HeaderText = "الوحدة", .AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
             .ValueType = GetType(String), .[ReadOnly] = False, .Visible = True, .FlatStyle = FlatStyle.Standard, .ValueMember = "Key",
             .DisplayMember = "Value", .DataSource = New BindingSource(ComboItemsU, Nothing)}
-        LoadComboS()
+        'LoadComboS()
         Dim Icol4 As DataGridViewComboBoxColumn = New DataGridViewComboBoxColumn With {
             .Name = "Stores", .HeaderText = "المخزن", .AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
             .ValueType = GetType(String), .[ReadOnly] = False, .Visible = True, .FlatStyle = FlatStyle.Standard, .ValueMember = "Key",
@@ -238,25 +134,25 @@ Public Class PurOrdrs
     End Sub
     Private Sub PurOrdrs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
-        LoadComboV()
-        With ComboBox2
-            .BeginUpdate()
-            .DisplayMember = "Value"
-            .ValueMember = "Key"
-            .DataSource = New BindingSource(ComboItemsV, Nothing)
-            .SelectedIndex = -1
-            .EndUpdate()
-        End With
-        Application.DoEvents()
-        LoadComboT()
-        With ComboBox1
-            .BeginUpdate()
-            .DisplayMember = "Value"
-            .ValueMember = "Key"
-            .DataSource = New BindingSource(ComboItemsT, Nothing)
-            .SelectedIndex = -1
-            .EndUpdate()
-        End With
+        'LoadComboV()
+        'With ComboBox2
+        ' .BeginUpdate()
+        ' .DisplayMember = "Value"
+        ' .ValueMember = "Key"
+        ' .DataSource = New BindingSource(ComboItemsV, Nothing)
+        ' .SelectedIndex = -1
+        '.EndUpdate()
+        'End With
+        'Application.DoEvents()
+        'LoadComboT()
+        'With ComboBox1
+        ' .BeginUpdate()
+        ' .DisplayMember = "Value"
+        ' .ValueMember = "Key"
+        ' .DataSource = New BindingSource(ComboItemsT, Nothing)
+        ' .SelectedIndex = -1
+        ' .EndUpdate()
+        ' End With
         DTP1.Value = Now
         DGReady = New DataGridView With
             {
@@ -287,7 +183,7 @@ Public Class PurOrdrs
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         End With
-        GroupBox1.Controls.Add(DGReady)
+        'GroupBox1.Controls.Add(DGReady)
         AddHandler DGReady.CellFormatting, AddressOf DGReady_CellFormatting
         AddHandler DGReady.DataError, AddressOf DGReady_DataError
         AddHandler DGReady.CurrentCellDirtyStateChanged, AddressOf DGready_CurrentCellDirtyStateChanged
@@ -326,7 +222,7 @@ Public Class PurOrdrs
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         End With
-        GroupBox2.Controls.Add(DGSells)
+        'GroupBox2.Controls.Add(DGSells)
         AddHandler DGSells.CellFormatting, AddressOf DGSells_CellFormatting
         AddHandler DGSells.DataError, AddressOf DGSells_DataError
         AddHandler DGSells.CellEndEdit, AddressOf DGSells_CellEndEdit
@@ -564,32 +460,46 @@ Public Class PurOrdrs
         MnuSavePO.Enabled = True
     End Sub
     Private Sub NewMnuPO_Click(sender As Object, e As EventArgs) Handles NewMnuPO.Click
+        'LOAD Datatable
+        Dim Iunits As New Units
+        Iunits.BindDGColumnUnits(DG1)
+        Dim Istores As New Stores
+        Istores.BindDGColumnStores(DG1)
+        Dim OItems As New CombinedData()
+        MySrch = New DataTable
+        MySrch = OItems.GetDataItems()
+        Dim DTcQin As DataColumn, DTCbuyPr As DataColumn, DTCtotal As DataColumn
+        DTcQin = New DataColumn With
+            {.ColumnName = "QntyIn", .DataType = GetType(Integer), .DefaultValue = 1}
+        DTCbuyPr = New DataColumn With
+            {.ColumnName = "PBuyPrice", .DataType = GetType(Double), .DefaultValue = 1.0}
+        DTCtotal = New DataColumn With
+            {.ColumnName = "Total", .DataType = GetType(Double), .DefaultValue = 1.0, .Expression = "QntyIn*PBuyPrice", .ReadOnly = True}
+        MySrch.Columns.AddRange({DTcQin, DTCbuyPr, DTCtotal})
+        BS2 = New BindingSource
+        BS2.DataSource = MySrch
+
         Pno1.ReadOnly = False
-        TextBox2.Text = 0
-        TextBox3.Text = 0
-        TextBox4.Text = 0
-        TextBox5.Text = 0
-        TextBox6.Text = 0
-        LoadComboK()
-        LoadComboS()
-        LoadComboU()
-        TextBox1.Text = 0
-        ComboBox1.SelectedIndex = 0
-        ComboBox2.SelectedIndex = 0
-        TextBox2.Text = 0
-        TextBox3.Text = 0
-        TextBox4.Text = 0
-        TextBox5.Text = 0
-        TextBox6.Text = 0
-        TextBox9.Text = 0
-        TextBox7.Text = "لا يوجد"
-        Tempdt1.Clear()
-        Tempdt2.Clear()
-        POVal = 0.0
-        TCounter = 0
         Pno1.Text = String.Empty
-        TextBox8.Select()
-        TextBox8.SelectAll()
+        ComboBox2.SelectedIndex = -1
+        ComboBox1.SelectedIndex = -1
+        Button1.Enabled = True
+
+        TextBox2.Text = 0.00.ToString("C2")
+        TextBox3.Text = 0.00.ToString("C2")
+        TextBox4.Text = 0.00.ToString("C2")
+        TextBox5.Text = 0.00.ToString("C2")
+        TextBox6.Text = 0.00.ToString("C2")
+
+        TextBox1.Text = 0.ToString
+        TextBox9.Text = 0.ToString
+        TextBox7.Text = "لا يوجد"
+        TextBox8.Text = String.Empty
+
+        'Tempdt1.Clear()
+        'Tempdt2.Clear()
+        POVal = 0.00
+        TCounter = 0
     End Sub
     Private Sub MnuSavePO_Click(sender As Object, e As EventArgs) Handles MnuSavePO.Click
         If DGReady.RowCount <= 0 Then
@@ -737,16 +647,27 @@ Public Class PurOrdrs
         Return listID(0)
     End Function
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        'Open Vendors Form
+        Dim FOs = My.Application.OpenForms
+        For Each Fo As Form In FOs
+            If Fo.Name.Equals("Vndrs") Then
+                Fo.BringToFront()
+                Fo.Activate()
+                Exit Sub
+            End If
+        Next
+        PreForm = Me
+        Dim Vnds As New Vndrs
         Vndrs.ShowDialog()
-        LoadComboV()
-        With ComboBox2
-            .BeginUpdate()
-            .DisplayMember = "Value"    'VenID
-            .ValueMember = "Key"    'VName
-            .DataSource = New BindingSource(ComboItemsV, Nothing)
-            .SelectedIndex = -1
-            .EndUpdate()
-        End With
+        'LoadComboV()
+        'With ComboBox2
+        ' .BeginUpdate()
+        ' .DisplayMember = "Value"    'VenID
+        ''.ValueMember = "Key"    'VName
+        ' .DataSource = New BindingSource(ComboItemsV, Nothing)
+        ' .SelectedIndex = -1
+        ' .EndUpdate()
+        ' End With
     End Sub
     Private Sub PurOrdrs_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -774,17 +695,18 @@ Public Class PurOrdrs
         End If
     End Sub
     Private Sub MnuPayTypes_Click(sender As Object, e As EventArgs) Handles MnuPayTypes.Click
-        Basics.TargetForm = "PayTypes"
-        Basics.ShowDialog()
-        LoadComboT()
-        With ComboBox1
-            .BeginUpdate()
-            .DisplayMember = "Value"
-            .ValueMember = "Key"
-            .DataSource = New BindingSource(ComboItemsT, Nothing)
-            .SelectedIndex = -1
-            .EndUpdate()
-        End With
+        Dim FOs = My.Application.OpenForms
+        For Each Fo As Form In FOs
+            If Fo.Name.Equals("Basics") Then
+                Fo.BringToFront()
+                Fo.Activate()
+                Exit Sub
+            End If
+        Next
+        PreForm = Me
+        Dim UnitFrm As New Basics
+        UnitFrm.TargetForm = "PayTypes"
+        UnitFrm.Show(Me)
     End Sub
     Private Sub Label18_Click(sender As Object, e As EventArgs) Handles Label18.Click
         Location = New Point(0, 0)
@@ -827,9 +749,18 @@ Public Class PurOrdrs
         End Using
     End Sub
     Private Sub ToolStripMenuItem12_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem12.Click
-        Basics.TargetForm = "Units"
-        Basics.ShowDialog()
-        LoadComboU()
+        Dim FOs = My.Application.OpenForms
+        For Each Fo As Form In FOs
+            If Fo.Name.Equals("Basics") Then
+                Fo.BringToFront()
+                Fo.Activate()
+                Exit Sub
+            End If
+        Next
+        PreForm = Me
+        Dim UnitFrm As New Basics
+        UnitFrm.TargetForm = "Units"
+        UnitFrm.ShowDialog()
     End Sub
     Private Sub MnuPrint_Click(sender As Object, e As EventArgs) Handles MnuPrint.Click
         If Pno1.Text = String.Empty Then Exit Sub
@@ -882,36 +813,38 @@ Public Class PurOrdrs
             End Try
         End Using
     End Sub
-
-    Private Sub MenuStrip2_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip2.ItemClicked
-
-    End Sub
-
-    Private Sub Pno1_TextChanged(sender As Object, e As EventArgs) Handles Pno1.TextChanged
-
-    End Sub
-
-    Private Sub TextBox8_TextChanged(sender As Object, e As EventArgs) Handles TextBox8.TextChanged
-
-    End Sub
-
-    Private Sub TextBox3_TextChanged(sender As Object, e As EventArgs) Handles TextBox3.TextChanged
-
-    End Sub
-
     Private Sub ToolStripMenuItem13_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem13.Click
-        Basics.TargetForm = "Stores"
-        Basics.ShowDialog()
-        LoadComboS()
+        Dim FOs = My.Application.OpenForms
+        For Each Fo As Form In FOs
+            If Fo.Name.Equals("Basics") Then
+                Fo.BringToFront()
+                Fo.Activate()
+                Exit Sub
+            End If
+        Next
+        PreForm = Me
+        Dim UnitFrm As New Basics
+        UnitFrm.TargetForm = "Stores"
+        UnitFrm.ShowDialog()
     End Sub
     Private Sub ToolStripMenuItem14_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem14.Click
-        Basics.TargetForm = "Kinds"
-        Basics.ShowDialog()
-        LoadComboK()
+        Dim FOs = My.Application.OpenForms
+        For Each Fo As Form In FOs
+            If Fo.Name.Equals("Basics") Then
+                Fo.BringToFront()
+                Fo.Activate()
+                Exit Sub
+            End If
+        Next
+        PreForm = Me
+        Dim UnitFrm As New Basics
+        UnitFrm.TargetForm = "Kinds"
+        UnitFrm.ShowDialog()
     End Sub
     Private Sub TextBox6_Click(sender As Object, e As EventArgs) Handles TextBox6.Click
         TextBox6.SelectAll()
     End Sub
+
     Private Sub TextBox6_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox6.KeyPress
         e.Handled = Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = "." Or (e.KeyChar) = ChrW(Keys.Back))
         If e.KeyChar = ChrW(Keys.Enter) Then
@@ -921,6 +854,11 @@ Public Class PurOrdrs
             TextBox6.Text = FormatCurrency(DisPaid, 2)
         End If
     End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+
+    End Sub
+
     Private Sub TextBox8_Click(sender As Object, e As EventArgs) Handles TextBox8.Click
         TextBox8.SelectAll()
     End Sub
@@ -935,111 +873,206 @@ Public Class PurOrdrs
     Private Sub PurOrdrs_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         ItemsFrm.Activate()
     End Sub
-    Private Sub TextBox8_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox8.KeyPress
-        'If e.KeyChar = ChrW(Keys.Enter) Then
-        '    Dim MyTable As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-        '    Dim MyTable1 As DataTable = New DataTable With {.Locale = Globalization.CultureInfo.InvariantCulture}
-        '    Dim Icol As DataColumn = New DataColumn With {.ColumnName = "IcolK", .DataType = GetType(Decimal), .[ReadOnly] = False,
-        '        .Caption = "سعر البيع"}
-        '    Dim Icol1 As DataColumn = New DataColumn With {.ColumnName = "IcolP", .DataType = GetType(Decimal), .[ReadOnly] = True}
-        '    Icol.DefaultValue = 0
-        '    MyTable1.Columns.AddRange({Icol, Icol1})
-        '    Dim SqlStr As String =
-        '        "Select Products.PID, Products.Pname, Products.Pdesc, Products.Pcost, Products.MinQ , Products.BarCode FROM Products " &
-        '        "WHERE Pname Like '%' & ? & '%' OR Pdesc LIKE '%' & ? & '%';"
-        '    Dim SqlStr1 As String = "SELECT * FROM Kinds;"
-        '    Using CN As OleDbConnection = New OleDbConnection(connectionstring),
-        '            MyCmdStr As New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text},
-        '            MyCmdStr1 As New OleDbCommand(SqlStr1, CN) With {.CommandType = CommandType.Text},
-        '            Da As OleDbDataAdapter = New OleDbDataAdapter(MyCmdStr),
-        '            Da1 As OleDbDataAdapter = New OleDbDataAdapter(MyCmdStr1)
-        '        Da.SelectCommand.Parameters.AddWithValue("?", TextBox8.Text)
-        '        Da.SelectCommand.Parameters.AddWithValue("?", TextBox8.Text)
-        '        Try
-        '            CN.Open()
-        '            Da.Fill(MyTable)
-        '            Da1.Fill(MyTable1)
-        '        Catch ex As OleDbException
-        '            MsgBox("Error - Fetching" & vbCrLf & ex.Message)
-        '            Exit Sub
-        '        End Try
-        '    End Using
-        '    With DGSells
-        '        .Columns.Clear()
-        '        .DataSource = New BindingSource(MyTable1.DefaultView, Nothing)
-        '        .Columns("KindID").Visible = False
-        '        .Columns("IcolP").Visible = False
-        '        .Columns("KindNm").HeaderText = "نوع"
-        '        .Columns("KindNm").ReadOnly = True
-        '        .Columns("IcolK").HeaderText = "سعر البيع"
-        '        .Columns("IcolK").DisplayIndex = 2
-        '        If Tempdt2.Columns.Count <> DGSells.Columns.Count Then
-        '            For Each Col As DataGridViewColumn In DGSells.Columns
-        '                With Tempdt2
-        '                    .Columns.Add(Col.Name, Col.ValueType)
-        '                End With
-        '            Next
-        '        End If
-
-        '    End With
-
-        '    With DGReady
-        '        .Columns.Clear()
-        '        AddColumnsToDG(MyTable)
-        '        If .RowCount <= 0 Then Exit Sub
-        '        .ClearSelection()
-        '        .CurrentCell = DGReady.Item("Qnty", 0)
-        '        .BeginEdit(True)
-        '        If Tempdt1.Columns.Count <> DGReady.Columns.Count Then
-        '            For Each column As DataGridViewColumn In .Columns
-        '                Tempdt1.Columns.Add(column.Name, column.ValueType)
-        '            Next
-        '        End If
-        '    End With
-        'End If
+    Private Sub Pno1_DoubleClick(sender As Object, e As EventArgs) Handles Pno1.DoubleClick
+        Pno1.ReadOnly = False
     End Sub
+#Region "Search Items"
+    Private MySrch As DataTable, BS2 As BindingSource
+    Private Sub TextBox8_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox8.KeyDown
+        'Activated the datagridview on Enter
+        If e.KeyCode = Keys.Enter Then
+            DG1.Select()
+            DG1.CurrentCell = DG1.FirstDisplayedCell
+        End If
+    End Sub
+    Private Sub TextBox8_TextChanged(sender As Object, e As EventArgs) Handles TextBox8.TextChanged
+
+    End Sub
+    Private Sub TextBox8_GotFocus(sender As Object, e As EventArgs) Handles TextBox8.GotFocus
+
+    End Sub
+    Private Sub TextBox8_KeyUp(sender As Object, e As KeyEventArgs) Handles TextBox8.KeyUp
+        Try
+            If String.IsNullOrEmpty(TextBox8.Text) Then
+                DG1.AutoGenerateColumns = True
+                DG1.DataSource = Nothing
+                Exit Sub
+            End If
+            Dim Filter As String =
+                "Pname LIKE '%" & TextBox8.Text & "%'"
+            BS2.Filter = Filter
+            With DG1
+                .AutoGenerateColumns = True
+                .DataSource = BS2
+
+                .Columns("PID").Visible = False
+
+                .Columns("QntyIn").HeaderText = "الكمية"
+                .Columns("QntyIn").ReadOnly = True
+                .Columns("QntyIn").DisplayIndex = 3
+
+                .Columns("PBuyPrice").HeaderText = "سعر الشراء"
+                .Columns("PBuyPrice").DefaultCellStyle.NullValue = 0.00.ToString("C2")
+                .Columns("PBuyPrice").DefaultCellStyle.Format = "C2"
+                .Columns("PBuyPrice").ReadOnly = True
+                .Columns("PBuyPrice").DisplayIndex = 4
+
+                .Columns("Total").HeaderText = "الاجمالي"
+                .Columns("Total").DefaultCellStyle.Format = "C2"
+                .Columns("Total").ReadOnly = True
+                .Columns("Total").DisplayIndex = 5
+
+            End With
+        Catch ex As Exception
+            TextBox7.Text = ("عملية غير صحيحة : ") & ex.Message
+        End Try
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If IsNothing(ComboBox2.SelectedItem) OrElse
+                IsNothing(ComboBox1.SelectedItem) Then
+            MsgBox("اسم المورد و طريقة الدفع")
+            Exit Sub
+        End If
+        Dim NewPO As New PO_Details With
+        {
+        .PMID = CInt(ComboBox1.SelectedValue.ToString),
+        .PODate = DTP1.Value,
+        .VendID = CInt(ComboBox2.SelectedValue.ToString),
+        .PONotes = TextBox7.Text
+        }
+        Try
+            Dim SavedPO = NewPO.SaveNewPO.ToString
+            Pno1.Text = SavedPO
+            Pno1.ReadOnly = True
+            Button1.Enabled = False
+            TextBox8.ReadOnly = False
+            TextBox8.Focus()
+            Label12.Text = "اضافة اصناف لأمر الشراء رقم " & Pno1.Text
+        Catch ex As Exception
+            Label12.Text = "مشكلة في انشاء أمر شراء جديد"
+            Pno1.ReadOnly = False
+            Button1.Enabled = True
+            TextBox8.ReadOnly = True
+        End Try
+
+    End Sub
+
+    Private Sub ToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem4.Click
+
+    End Sub
+
     Private Sub PurOrdrs_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.F5 Then
             Call Label15_Click(sender, e)
         End If
-    End Sub
-
-    Private Sub Pno1_DoubleClick(sender As Object, e As EventArgs) Handles Pno1.DoubleClick
-        Pno1.ReadOnly = False
-    End Sub
-
-    Private Sub TextBox8_GotFocus(sender As Object, e As EventArgs) Handles TextBox8.GotFocus
-        'LOAD Datatable
-        Dim Oitems As New Items
-        MySrch = New DataTable
-        MySrch = Oitems.GetData
-        BS2 = New BindingSource
-        BS2.DataSource = MySrch
-        Dim TblUnits As New Units
-        TblUnits.BindDGColumn(DG1)
-        Dim TblStores As New Stores
-
-    End Sub
-    Private MySrch As DataTable, BS2 As BindingSource
-    Private Sub TextBox8_KeyUp(sender As Object, e As KeyEventArgs) Handles TextBox8.KeyUp
-        If e.Control OrElse
-            e.Shift OrElse
-            e.Alt OrElse
-            e.KeyCode = Keys.Escape OrElse
-            e.KeyCode = Keys.Delete Then
-            e.Handled = True
-            Exit Sub
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            TextBox8.Focus()
+            TextBox8.SelectAll()
         End If
-        Try
-            Dim Filter As String = "Pname LIKE '%" & TextBox8.Text & "%'"
-            BS2.Filter = Filter
-            With DG1
-                .AutoGenerateColumns = False
-                .DataSource = BS2
-                formatDG(DG1)
-            End With
-        Catch ex As Exception
-            MsgBox("عملية غير صحيحة : " & ex.Message)
-        End Try
     End Sub
+
+#End Region
+    Private Sub ComboBox2_DropDown(sender As Object, e As EventArgs) Handles ComboBox2.DropDown
+        'Load Vendors
+        Dim CC As New CombinedData() With {.Key_ID = "VenID", .Val_Nm = "VendNm", .Tbl_Nm = "Vendors"}
+        Dim Btbl As DataTable = CC.GetData()
+        With ComboBox2
+            .DataSource = Btbl
+            .DisplayMember = "VendNm"
+            .ValueMember = "VenID"
+        End With
+    End Sub
+    Private Sub ComboBox1_DropDown(sender As Object, e As EventArgs) Handles ComboBox1.DropDown
+        'Load PayTypes
+        Dim CC As New CombinedData() With {.Key_ID = "PTID", .Val_Nm = "PTNm", .Tbl_Nm = "PayTypes"}
+        Dim Btbl As DataTable = CC.GetData()
+        With ComboBox1
+            .DataSource = Btbl
+            .DisplayMember = "PTNm"
+            .ValueMember = "PTID"
+        End With
+    End Sub
+    Private Sub PurOrdrs_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        'Format DataGridView
+        TextBox8.ReadOnly = True
+        formatDG(DG1)
+        DG1.Columns("Units").ValueType = GetType(Integer)
+        DG1.Columns("Stores").ValueType = GetType(Integer)
+        DG1.MultiSelect = False
+        DG1.StandardTab = True
+    End Sub
+
+    Private Sub DG1_KeyDown(sender As Object, e As KeyEventArgs) Handles DG1.KeyDown
+        ' If e.KeyCode = Keys.F1 Then
+        'CType(DG1.CurrentRow.Cells("Units"), DataGridViewComboBoxCell).Value = 1
+        'End If
+        If e.KeyCode = Keys.Enter Then
+            e.Handled = True
+            SendKeys.Send("{LEFT}")
+        End If
+    End Sub
+    Private Sub DG1_CurrentCellDirtyStateChanged(sender As Object, e As EventArgs) Handles DG1.CurrentCellDirtyStateChanged
+        RemoveHandler DG1.CurrentCellDirtyStateChanged, AddressOf DG1_CurrentCellDirtyStateChanged
+        If TypeOf DG1.CurrentCell Is DataGridViewCheckBoxCell Then
+            DG1.EndEdit()
+            Dim Currentrow As DataGridViewRow = DG1.CurrentRow
+            Dim Checked As Boolean = CType(DG1.CurrentCell.Value, Boolean)
+            'If Checked Then
+            For Each Cell As DataGridViewCell In Currentrow.Cells
+                Try
+                    If Not TypeOf Cell Is DataGridViewCheckBoxCell Then
+                        With Currentrow
+                            .Cells("QntyIn").ReadOnly = Not Checked
+                            .Cells("PBuyPrice").ReadOnly = Not Checked
+                            .Cells("Units").ReadOnly = Not Checked
+                            .Cells("Stores").ReadOnly = Not Checked
+                        End With
+                    End If
+                Catch ex As Exception
+                    Exit For
+                    MsgBox(ex.Message)
+                End Try
+            Next
+            DG1.InvalidateCell(DG1.CurrentCell)
+        End If
+        AddHandler DG1.CurrentCellDirtyStateChanged, AddressOf DG1_CurrentCellDirtyStateChanged
+    End Sub
+#Region "Manage DatagridviewComboboxcell click"
+    Private Sub DG1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DG1.EditingControlShowing
+        If TypeOf e.Control Is DataGridViewComboBoxEditingControl Then
+            Dim cmb As ComboBox = CType(e.Control, ComboBox)
+            If cmb.Items.Count <= 1 Then
+                cmb.SelectedValue = 0
+                cmb.EndUpdate()
+                Exit Sub
+            End If
+            RemoveHandler cmb.SelectionChangeCommitted, AddressOf cmb_SelectionChangeCommitted
+            AddHandler cmb.SelectionChangeCommitted, AddressOf cmb_SelectionChangeCommitted
+        End If
+    End Sub
+    Private Sub cmb_SelectionChangeCommitted(sender As Object, e As EventArgs)
+        Dim cmb As ComboBox = CType(sender, ComboBox)
+        DG1.CurrentCell.Value = CType(sender, DataGridViewComboBoxEditingControl).EditingControlFormattedValue
+    End Sub
+#End Region
+#Region "to disable Enter key after edit use events CellEndEdit and SelectionChanged"
+    Private Sub Label19_Click(sender As Object, e As EventArgs) Handles Label19.Click
+        Dim dt As DataTable = New DataTable()
+        DG1.Columns("Chk").ValueType = Type.GetType("System.Boolean")
+        For Each column As DataGridViewColumn In DG1.Columns
+            dt.Columns.Add(column.Name, column.ValueType)
+        Next
+        For i As Integer = 0 To DG1.RowCount - 1
+            If DG1.Rows(i).Cells("Chk").Value = True Then
+                dt.Rows.Add()
+                For j As Integer = 1 To DG1.ColumnCount - 1
+                    dt.Rows(i)("d") = True
+
+                    dt.Rows(i)(j) = DG1.Rows(i).Cells(j).Value.ToString
+                Next
+            End If
+        Next
+    End Sub
+#End Region
 End Class

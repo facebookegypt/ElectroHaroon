@@ -36,6 +36,8 @@ Public Class Kinds
         'Tells the combobox which column in the bound data is the value to save in the database
         'and which column is the value to display to the user.
         With KindsCboColumn
+            .DataPropertyName = "Kinds"
+            KindsCboColumn.DefaultCellStyle.NullValue = "اختر الوحدة"
             .ValueMember = "KindID"
             .DisplayMember = "KindNm"
             .DataSource = GetData()

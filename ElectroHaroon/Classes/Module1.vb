@@ -89,15 +89,6 @@ Module Module1
             MsgBox(ex.Message)
         End Try
     End Sub
-    Public Function RandomString() As String
-        Dim r As Random = New Random(15)
-        Dim s As String = Guid.NewGuid.ToString
-        Try
-            Return s.Substring(r.Next(1, s.Length - 1), 8)
-        Catch ex As Exception
-            Return s.Substring(r.Next(2, s.Length - 2), 9)
-        End Try
-    End Function
     Public Function GetMSProvider() As List(Of String)
         Dim Providers = New List(Of String)
         Dim provider = String.Empty
@@ -168,7 +159,10 @@ Module Module1
     End Function
     Public Sub formatDG(ByVal DG As DataGridView)
         With DG
+            .EnableHeadersVisualStyles = False
+            .ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Beige
             .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             .ColumnHeadersDefaultCellStyle.BackColor = Color.LightCyan
             .RowTemplate.DefaultCellStyle.WrapMode = DataGridViewTriState.True

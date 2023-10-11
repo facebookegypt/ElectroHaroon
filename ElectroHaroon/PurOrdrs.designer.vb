@@ -23,6 +23,10 @@ Partial Class PurOrdrs
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PurOrdrs))
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip2 = New System.Windows.Forms.MenuStrip()
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewMnuPO = New System.Windows.Forms.ToolStripMenuItem()
@@ -61,7 +65,6 @@ Partial Class PurOrdrs
         Me.Label7 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.TextBox8 = New System.Windows.Forms.TextBox()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
@@ -73,12 +76,13 @@ Partial Class PurOrdrs
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.DG1 = New System.Windows.Forms.DataGridView()
-        Me.PID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.TextBox8 = New System.Windows.Forms.TextBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
         Me.Chk = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.PID = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Pname = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PODID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.QntyIn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PBuyPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Units = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.Stores = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.MenuStrip2.SuspendLayout()
@@ -216,13 +220,13 @@ Partial Class PurOrdrs
         Me.Label11.BackColor = System.Drawing.Color.DimGray
         Me.Label11.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.ForeColor = System.Drawing.Color.White
-        Me.Label11.Location = New System.Drawing.Point(949, 78)
+        Me.Label11.Location = New System.Drawing.Point(1056, 65)
         Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(111, 31)
+        Me.Label11.Size = New System.Drawing.Size(221, 31)
         Me.Label11.TabIndex = 356
         Me.Label11.Text = "التاريخ"
-        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label11.UseCompatibleTextRendering = True
         '
         'DTP1
@@ -231,7 +235,7 @@ Partial Class PurOrdrs
         Me.DTP1.CustomFormat = "dd/MMMM/yyyy"
         Me.DTP1.Font = New System.Drawing.Font("Tahoma", 11.0!)
         Me.DTP1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DTP1.Location = New System.Drawing.Point(719, 78)
+        Me.DTP1.Location = New System.Drawing.Point(1056, 101)
         Me.DTP1.Margin = New System.Windows.Forms.Padding(4)
         Me.DTP1.Name = "DTP1"
         Me.DTP1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -245,13 +249,13 @@ Partial Class PurOrdrs
         Me.TextBox7.BackColor = System.Drawing.Color.Gainsboro
         Me.TextBox7.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox7.ForeColor = System.Drawing.Color.Black
-        Me.TextBox7.Location = New System.Drawing.Point(1068, 112)
+        Me.TextBox7.Location = New System.Drawing.Point(391, 101)
         Me.TextBox7.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox7.MaxLength = 20
         Me.TextBox7.Multiline = True
         Me.TextBox7.Name = "TextBox7"
         Me.TextBox7.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox7.Size = New System.Drawing.Size(221, 30)
+        Me.TextBox7.Size = New System.Drawing.Size(221, 79)
         Me.TextBox7.TabIndex = 354
         Me.TextBox7.Text = "لا يوجد"
         Me.TextBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -262,13 +266,13 @@ Partial Class PurOrdrs
         Me.Label10.BackColor = System.Drawing.Color.DimGray
         Me.Label10.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label10.ForeColor = System.Drawing.Color.White
-        Me.Label10.Location = New System.Drawing.Point(1299, 112)
+        Me.Label10.Location = New System.Drawing.Point(391, 65)
         Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(111, 31)
+        Me.Label10.Size = New System.Drawing.Size(221, 31)
         Me.Label10.TabIndex = 353
         Me.Label10.Text = "ملاحظات"
-        Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label10.UseCompatibleTextRendering = True
         '
         'Label9
@@ -277,13 +281,13 @@ Partial Class PurOrdrs
         Me.Label9.BackColor = System.Drawing.Color.DimGray
         Me.Label9.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.ForeColor = System.Drawing.Color.White
-        Me.Label9.Location = New System.Drawing.Point(600, 78)
+        Me.Label9.Location = New System.Drawing.Point(827, 65)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(111, 31)
+        Me.Label9.Size = New System.Drawing.Size(221, 31)
         Me.Label9.TabIndex = 351
         Me.Label9.Text = "اسم المورد"
-        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label9.UseCompatibleTextRendering = True
         '
         'ComboBox2
@@ -293,7 +297,7 @@ Partial Class PurOrdrs
         Me.ComboBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ComboBox2.Font = New System.Drawing.Font("Tahoma", 10.5!, System.Drawing.FontStyle.Bold)
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Location = New System.Drawing.Point(369, 78)
+        Me.ComboBox2.Location = New System.Drawing.Point(827, 101)
         Me.ComboBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -306,13 +310,13 @@ Partial Class PurOrdrs
         Me.Label8.BackColor = System.Drawing.Color.DimGray
         Me.Label8.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.ForeColor = System.Drawing.Color.White
-        Me.Label8.Location = New System.Drawing.Point(208, 78)
+        Me.Label8.Location = New System.Drawing.Point(620, 65)
         Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(111, 31)
+        Me.Label8.Size = New System.Drawing.Size(199, 31)
         Me.Label8.TabIndex = 349
         Me.Label8.Text = "طريقة الدفع"
-        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label8.UseCompatibleTextRendering = True
         '
         'ComboBox1
@@ -323,7 +327,7 @@ Partial Class PurOrdrs
         Me.ComboBox1.Font = New System.Drawing.Font("Tahoma", 10.5!, System.Drawing.FontStyle.Bold)
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"نقدي", "فيزا"})
-        Me.ComboBox1.Location = New System.Drawing.Point(0, 78)
+        Me.ComboBox1.Location = New System.Drawing.Point(620, 101)
         Me.ComboBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
@@ -334,13 +338,14 @@ Partial Class PurOrdrs
         '
         Me.Pno1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Pno1.BackColor = System.Drawing.Color.Gainsboro
-        Me.Pno1.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Pno1.Font = New System.Drawing.Font("Times New Roman", 12.0!)
         Me.Pno1.ForeColor = System.Drawing.Color.Black
-        Me.Pno1.Location = New System.Drawing.Point(1068, 78)
+        Me.Pno1.Location = New System.Drawing.Point(1285, 101)
         Me.Pno1.Margin = New System.Windows.Forms.Padding(4)
         Me.Pno1.MaxLength = 20
         Me.Pno1.Name = "Pno1"
-        Me.Pno1.Size = New System.Drawing.Size(221, 29)
+        Me.Pno1.ReadOnly = True
+        Me.Pno1.Size = New System.Drawing.Size(111, 30)
         Me.Pno1.TabIndex = 347
         Me.Pno1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -350,13 +355,13 @@ Partial Class PurOrdrs
         Me.Label4.BackColor = System.Drawing.Color.DimGray
         Me.Label4.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.White
-        Me.Label4.Location = New System.Drawing.Point(1299, 78)
+        Me.Label4.Location = New System.Drawing.Point(1285, 65)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(111, 31)
         Me.Label4.TabIndex = 346
         Me.Label4.Text = "رقم أمر شراء"
-        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label4.UseCompatibleTextRendering = True
         '
         'TextBox5
@@ -365,7 +370,7 @@ Partial Class PurOrdrs
         Me.TextBox5.BackColor = System.Drawing.Color.Silver
         Me.TextBox5.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox5.ForeColor = System.Drawing.Color.Red
-        Me.TextBox5.Location = New System.Drawing.Point(593, 719)
+        Me.TextBox5.Location = New System.Drawing.Point(593, 767)
         Me.TextBox5.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox5.MaxLength = 20
         Me.TextBox5.Name = "TextBox5"
@@ -383,7 +388,7 @@ Partial Class PurOrdrs
         Me.Label3.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.White
         Me.Label3.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Label3.Location = New System.Drawing.Point(593, 686)
+        Me.Label3.Location = New System.Drawing.Point(593, 734)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(163, 30)
@@ -398,7 +403,7 @@ Partial Class PurOrdrs
         Me.TextBox6.BackColor = System.Drawing.Color.Silver
         Me.TextBox6.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox6.ForeColor = System.Drawing.Color.MediumBlue
-        Me.TextBox6.Location = New System.Drawing.Point(764, 721)
+        Me.TextBox6.Location = New System.Drawing.Point(765, 768)
         Me.TextBox6.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox6.MaxLength = 20
         Me.TextBox6.Name = "TextBox6"
@@ -415,7 +420,7 @@ Partial Class PurOrdrs
         Me.Label5.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.White
         Me.Label5.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Label5.Location = New System.Drawing.Point(764, 686)
+        Me.Label5.Location = New System.Drawing.Point(764, 734)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(173, 30)
@@ -430,7 +435,7 @@ Partial Class PurOrdrs
         Me.TextBox4.BackColor = System.Drawing.Color.Silver
         Me.TextBox4.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox4.ForeColor = System.Drawing.Color.DarkGreen
-        Me.TextBox4.Location = New System.Drawing.Point(945, 719)
+        Me.TextBox4.Location = New System.Drawing.Point(945, 767)
         Me.TextBox4.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox4.MaxLength = 20
         Me.TextBox4.Name = "TextBox4"
@@ -448,7 +453,7 @@ Partial Class PurOrdrs
         Me.Label2.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.White
         Me.Label2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Label2.Location = New System.Drawing.Point(945, 686)
+        Me.Label2.Location = New System.Drawing.Point(945, 734)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(145, 30)
@@ -463,7 +468,7 @@ Partial Class PurOrdrs
         Me.TextBox3.BackColor = System.Drawing.Color.Silver
         Me.TextBox3.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox3.ForeColor = System.Drawing.Color.Red
-        Me.TextBox3.Location = New System.Drawing.Point(1099, 721)
+        Me.TextBox3.Location = New System.Drawing.Point(1099, 769)
         Me.TextBox3.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox3.MaxLength = 20
         Me.TextBox3.Name = "TextBox3"
@@ -480,7 +485,7 @@ Partial Class PurOrdrs
         Me.Label1.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.White
         Me.Label1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Label1.Location = New System.Drawing.Point(1099, 686)
+        Me.Label1.Location = New System.Drawing.Point(1099, 734)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(149, 30)
@@ -495,7 +500,7 @@ Partial Class PurOrdrs
         Me.TextBox2.BackColor = System.Drawing.Color.Silver
         Me.TextBox2.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox2.ForeColor = System.Drawing.Color.MediumBlue
-        Me.TextBox2.Location = New System.Drawing.Point(1256, 719)
+        Me.TextBox2.Location = New System.Drawing.Point(1256, 767)
         Me.TextBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox2.MaxLength = 20
         Me.TextBox2.Name = "TextBox2"
@@ -513,7 +518,7 @@ Partial Class PurOrdrs
         Me.Label7.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.White
         Me.Label7.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Label7.Location = New System.Drawing.Point(1256, 686)
+        Me.Label7.Location = New System.Drawing.Point(1256, 734)
         Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(153, 30)
@@ -528,7 +533,7 @@ Partial Class PurOrdrs
         Me.TextBox1.BackColor = System.Drawing.Color.Gainsboro
         Me.TextBox1.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox1.ForeColor = System.Drawing.Color.Black
-        Me.TextBox1.Location = New System.Drawing.Point(475, 719)
+        Me.TextBox1.Location = New System.Drawing.Point(475, 767)
         Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox1.MaxLength = 20
         Me.TextBox1.Name = "TextBox1"
@@ -544,7 +549,7 @@ Partial Class PurOrdrs
         Me.Label6.BackColor = System.Drawing.Color.DimGray
         Me.Label6.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.White
-        Me.Label6.Location = New System.Drawing.Point(475, 686)
+        Me.Label6.Location = New System.Drawing.Point(475, 734)
         Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(111, 30)
@@ -553,33 +558,18 @@ Partial Class PurOrdrs
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label6.UseCompatibleTextRendering = True
         '
-        'TextBox8
-        '
-        Me.TextBox8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TextBox8.BackColor = System.Drawing.Color.Gainsboro
-        Me.TextBox8.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox8.ForeColor = System.Drawing.Color.Black
-        Me.TextBox8.Location = New System.Drawing.Point(719, 154)
-        Me.TextBox8.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBox8.MaxLength = 20
-        Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.TextBox8.Size = New System.Drawing.Size(392, 29)
-        Me.TextBox8.TabIndex = 371
-        Me.TextBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'Label13
         '
         Me.Label13.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label13.BackColor = System.Drawing.Color.Silver
         Me.Label13.Font = New System.Drawing.Font("Times New Roman", 13.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label13.ForeColor = System.Drawing.Color.Black
-        Me.Label13.Location = New System.Drawing.Point(1120, 151)
+        Me.Label13.Location = New System.Drawing.Point(1228, 217)
         Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(229, 34)
+        Me.Label13.Size = New System.Drawing.Size(169, 31)
         Me.Label13.TabIndex = 370
-        Me.Label13.Text = "بحث باسم أو وصف الصنف"
+        Me.Label13.Text = "بحث باسم  الصنف"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Label13.UseCompatibleTextRendering = True
         '
@@ -590,7 +580,7 @@ Partial Class PurOrdrs
         Me.Label14.BackColor = System.Drawing.Color.DimGray
         Me.Label14.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label14.ForeColor = System.Drawing.Color.White
-        Me.Label14.Location = New System.Drawing.Point(0, 154)
+        Me.Label14.Location = New System.Drawing.Point(1, 217)
         Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(1409, 31)
@@ -603,10 +593,10 @@ Partial Class PurOrdrs
         Me.Label15.BackColor = System.Drawing.Color.Silver
         Me.Label15.Font = New System.Drawing.Font("Times New Roman", 13.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.ForeColor = System.Drawing.Color.Black
-        Me.Label15.Location = New System.Drawing.Point(16, 151)
+        Me.Label15.Location = New System.Drawing.Point(17, 215)
         Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(208, 37)
+        Me.Label15.Size = New System.Drawing.Size(263, 35)
         Me.Label15.TabIndex = 373
         Me.Label15.Text = "F5 معاينة أمر الشراء"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -624,7 +614,7 @@ Partial Class PurOrdrs
         Me.Button7.Font = New System.Drawing.Font("Times New Roman", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button7.ForeColor = System.Drawing.Color.SteelBlue
         Me.Button7.Image = CType(resources.GetObject("Button7.Image"), System.Drawing.Image)
-        Me.Button7.Location = New System.Drawing.Point(327, 78)
+        Me.Button7.Location = New System.Drawing.Point(827, 65)
         Me.Button7.Margin = New System.Windows.Forms.Padding(4)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(35, 31)
@@ -638,7 +628,7 @@ Partial Class PurOrdrs
         Me.TextBox9.BackColor = System.Drawing.Color.WhiteSmoke
         Me.TextBox9.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextBox9.ForeColor = System.Drawing.Color.Black
-        Me.TextBox9.Location = New System.Drawing.Point(16, 722)
+        Me.TextBox9.Location = New System.Drawing.Point(16, 770)
         Me.TextBox9.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox9.MaxLength = 20
         Me.TextBox9.Name = "TextBox9"
@@ -655,7 +645,7 @@ Partial Class PurOrdrs
         Me.Label16.BackColor = System.Drawing.Color.DimGray
         Me.Label16.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label16.ForeColor = System.Drawing.Color.White
-        Me.Label16.Location = New System.Drawing.Point(16, 689)
+        Me.Label16.Location = New System.Drawing.Point(16, 737)
         Me.Label16.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(111, 30)
@@ -697,12 +687,12 @@ Partial Class PurOrdrs
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Location = New System.Drawing.Point(288, 651)
+        Me.GroupBox1.Location = New System.Drawing.Point(288, 711)
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox1.Size = New System.Drawing.Size(1121, 31)
+        Me.GroupBox1.Size = New System.Drawing.Size(1121, 19)
         Me.GroupBox1.TabIndex = 409
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "ألأصناف"
@@ -711,12 +701,12 @@ Partial Class PurOrdrs
         '
         Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox2.Location = New System.Drawing.Point(0, 192)
+        Me.GroupBox2.Location = New System.Drawing.Point(0, 252)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.GroupBox2.Size = New System.Drawing.Size(280, 490)
+        Me.GroupBox2.Size = New System.Drawing.Size(280, 478)
         Me.GroupBox2.TabIndex = 410
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "أسعار البيع"
@@ -724,14 +714,100 @@ Partial Class PurOrdrs
         'DG1
         '
         Me.DG1.AllowUserToAddRows = False
-        Me.DG1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DG1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PID, Me.Chk, Me.Pname, Me.PODID, Me.QntyIn, Me.PBuyPrice, Me.Units, Me.Stores})
-        Me.DG1.Location = New System.Drawing.Point(287, 192)
+        Me.DG1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DG1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.Azure
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold)
+        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.SteelBlue
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.WhiteSmoke
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DG1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        Me.DG1.ColumnHeadersHeight = 50
+        Me.DG1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+        Me.DG1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Chk, Me.PID, Me.Pname, Me.Units, Me.Stores})
+        Me.DG1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
+        Me.DG1.EnableHeadersVisualStyles = False
+        Me.DG1.GridColor = System.Drawing.Color.Red
+        Me.DG1.Location = New System.Drawing.Point(287, 252)
+        Me.DG1.MultiSelect = False
         Me.DG1.Name = "DG1"
         Me.DG1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DG1.RowTemplate.Height = 24
+        Me.DG1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DG1.Size = New System.Drawing.Size(1120, 452)
         Me.DG1.TabIndex = 411
+        '
+        'TextBox8
+        '
+        Me.TextBox8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextBox8.BackColor = System.Drawing.Color.Gainsboro
+        Me.TextBox8.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox8.ForeColor = System.Drawing.Color.Black
+        Me.TextBox8.Location = New System.Drawing.Point(861, 218)
+        Me.TextBox8.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextBox8.MaxLength = 20
+        Me.TextBox8.Name = "TextBox8"
+        Me.TextBox8.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.TextBox8.Size = New System.Drawing.Size(359, 29)
+        Me.TextBox8.TabIndex = 413
+        Me.TextBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.Button1.Location = New System.Drawing.Point(620, 137)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(776, 43)
+        Me.Button1.TabIndex = 414
+        Me.Button1.Text = "حفظ و اضافة أصناف"
+        Me.Button1.UseCompatibleTextRendering = True
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'Label12
+        '
+        Me.Label12.BackColor = System.Drawing.Color.Silver
+        Me.Label12.Font = New System.Drawing.Font("Times New Roman", 13.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.ForeColor = System.Drawing.Color.Black
+        Me.Label12.Location = New System.Drawing.Point(344, 215)
+        Me.Label12.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(430, 35)
+        Me.Label12.TabIndex = 415
+        Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label12.UseCompatibleTextRendering = True
+        '
+        'Label19
+        '
+        Me.Label19.BackColor = System.Drawing.Color.Silver
+        Me.Label19.Font = New System.Drawing.Font("Times New Roman", 13.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label19.ForeColor = System.Drawing.Color.Black
+        Me.Label19.Location = New System.Drawing.Point(106, 101)
+        Me.Label19.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(263, 35)
+        Me.Label19.TabIndex = 416
+        Me.Label19.Text = "F5 معاينة أمر الشراء"
+        Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label19.UseCompatibleTextRendering = True
+        '
+        'Chk
+        '
+        Me.Chk.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.GreenYellow
+        DataGridViewCellStyle2.NullValue = False
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.GreenYellow
+        Me.Chk.DefaultCellStyle = DataGridViewCellStyle2
+        Me.Chk.FalseValue = "False"
+        Me.Chk.HeaderText = "اضافة"
+        Me.Chk.Name = "Chk"
+        Me.Chk.TrueValue = "True"
+        Me.Chk.Width = 60
         '
         'PID
         '
@@ -741,58 +817,45 @@ Partial Class PurOrdrs
         Me.PID.ReadOnly = True
         Me.PID.Visible = False
         '
-        'Chk
-        '
-        Me.Chk.HeaderText = "اضافة"
-        Me.Chk.Name = "Chk"
-        '
         'Pname
         '
         Me.Pname.DataPropertyName = "Pname"
         Me.Pname.HeaderText = "الصنف"
         Me.Pname.Name = "Pname"
-        '
-        'PODID
-        '
-        Me.PODID.DataPropertyName = "PODID"
-        Me.PODID.HeaderText = "كود الحركة"
-        Me.PODID.Name = "PODID"
-        Me.PODID.Visible = False
-        '
-        'QntyIn
-        '
-        Me.QntyIn.DataPropertyName = "QntyIn"
-        Me.QntyIn.HeaderText = "الكمبة"
-        Me.QntyIn.Name = "QntyIn"
-        '
-        'PBuyPrice
-        '
-        Me.PBuyPrice.DataPropertyName = "PBuyPrice"
-        Me.PBuyPrice.HeaderText = "سعر الوحدة"
-        Me.PBuyPrice.Name = "PBuyPrice"
+        Me.Pname.ReadOnly = True
         '
         'Units
         '
         Me.Units.DataPropertyName = "UnitID"
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Units.DefaultCellStyle = DataGridViewCellStyle3
         Me.Units.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox
         Me.Units.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Units.HeaderText = "الوحدة"
         Me.Units.Name = "Units"
+        Me.Units.ReadOnly = True
         '
         'Stores
         '
         Me.Stores.DataPropertyName = "StoreID"
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        Me.Stores.DefaultCellStyle = DataGridViewCellStyle4
         Me.Stores.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox
         Me.Stores.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Stores.HeaderText = "المخزن"
         Me.Stores.Name = "Stores"
+        Me.Stores.ReadOnly = True
         '
         'PurOrdrs
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Silver
-        Me.ClientSize = New System.Drawing.Size(1409, 765)
+        Me.ClientSize = New System.Drawing.Size(1409, 813)
+        Me.Controls.Add(Me.Label19)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.TextBox8)
         Me.Controls.Add(Me.DG1)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -801,7 +864,6 @@ Partial Class PurOrdrs
         Me.Controls.Add(Me.TextBox9)
         Me.Controls.Add(Me.Label16)
         Me.Controls.Add(Me.Label15)
-        Me.Controls.Add(Me.TextBox8)
         Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.TextBox5)
@@ -879,7 +941,6 @@ Partial Class PurOrdrs
     Friend WithEvents Label6 As Label
     Friend WithEvents MnuItems As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
-    Friend WithEvents TextBox8 As TextBox
     Friend WithEvents Label13 As Label
     Friend WithEvents Label14 As Label
     Friend WithEvents Label15 As Label
@@ -893,12 +954,13 @@ Partial Class PurOrdrs
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents MnuPrint As ToolStripMenuItem
     Friend WithEvents DG1 As DataGridView
-    Friend WithEvents PID As DataGridViewTextBoxColumn
+    Friend WithEvents TextBox8 As TextBox
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Label12 As Label
+    Friend WithEvents Label19 As Label
     Friend WithEvents Chk As DataGridViewCheckBoxColumn
+    Friend WithEvents PID As DataGridViewTextBoxColumn
     Friend WithEvents Pname As DataGridViewTextBoxColumn
-    Friend WithEvents PODID As DataGridViewTextBoxColumn
-    Friend WithEvents QntyIn As DataGridViewTextBoxColumn
-    Friend WithEvents PBuyPrice As DataGridViewTextBoxColumn
     Friend WithEvents Units As DataGridViewComboBoxColumn
     Friend WithEvents Stores As DataGridViewComboBoxColumn
 End Class
