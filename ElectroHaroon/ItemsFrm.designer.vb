@@ -22,11 +22,12 @@ Partial Class ItemsFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ItemsFrm))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ItemsFrm))
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me._MP = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuNew = New System.Windows.Forms.ToolStripMenuItem()
@@ -43,6 +44,9 @@ Partial Class ItemsFrm
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me._MPback = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.CboStores = New System.Windows.Forms.ComboBox()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Tsrch = New System.Windows.Forms.TextBox()
@@ -74,6 +78,7 @@ Partial Class ItemsFrm
         Me.Pnotes = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Kinds = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.GsellPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Stores = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,6 +88,7 @@ Partial Class ItemsFrm
         'MenuStrip1
         '
         Me.MenuStrip1.BackColor = System.Drawing.Color.Snow
+        Me.MenuStrip1.BackgroundImage = Global.ElectroHaroon.My.Resources.Resources.Header_PNG_Transparent_Image
         Me.MenuStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me._MP})
@@ -210,6 +216,9 @@ Partial Class ItemsFrm
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.BackColor = System.Drawing.Color.Transparent
         Me.GroupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.GroupBox1.Controls.Add(Me.Button1)
+        Me.GroupBox1.Controls.Add(Me.CboStores)
+        Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.TextBox2)
         Me.GroupBox1.Controls.Add(Me.Label7)
         Me.GroupBox1.Controls.Add(Me.Tsrch)
@@ -236,6 +245,57 @@ Partial Class ItemsFrm
         Me.GroupBox1.TabIndex = 371
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "بيانات أساسية"
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.BackColor = System.Drawing.Color.AliceBlue
+        Me.Button1.FlatAppearance.BorderColor = System.Drawing.Color.Gray
+        Me.Button1.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.LightGray
+        Me.Button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray
+        Me.Button1.Font = New System.Drawing.Font("Times New Roman", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.ForeColor = System.Drawing.Color.Black
+        Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
+        Me.Button1.Location = New System.Drawing.Point(516, 117)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(35, 29)
+        Me.Button1.TabIndex = 442
+        Me.Button1.UseCompatibleTextRendering = True
+        Me.Button1.UseVisualStyleBackColor = False
+        '
+        'CboStores
+        '
+        Me.CboStores.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CboStores.BackColor = System.Drawing.Color.AliceBlue
+        Me.CboStores.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CboStores.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CboStores.Font = New System.Drawing.Font("Tahoma", 10.5!, System.Drawing.FontStyle.Bold)
+        Me.CboStores.ForeColor = System.Drawing.Color.Black
+        Me.CboStores.FormattingEnabled = True
+        Me.CboStores.Items.AddRange(New Object() {"نقدي", "فيزا"})
+        Me.CboStores.Location = New System.Drawing.Point(559, 117)
+        Me.CboStores.Margin = New System.Windows.Forms.Padding(4)
+        Me.CboStores.Name = "CboStores"
+        Me.CboStores.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.CboStores.Size = New System.Drawing.Size(145, 29)
+        Me.CboStores.TabIndex = 440
+        '
+        'Label9
+        '
+        Me.Label9.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label9.BackColor = System.Drawing.Color.AliceBlue
+        Me.Label9.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.ForeColor = System.Drawing.Color.Black
+        Me.Label9.Location = New System.Drawing.Point(712, 116)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(106, 31)
+        Me.Label9.TabIndex = 441
+        Me.Label9.Text = "المخزن"
+        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label9.UseCompatibleTextRendering = True
         '
         'TextBox2
         '
@@ -503,7 +563,7 @@ Partial Class ItemsFrm
         '
         Me.PictureBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1.Location = New System.Drawing.Point(267, 668)
+        Me.PictureBox1.Location = New System.Drawing.Point(267, 665)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(47, 45)
         Me.PictureBox1.TabIndex = 423
@@ -529,7 +589,7 @@ Partial Class ItemsFrm
         Me.DGready.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DGready.ColumnHeadersHeight = 50
         Me.DGready.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Me.DGready.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PID, Me.Pname, Me.Pdesc, Me.Pcost, Me.FrstQnty, Me.MinQ, Me.BarCode, Me.Pnotes, Me.Kinds, Me.GsellPrice})
+        Me.DGready.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PID, Me.Pname, Me.Pdesc, Me.Pcost, Me.FrstQnty, Me.MinQ, Me.BarCode, Me.Pnotes, Me.Kinds, Me.GsellPrice, Me.Stores})
         Me.DGready.EnableHeadersVisualStyles = False
         Me.DGready.GridColor = System.Drawing.Color.DeepSkyBlue
         Me.DGready.Location = New System.Drawing.Point(13, 218)
@@ -538,14 +598,14 @@ Partial Class ItemsFrm
         Me.DGready.Name = "DGready"
         Me.DGready.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DGready.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.MintCream
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.DimGray
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.MintCream
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.DimGray
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle5
         Me.DGready.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DGready.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DGready.Size = New System.Drawing.Size(1231, 444)
@@ -614,7 +674,6 @@ Partial Class ItemsFrm
         'Kinds
         '
         Me.Kinds.DataPropertyName = "KindID"
-        Me.Kinds.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Kinds.HeaderText = "أسعار البيع"
         Me.Kinds.Name = "Kinds"
         '
@@ -627,6 +686,16 @@ Partial Class ItemsFrm
         Me.GsellPrice.HeaderText = "السعر"
         Me.GsellPrice.Name = "GsellPrice"
         Me.GsellPrice.ReadOnly = True
+        '
+        'Stores
+        '
+        Me.Stores.DataPropertyName = "Stores"
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle4.NullValue = "اختر المخزن"
+        Me.Stores.DefaultCellStyle = DataGridViewCellStyle4
+        Me.Stores.HeaderText = "المخزن"
+        Me.Stores.Name = "Stores"
+        Me.Stores.ReadOnly = True
         '
         'ItemsFrm
         '
@@ -694,6 +763,9 @@ Partial Class ItemsFrm
     Friend WithEvents Label6 As Label
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents Label7 As Label
+    Friend WithEvents Button1 As Button
+    Friend WithEvents CboStores As ComboBox
+    Friend WithEvents Label9 As Label
     Friend WithEvents PID As DataGridViewTextBoxColumn
     Friend WithEvents Pname As DataGridViewTextBoxColumn
     Friend WithEvents Pdesc As DataGridViewTextBoxColumn
@@ -704,4 +776,5 @@ Partial Class ItemsFrm
     Friend WithEvents Pnotes As DataGridViewTextBoxColumn
     Friend WithEvents Kinds As DataGridViewComboBoxColumn
     Friend WithEvents GsellPrice As DataGridViewTextBoxColumn
+    Friend WithEvents Stores As DataGridViewComboBoxColumn
 End Class

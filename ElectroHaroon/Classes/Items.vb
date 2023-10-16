@@ -9,6 +9,7 @@ Public Class Items
     Public Property ItmCost As Double
     Public Property ItmNotes As String
     Public Property ItmBCode As String
+    Public Property StoreID As Integer
     Public Property FrstQnty As Integer
     Public Property KID As Integer
     Public Property ItmSellPrice As Double
@@ -126,7 +127,7 @@ Public Class Items
     Public Function GetData() As DataTable
         Dim Ntbl As New DataTable
         Dim SelectSql = <sql>
-                            SELECT PID,Pname,Pdesc,Pcost,FrstQnty,MinQ,BarCode,Pnotes FROM Products;
+                            SELECT PID,Pname,Pdesc,Pcost,FrstQnty,MinQ,BarCode,StoreID,Pnotes FROM Products;
                         </sql>
         Using CN As New OleDbConnection(ConnectionString),
                 SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text}
@@ -150,7 +151,7 @@ Public Class Items
         If String.IsNullOrEmpty(ItmNotes) Then ItmNotes = "لا يوجد"
         Dim Saved As Integer = 0
         Dim InsertSql = <sql>
-                            INSERT INTO Products (Pname,Pdesc,Pcost,FrstQnty,MinQ,BarCode,Pnotes) VALUES (?,?,?,?,?,?,?);
+                            INSERT INTO Products (Pname,Pdesc,Pcost,FrstQnty,MinQ,BarCode,StoreID,Pnotes) VALUES (?,?,?,?,?,?,?,?);
                         </sql>
         Using CN As New OleDbConnection(ConnectionString),
                 InsertCMD As New OleDbCommand(InsertSql, CN) With {.CommandType = CommandType.Text}
@@ -161,6 +162,7 @@ Public Class Items
                 .AddWithValue("?", FrstQnty)
                 .AddWithValue("?", ItmMinQ)
                 .AddWithValue("?", ItmBCode)
+                .AddWithValue("?", StoreID)
                 .AddWithValue("?", ItmNotes)
             End With
             Try
@@ -184,7 +186,7 @@ Public Class Items
     Public Function UpdateItems() As Integer
         Dim Updated As Integer = 0
         Dim UpdateSql = <sql>
-                            UPDATE Products SET Pname=?, Pdesc=?, Pcost=?, FrstQnty=?, MinQ=?, Pnotes=? WHERE PID=? AND BarCode=?;
+                            UPDATE Products SET Pname=?, Pdesc=?, Pcost=?, FrstQnty=?, MinQ=?, StoreID=?, Pnotes=? WHERE PID=? AND BarCode=?;
                         </sql>
         Using CN As New OleDbConnection(ConnectionString),
                 UpdateCmd As New OleDbCommand(UpdateSql, CN) With {.CommandType = CommandType.Text}
@@ -194,6 +196,7 @@ Public Class Items
                 .AddWithValue("?", ItmCost)
                 .AddWithValue("?", FrstQnty)
                 .AddWithValue("?", ItmMinQ)
+                .AddWithValue("?", StoreID)
                 .AddWithValue("?", ItmNotes)
                 .AddWithValue("?", ItmID)
                 .AddWithValue("?", ItmBCode)

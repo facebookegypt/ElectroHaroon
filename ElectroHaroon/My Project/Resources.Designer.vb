@@ -121,6 +121,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property Header_PNG_Transparent_Image() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Header_PNG_Transparent_Image", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         '''</summary>
         Friend ReadOnly Property Icon1() As System.Drawing.Icon

@@ -130,6 +130,9 @@
     <Compile Include="Classes\Customers.vb" />
     <Compile Include="Classes\DataOperations.vb" />
     <Compile Include="Classes\Effects.vb" />
+    <Compile Include="Classes\frmSearch.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Classes\Items.vb" />
     <Compile Include="Classes\Kinds.vb" />
     <Compile Include="Classes\PODetails.vb" />
@@ -193,6 +196,12 @@
       <DependentUpon>MyStore.vb</DependentUpon>
     </Compile>
     <Compile Include="MyStore.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="POs.Designer.vb">
+      <DependentUpon>POs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="POs.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PurOrdrs.designer.vb">
@@ -367,6 +376,9 @@
     <EmbeddedResource Include="MyStore.resx">
       <DependentUpon>MyStore.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="POs.resx">
+      <DependentUpon>POs.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PurOrdrs.resx">
       <DependentUpon>PurOrdrs.vb</DependentUpon>
     </EmbeddedResource>
@@ -474,6 +486,9 @@
     <Content Include="Files\Interop.JRO.dll" />
     <Content Include="Files\Interop.Microsoft.Office.Interop.Access.Dao.dll" />
     <Content Include="Files\Tulpep.NotificationWindow.dll" />
+    <EmbeddedResource Include="Resources\Header-PNG-Transparent-Image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Png_Prices.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

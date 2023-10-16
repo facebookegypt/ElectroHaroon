@@ -9,6 +9,37 @@ Namespace Pur_Sell_Ordrs
         Public Sub New()
             ConnectionString = GetEncryConStr()
         End Sub
+        Public Function GetAvailQ() As Double
+            Dim AvailQ As Double = 0.0
+
+            Return AvailQ
+        End Function
+        Public Function GetSellPrices(ByVal ItmId As Integer) As DataTable
+            Dim Ntble As New DataTable
+            Dim SqlStr As String =
+                "SELECT Kinds.KindNm, SellPriceGrps.GSellPrice
+FROM Kinds INNER JOIN (Products INNER JOIN SellPriceGrps ON Products.PID = SellPriceGrps.PID) ON Kinds.KindID = SellPriceGrps.KindID
+WHERE (((Products.PID)=?))
+ORDER BY Products.PID, SellPriceGrps.KindID;"
+            Using CN As New OleDbConnection(ConnectionString),
+                    SelectCMD As New OleDbCommand(SqlStr, CN) With {.CommandType = CommandType.Text}
+                Try
+                    SelectCMD.Parameters.AddWithValue("?", ItmId)
+                    CN.Open()
+                    Ntble.Load(SelectCMD.ExecuteReader)
+                Catch ex As Exception
+                    MsgBox("خطأ 1 : " & vbCrLf & ex.Message,
+                           MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
+                           "خطأ")
+                    SelectCMD.Dispose()
+                    CN.Close()
+                Finally
+                    SelectCMD.Dispose()
+                    CN.Close()
+                End Try
+            End Using
+            Return Ntble
+        End Function
         Public Function GetData() As DataTable
             Dim Ntbl As New DataTable
             Dim SelectSql = "SELECT " & Key_ID & "," & Val_Nm & " FROM " & Tbl_Nm & ";"
@@ -51,6 +82,15 @@ Namespace Pur_Sell_Ordrs
             End Using
             Return Ntbl
         End Function
+        Public Sub BindPayTypes(ByVal cbo As ComboBox)
+            'Tells the combobox which column in the bound data is the value to save in the database
+            'and which column is the value to display to the user.
+            With cbo
+                .ValueMember = "PTID"
+                .DisplayMember = "PTNm"
+                .DataSource = GetData()
+            End With
+        End Sub
     End Class
     Public Class SO_Details
         Inherits DataOperations
@@ -67,30 +107,6 @@ Namespace Pur_Sell_Ordrs
         Public Sub New()
             ConnectionString = GetEncryConStr()
         End Sub
-        Public Function GetData() As DataTable
-            Dim Ntbl As New DataTable
-            Dim SelectSql = <sql>
-                            SELECT KindID,KindNm FROM Kinds;
-                        </sql>
-            Using CN As New OleDbConnection(ConnectionString),
-                    SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text}
-                Try
-                    CN.Open()
-                    Ntbl.Load(SelectCMD.ExecuteReader)
-                Catch ex As Exception
-                    MsgBox("خطأ 1 : " & vbCrLf & ex.Message,
-                           MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
-                           "خطأ")
-                    SelectCMD.Dispose()
-                    CN.Close()
-                Finally
-                    SelectCMD.Dispose()
-                    CN.Close()
-                End Try
-            End Using
-            Return Ntbl
-        End Function
-
     End Class
     Public Class PO_Details
         Inherits DataOperations

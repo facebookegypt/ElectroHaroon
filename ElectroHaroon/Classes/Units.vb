@@ -36,9 +36,11 @@ Public Class Units
         'Tells the combobox which column in the bound data is the value to save in the database
         'and which column is the value to display to the user.
         With UnitsCboColumn
-            .DataSource = GetData()
+            .DataPropertyName = "Units"
             .ValueMember = "UnitID"
             .DisplayMember = "UnitNm"
+            .DataSource = GetData()
+            .DefaultCellStyle.NullValue = "اختر الوحدة"
         End With
     End Sub
 End Class

@@ -1,9 +1,23 @@
 ﻿Imports System.Data.OleDb
+Imports ElectroHaroon.Pur_Sell_Ordrs
 Public Class ItemsFrm
     Private SrchTbl As DataTable
     Private BS As BindingSource
     Private Sub ItemsFrm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
+        formatDG(DGready)
+        DGready.MultiSelect = False
+        Dim OItems As New Items
+        MySrch = New DataTable
+        MySrch = OItems.GetData
+        BS2 = New BindingSource
+        BS2.DataSource = MySrch
+        Dim Ikind As New Kinds
+        Ikind.BindDGColumnKinds(DGready)
+        Dim Istore As New Stores
+        Istore.BindDGColumnStores(DGready)
+        Istore.BindCombo(CboStores)
+        NewItem()
     End Sub
     Private Sub ItemsFrm_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = ChrW(Keys.Escape) Then Close()
@@ -23,6 +37,7 @@ Public Class ItemsFrm
             .FrstQnty = IIf(TextBox2.Text = String.Empty, "0", TextBox2.Text).ToString,
             .ItmBCode = TextBox4.Text,
             .ItmMinQ = IIf(TextBox5.Text = String.Empty, "0", TextBox5.Text).ToString,
+            .StoreID = CboStores.SelectedValue,
             .ItmNotes = IIf(TextBox7.Text = String.Empty, "لا يوجد ملاحظات", TextBox7.Text).ToString}
 #Region "Save"
         Dim Onh = OItems.SaveNewItm.ToString
@@ -55,11 +70,11 @@ Public Class ItemsFrm
         TextBox6.Text = 0.00.ToString("C2")
         TextBox7.Text = "لا يوجد"
         Tsrch.Text = String.Empty
+        CboStores.SelectedIndex = -1
         PictureBox1.Image = Nothing
         MnuSave.Enabled = True
         MnuDel.Enabled = False
         MnuEdit.Enabled = False
-        CboNm.Focus()
         CboNm.Select()
     End Sub
     Private Sub ShowAll()
@@ -75,6 +90,9 @@ Public Class ItemsFrm
             Dim Ikind As New Kinds
             Ikind.BindDGColumnKinds(DGready)
         End With
+        If DGready.RowCount > 0 Then
+            DGready.CurrentCell = DGready.FirstDisplayedCell
+        End If
         _MP.Text = ("الأصناف (" & TblItems.Rows.Count & ")")
         TblItems.Dispose()
 #End Region
@@ -94,45 +112,35 @@ Public Class ItemsFrm
         End If
     End Sub
     Private Sub MnuPOrdrs_Click(sender As Object, e As EventArgs) Handles MnuPOrdrs.Click
-        Dim PurOrdrsFrm As New PurOrdrs
-        PurOrdrsFrm.Show()
+        Dim FOs = My.Application.OpenForms
+        For Each Fo As Form In FOs
+            If Fo.Name.Equals("POs") Then
+                Fo.BringToFront()
+                Fo.Activate()
+                Me.Close()
+                Exit Sub
+            End If
+        Next
+        PreForm = Me
+        Dim PosFrm As New POs
+        'PosFrm.TargetForm = "Units"
+        PosFrm.Show(MainF)
         Me.Close()
     End Sub
     Private Sub MnuUnt_Click(sender As Object, e As EventArgs) Handles MnuUnt.Click
-        Dim FOs = My.Application.OpenForms
-        For Each Fo As Form In FOs
-            If Fo.Name.Equals("Basics") Then
-                Fo.BringToFront()
-                Fo.Activate()
-                Exit Sub
-            End If
-        Next
-        PreForm = Me
-        Dim UnitFrm As New Basics
-        UnitFrm.TargetForm = "Units"
-        UnitFrm.Show(Me)
+        Dim BA As New Basics
+        BA.TargetForm = "Units"
+        BA.ShowDialog()
     End Sub
     Private Sub MnuStr_Click(sender As Object, e As EventArgs) Handles MnuStr.Click
-        Dim FOs = My.Application.OpenForms
-        For Each Fo As Form In FOs
-            If Fo.Name.Equals("Basics") Then
-                Fo.BringToFront()
-                Fo.Activate()
-                Exit Sub
-            End If
-        Next
-        PreForm = Me
-        Dim StoreFrm As New Basics
-        If StoreFrm.TargetForm = "Stores" Then
-            StoreFrm.Activate()
-        Else
-            StoreFrm.TargetForm = "Stores"
-            StoreFrm.Show(Me)
-        End If
+        Dim BA As New Basics
+        BA.TargetForm = "Stores"
+        BA.ShowDialog()
     End Sub
     Private Sub MnuKnd_Click(sender As Object, e As EventArgs) Handles MnuKnd.Click
-        Basics.TargetForm = "Kinds"
-        Basics.ShowDialog()
+        Dim BA As New Basics
+        BA.TargetForm = "Kinds"
+        BA.ShowDialog()
     End Sub
     Private Sub Label18_Click(sender As Object, e As EventArgs) Handles Label18.Click
         Location = New Point(0, 0)
@@ -214,7 +222,8 @@ Public Class ItemsFrm
             .FrstQnty = TextBox2.Text,
             .ItmBCode = TextBox4.Text,
             .ItmCost = TextBox6.Text,
-            .ItmMinQ = TextBox5.Text}
+            .ItmMinQ = TextBox5.Text,
+            .StoreID = CboStores.SelectedValue}
         Dim Onh = OItems.UpdateItems.ToString
 #End Region
 #Region "Get All Data into DGReady"
@@ -250,14 +259,14 @@ Public Class ItemsFrm
             Return MyTable
         End Using
     End Function
-    Private Sub DGready_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.CellClick
-        'AddHandler DGready.RowEnter, AddressOf DGready_RowEnter
-        'DGready_RowEnter(sender, e)
-    End Sub
-   Private Sub DGready_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.RowEnter
+    Private Sub DGready_RowEnter(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.RowEnter
         If e.RowIndex = -1 OrElse e.ColumnIndex = -1 OrElse IsNothing(DGready.CurrentRow) Then Exit Sub
         Try
+            Dim Nstores As New Stores
+            Dim N1 As New DataTable
             Dim ThisID = CInt(DGready("PID", e.RowIndex).Value.ToString)
+            N1 = Nstores.GetStoresItems(ThisID)
+            DGready("Stores", e.RowIndex).Value = CInt(N1(0)("StoreID").ToString)
             CboNm.Text = CStr(DGready("Pname", e.RowIndex).Value)
             TextBox3.Text = CStr(DGready("Pdesc", e.RowIndex).Value)
             TextBox6.Text = CDbl(DGready("Pcost", e.RowIndex).Value).ToString("C2")
@@ -265,6 +274,7 @@ Public Class ItemsFrm
             TextBox5.Text = CInt(DGready("MinQ", e.RowIndex).Value.ToString)
             TextBox4.Text = CStr(DGready("BarCode", e.RowIndex).Value)
             TextBox7.Text = DGready("Pnotes", e.RowIndex).Value.ToString
+            CboStores.SelectedValue = DGready("Stores", e.RowIndex).Value
             MnuSave.Enabled = False
             MnuNew.Enabled = True
             MnuEdit.Enabled = True
@@ -356,22 +366,14 @@ Public Class ItemsFrm
         End If
     End Sub
     Private Sub ItemsFrm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        formatDG(DGready)
-        DGready.MultiSelect = False
-        Dim OItems As New Items
-        MySrch = New DataTable
-        MySrch = OItems.GetData
-        BS2 = New BindingSource
-        BS2.DataSource = MySrch
-        Dim Ikind As New Kinds
-        Ikind.BindDGColumnKinds(DGready)
+
     End Sub
 #Region "Search Items"
     Private MySrch As DataTable, BS2 As BindingSource
     Private Sub Tsrch_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Tsrch.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
             If DGready.RowCount > 0 Then
-                DGready.Focus()
+                DGready.Select()
                 DGready.CurrentCell = DGready.Rows(0).Cells("Pname")
             End If
         End If
@@ -393,6 +395,7 @@ Public Class ItemsFrm
             BS2.Sort = "Pname ASC"
         Catch ex As Exception
             TextBox1.Text = ("عملية غير صحيحة : ") & ex.Message
+            PictureBox1.Image = My.Resources.Cancel
         End Try
     End Sub
     Private Sub Tsrch_GotFocus(sender As Object, e As EventArgs) Handles Tsrch.GotFocus
@@ -405,9 +408,60 @@ Public Class ItemsFrm
     Private Sub Tsrch_Leave(sender As Object, e As EventArgs) Handles Tsrch.Leave
         MySrch = Nothing
     End Sub
+    Private Sub DGready_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.CellContentClick
+        If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Return
+        If DGready.Columns(e.ColumnIndex).Name = "Kinds" Then
+            DGready.BeginEdit(True)
+            DirectCast(DGready.EditingControl, DataGridViewComboBoxEditingControl).DroppedDown = True
+        End If
+    End Sub
 #End Region
     Private Sub CboNm_Leave(sender As Object, e As EventArgs) Handles CboNm.Leave
         'Check if Item exists
+        Dim Oexists As New DataTable
+        Dim Oitems As New Items
+        Oexists = Oitems.GetData
+        Dim DR() As DataRow = Oexists.Select("Pname='" & CboNm.Text & "'")
+        If DR.Length > 0 Then
+            TextBox1.Text = "هذا الصنف موجود بالفعل"
+            PictureBox1.Image = My.Resources.Cancel
+            MnuSave.Enabled = False
+            CboNm.SelectAll()
+        Else
+            TextBox1.Text = String.Empty
+            PictureBox1.Image = Nothing
+            MnuSave.Enabled = True
+        End If
+    End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        PreForm = Me
+        Dim Stor As New Basics
+        Stor.TargetForm = "Stores"
+        Stor.ShowDialog()
+    End Sub
+
+    Private Sub CboStores_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CboStores.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub TextBox6_Click(sender As Object, e As EventArgs) Handles TextBox6.Click
+        TextBox6.SelectAll()
+    End Sub
+
+    Private Sub DGready_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs) Handles DGready.RowPostPaint
+        Dim grid = TryCast(sender, DataGridView)
+        Dim rowIdx As String = Convert.ToString(e.RowIndex + 1)
+        Using centerFormat As StringFormat = New StringFormat() With
+            {.Alignment = StringAlignment.Center, .LineAlignment = StringAlignment.Center}
+            Dim headerBounds =
+                New Rectangle(e.RowBounds.Right - 37, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height)
+            e.Graphics.DrawString(rowIdx, Font, Brushes.Black, headerBounds, centerFormat)
+        End Using
+    End Sub
+
+    Private Sub CboStores_DropDown(sender As Object, e As EventArgs) Handles CboStores.DropDown
+        Dim Stor As New Stores
+        Stor.BindCombo(CboStores)
     End Sub
 End Class

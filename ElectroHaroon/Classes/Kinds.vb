@@ -37,10 +37,10 @@ Public Class Kinds
         'and which column is the value to display to the user.
         With KindsCboColumn
             .DataPropertyName = "Kinds"
-            KindsCboColumn.DefaultCellStyle.NullValue = "اختر الوحدة"
             .ValueMember = "KindID"
             .DisplayMember = "KindNm"
             .DataSource = GetData()
+            .DefaultCellStyle.NullValue = "اختر النوع"
         End With
     End Sub
 End Class

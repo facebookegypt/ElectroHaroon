@@ -127,4 +127,13 @@ Public Class Vendors
         End Using
         Return Ntbl
     End Function
+    Public Sub BindCboVends(ByVal CboVends As ComboBox)
+        'Tells the combobox which column in the bound data is the value to save in the database
+        'and which column is the value to display to the user.
+        With CboVends
+            .ValueMember = "VendID"
+            .DisplayMember = "VendNm"
+            .DataSource = GetData()
+        End With
+    End Sub
 End Class
