@@ -130,12 +130,12 @@
     <Compile Include="Classes\Customers.vb" />
     <Compile Include="Classes\DataOperations.vb" />
     <Compile Include="Classes\Effects.vb" />
-    <Compile Include="Classes\frmSearch.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Classes\Items.vb" />
     <Compile Include="Classes\Kinds.vb" />
     <Compile Include="Classes\PODetails.vb" />
+    <Compile Include="Classes\PO_preview.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Classes\Simple3Des.vb" />
     <Compile Include="Classes\Stores.vb" />
     <Compile Include="Classes\Units.vb" />
