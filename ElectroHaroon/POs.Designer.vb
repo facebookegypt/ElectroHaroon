@@ -23,13 +23,13 @@ Partial Class POs
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle28 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle25 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle26 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle27 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(POs))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me._MP = New System.Windows.Forms.ToolStripMenuItem()
@@ -37,6 +37,10 @@ Partial Class POs
         Me.MnuSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuEdit = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuDel = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuPrint = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.MnuLesItms = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MnuItems = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me._MPback = New System.Windows.Forms.ToolStripMenuItem()
         Me.DGready = New System.Windows.Forms.DataGridView()
@@ -70,10 +74,6 @@ Partial Class POs
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         Me.Label3 = New System.Windows.Forms.Button()
-        Me.MnuPrint = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuLesItms = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuItems = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.DGready, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -115,7 +115,7 @@ Partial Class POs
         Me.MnuNew.Name = "MnuNew"
         Me.MnuNew.ShortcutKeyDisplayString = "Ctrl+N"
         Me.MnuNew.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.MnuNew.Size = New System.Drawing.Size(243, 26)
+        Me.MnuNew.Size = New System.Drawing.Size(278, 26)
         Me.MnuNew.Text = "جديد"
         '
         'MnuSave
@@ -125,7 +125,7 @@ Partial Class POs
         Me.MnuSave.Name = "MnuSave"
         Me.MnuSave.ShortcutKeyDisplayString = "Ctrl+S"
         Me.MnuSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.MnuSave.Size = New System.Drawing.Size(270, 26)
+        Me.MnuSave.Size = New System.Drawing.Size(278, 26)
         Me.MnuSave.Text = "حفظ أمر توريد"
         '
         'MnuEdit
@@ -135,7 +135,7 @@ Partial Class POs
         Me.MnuEdit.Name = "MnuEdit"
         Me.MnuEdit.ShortcutKeyDisplayString = "Ctrl+E"
         Me.MnuEdit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.E), System.Windows.Forms.Keys)
-        Me.MnuEdit.Size = New System.Drawing.Size(243, 26)
+        Me.MnuEdit.Size = New System.Drawing.Size(278, 26)
         Me.MnuEdit.Text = "تعديل"
         '
         'MnuDel
@@ -145,20 +145,50 @@ Partial Class POs
         Me.MnuDel.Name = "MnuDel"
         Me.MnuDel.ShortcutKeyDisplayString = "Del"
         Me.MnuDel.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.MnuDel.Size = New System.Drawing.Size(243, 26)
+        Me.MnuDel.Size = New System.Drawing.Size(278, 26)
         Me.MnuDel.Text = "حذف"
+        '
+        'MnuPrint
+        '
+        Me.MnuPrint.Enabled = False
+        Me.MnuPrint.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.MnuPrint.Name = "MnuPrint"
+        Me.MnuPrint.ShortcutKeyDisplayString = "Ctrl+W"
+        Me.MnuPrint.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
+        Me.MnuPrint.Size = New System.Drawing.Size(278, 26)
+        Me.MnuPrint.Text = "طباعة أمر التوريد"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(275, 6)
+        '
+        'MnuLesItms
+        '
+        Me.MnuLesItms.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.MnuLesItms.Name = "MnuLesItms"
+        Me.MnuLesItms.Size = New System.Drawing.Size(278, 26)
+        Me.MnuLesItms.Text = "كشف أصناف ناقصه"
+        '
+        'MnuItems
+        '
+        Me.MnuItems.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.MnuItems.Name = "MnuItems"
+        Me.MnuItems.ShortcutKeyDisplayString = ""
+        Me.MnuItems.Size = New System.Drawing.Size(278, 26)
+        Me.MnuItems.Text = "بيان أوامر التوريد"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(240, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(275, 6)
         '
         '_MPback
         '
         Me._MPback.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
         Me._MPback.Name = "_MPback"
         Me._MPback.ShortcutKeyDisplayString = "Esc"
-        Me._MPback.Size = New System.Drawing.Size(243, 26)
+        Me._MPback.Size = New System.Drawing.Size(278, 26)
         Me._MPback.Text = "رجوع"
         '
         'DGready
@@ -171,14 +201,14 @@ Partial Class POs
         Me.DGready.BackgroundColor = System.Drawing.Color.Snow
         Me.DGready.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DGready.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle22.BackColor = System.Drawing.Color.Azure
-        DataGridViewCellStyle22.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle22.ForeColor = System.Drawing.Color.SteelBlue
-        DataGridViewCellStyle22.SelectionBackColor = System.Drawing.Color.Linen
-        DataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DGready.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle22
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.Azure
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.SteelBlue
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Linen
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DGready.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DGready.ColumnHeadersHeight = 50
         Me.DGready.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.DGready.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PID, Me.Pname, Me.Units})
@@ -190,14 +220,14 @@ Partial Class POs
         Me.DGready.Name = "DGready"
         Me.DGready.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DGready.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle23.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle23.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.MintCream
-        DataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.DimGray
-        DataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle23
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.MintCream
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.DimGray
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.DGready.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DGready.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DGready.Size = New System.Drawing.Size(1056, 570)
@@ -236,14 +266,14 @@ Partial Class POs
         Me.DataGridView1.BackgroundColor = System.Drawing.Color.Snow
         Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle24.BackColor = System.Drawing.Color.Azure
-        DataGridViewCellStyle24.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle24.ForeColor = System.Drawing.Color.SteelBlue
-        DataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.Linen
-        DataGridViewCellStyle24.SelectionForeColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle24
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.Azure
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.SteelBlue
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Linen
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.DataGridView1.ColumnHeadersHeight = 50
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.InvTotal, Me.InvDscnt, Me.InvNet, Me.InvPaid, Me.InvRest})
@@ -255,14 +285,14 @@ Partial Class POs
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle28.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle28.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle28.SelectionBackColor = System.Drawing.Color.MintCream
-        DataGridViewCellStyle28.SelectionForeColor = System.Drawing.Color.DimGray
-        DataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle28
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle7.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.MintCream
+        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.DimGray
+        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle7
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(1056, 114)
@@ -270,16 +300,16 @@ Partial Class POs
         '
         'InvTotal
         '
-        DataGridViewCellStyle25.Format = "C2"
-        DataGridViewCellStyle25.NullValue = "0.00"
-        Me.InvTotal.DefaultCellStyle = DataGridViewCellStyle25
+        DataGridViewCellStyle4.Format = "C2"
+        DataGridViewCellStyle4.NullValue = "0.00"
+        Me.InvTotal.DefaultCellStyle = DataGridViewCellStyle4
         Me.InvTotal.HeaderText = "اجمالي الفاتورة"
         Me.InvTotal.Name = "InvTotal"
         '
         'InvDscnt
         '
-        DataGridViewCellStyle26.BackColor = System.Drawing.Color.Snow
-        Me.InvDscnt.DefaultCellStyle = DataGridViewCellStyle26
+        DataGridViewCellStyle5.BackColor = System.Drawing.Color.Snow
+        Me.InvDscnt.DefaultCellStyle = DataGridViewCellStyle5
         Me.InvDscnt.HeaderText = "الخصم"
         Me.InvDscnt.Name = "InvDscnt"
         '
@@ -290,8 +320,8 @@ Partial Class POs
         '
         'InvPaid
         '
-        DataGridViewCellStyle27.BackColor = System.Drawing.Color.Snow
-        Me.InvPaid.DefaultCellStyle = DataGridViewCellStyle27
+        DataGridViewCellStyle6.BackColor = System.Drawing.Color.Snow
+        Me.InvPaid.DefaultCellStyle = DataGridViewCellStyle6
         Me.InvPaid.HeaderText = "المدفوع للمورد"
         Me.InvPaid.Name = "InvPaid"
         '
@@ -600,36 +630,6 @@ Partial Class POs
         Me.Label3.Text = "معاينة أمر الشراء"
         Me.Label3.UseCompatibleTextRendering = True
         Me.Label3.UseVisualStyleBackColor = False
-        '
-        'MnuPrint
-        '
-        Me.MnuPrint.Enabled = False
-        Me.MnuPrint.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.MnuPrint.Name = "MnuPrint"
-        Me.MnuPrint.ShortcutKeyDisplayString = "Ctrl+W"
-        Me.MnuPrint.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.MnuPrint.Size = New System.Drawing.Size(278, 26)
-        Me.MnuPrint.Text = "طباعة أمر التوريد"
-        '
-        'MnuLesItms
-        '
-        Me.MnuLesItms.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.MnuLesItms.Name = "MnuLesItms"
-        Me.MnuLesItms.Size = New System.Drawing.Size(270, 26)
-        Me.MnuLesItms.Text = "كشف أصناف ناقصه"
-        '
-        'MnuItems
-        '
-        Me.MnuItems.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.MnuItems.Name = "MnuItems"
-        Me.MnuItems.ShortcutKeyDisplayString = ""
-        Me.MnuItems.Size = New System.Drawing.Size(270, 26)
-        Me.MnuItems.Text = "بيان أوامر التوريد"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(267, 6)
         '
         'POs
         '

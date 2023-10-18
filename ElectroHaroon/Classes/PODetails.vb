@@ -91,6 +91,15 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
                 .DataSource = GetData()
             End With
         End Sub
+        Public Sub BindVendors(ByVal cbo As ComboBox)
+            'Tells the combobox which column in the bound data is the value to save in the database
+            'and which column is the value to display to the user.
+            With cbo
+                .ValueMember = "VenID"
+                .DisplayMember = "VendNm"
+                .DataSource = GetData()
+            End With
+        End Sub
     End Class
     Public Class SO_Details
         Inherits DataOperations
@@ -104,6 +113,7 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
         Public Property UnitID As Integer
         Public Property StoreID As Integer
         Public Property SONotes As String
+
         Public Sub New()
             ConnectionString = GetEncryConStr()
         End Sub
@@ -112,43 +122,64 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
         Inherits DataOperations
         Private ConnectionString As String
         Private Const TranID As Integer = 1 'Po or SO (1 - 2)
-        Public Property POID As Integer
-        Public Property PODate As Date
+        Public Property InvID As Integer
         Public Property PID As Integer
         Public Property VendID As Integer
         Public Property PMID As Integer
         Public Property UnitID As Integer
-        Public Property StoreID As Integer
+        Public Property QntyIn As Integer
+        Public Property ItmPrice As Double
+        Public Property ItmTotal As Double
         Public Property PONotes As String
+        Public Property PO_num As String
+        Public Property PO_Date As Date
         Public Sub New()
             ConnectionString = GetEncryConStr()
         End Sub
-        Public Function SaveNewPO() As Integer
+        Public Function SaveNewPO(ByVal DG As DataGridView) As Integer
             If String.IsNullOrEmpty(PONotes) Then PONotes = "لا يوجد"
             Dim Saved As Integer = 0, PMKey As Integer = 0
             Dim InsertSql = <sql>
-                            INSERT INTO PurOrders (PODt,TranID,VenID,PTId,PONots) VALUES (NOW(),?,?,?,?);
+                            INSERT INTO PurInv (PO_Date,VenID,PTID,InvNotes) 
+            VALUES (NOW(),?,?,?);
+                        </sql>
+            Dim InsertSqlDetails = <sql>
+                            INSERT INTO InvDetails (PID,UnitID,QntyIn,PurUnitPrice,InvID) 
+            VALUES (?,?,?,?,?);
                         </sql>
             Dim SelectSql = <sql>
                                 SELECT @@IDENTITY;
                             </sql>
+
             Using CN As New OleDbConnection(ConnectionString),
                 InsertCMD As New OleDbCommand(InsertSql, CN) With {.CommandType = CommandType.Text},
-                SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text}
-                With InsertCMD.Parameters
-                    .AddWithValue("?", TranID)
-                    .AddWithValue("?", VendID)
-                    .AddWithValue("?", PMID)
-                    .AddWithValue("?", PONotes)
-                End With
+                SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text},
+                InsertDetails As New OleDbCommand(InsertSqlDetails, CN) With {.CommandType = CommandType.Text}
                 Try
+                    With InsertCMD.Parameters
+                        .AddWithValue("?", VendID)
+                        .AddWithValue("?", PMID)
+                        .AddWithValue("?", PONotes)
+                    End With
                     CN.Open()
-                    Saved = InsertCMD.ExecuteNonQuery
+                    InsertCMD.ExecuteNonQuery()
                     PMKey = CInt(SelectCMD.ExecuteScalar.ToString)
+                    For Each Irow As DataGridViewRow In DG.Rows
+                        With InsertDetails.Parameters
+                            .AddWithValue("?", CInt(Irow.Cells("PID").Value))
+                            .AddWithValue("?", CInt(Irow.Cells("Units").Value))
+                            .AddWithValue("?", CInt(Irow.Cells("ItmQntyIn").Value))
+                            .AddWithValue("?", CInt(Irow.Cells("ItmPurPrice").Value))
+                            .AddWithValue("?", PMKey)
+                        End With
+                        Saved = InsertDetails.ExecuteNonQuery
+                        Saved += 1
+                        InsertDetails.Parameters.Clear()
+                    Next
                 Catch ex As Exception
                     MsgBox("خطأ فى حفظ أمر شراء جديد : " & vbCrLf & ex.Message,
-                       MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
-                       "خطأ")
+                   MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
+                   "خطأ")
                     InsertCMD.Parameters.Clear()
                     InsertCMD.Dispose()
                     CN.Close()

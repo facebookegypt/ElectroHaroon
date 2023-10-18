@@ -31,16 +31,21 @@ Public Class Units
         Return Ntbl
     End Function
     Public Sub BindDGColumnUnits(ByVal DG As DataGridView)
-        Dim UnitsCboColumn As DataGridViewComboBoxColumn =
+        Try
+            If DG.ColumnCount <= 0 Then Exit Sub
+            Dim UnitsCboColumn As DataGridViewComboBoxColumn =
             DirectCast(DG.Columns("Units"), DataGridViewComboBoxColumn)
-        'Tells the combobox which column in the bound data is the value to save in the database
-        'and which column is the value to display to the user.
-        With UnitsCboColumn
-            .DataPropertyName = "Units"
-            .ValueMember = "UnitID"
-            .DisplayMember = "UnitNm"
-            .DataSource = GetData()
-            .DefaultCellStyle.NullValue = "اختر الوحدة"
-        End With
+            'Tells the combobox which column in the bound data is the value to save in the database
+            'and which column is the value to display to the user.
+            With UnitsCboColumn
+                .DataPropertyName = "Units"
+                .ValueMember = "UnitID"
+                .DisplayMember = "UnitNm"
+                .DataSource = GetData()
+                .DefaultCellStyle.NullValue = "اختر الوحدة"
+            End With
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class

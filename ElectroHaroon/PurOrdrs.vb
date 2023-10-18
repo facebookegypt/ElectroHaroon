@@ -937,12 +937,12 @@ Public Class PurOrdrs
         Dim NewPO As New PO_Details With
         {
         .PMID = CInt(ComboBox1.SelectedValue.ToString),
-        .PODate = DTP1.Value,
+        .PO_Date = DTP1.Value,
         .VendID = CInt(ComboBox2.SelectedValue.ToString),
         .PONotes = TextBox7.Text
         }
         Try
-            Dim SavedPO = NewPO.SaveNewPO.ToString
+            Dim SavedPO = NewPO.SaveNewPO(DGReady)
             Pno1.Text = SavedPO
             Pno1.ReadOnly = True
             Button1.Enabled = False

@@ -4,6 +4,52 @@ Public Class POs
     Private MySrch, TotalTbl As DataTable
     Private TempDT As DataTable
     Private TempDR As DataRow
+    Private Function SetUpDataTable() As DataTable
+        Dim ColAdd As New DataColumn With
+            {.AllowDBNull = True, .ColumnName = "ColAdd", .DataType = GetType(Boolean), .ReadOnly = False, .ColumnMapping = MappingType.Element,
+            .DefaultValue = False}
+        Dim Units As New DataColumn With
+            {.AllowDBNull = True, .ColumnName = "Units", .DataType = GetType(Integer), .ColumnMapping = MappingType.Element, .ReadOnly = False}
+        Dim ItmQntyIn As New DataColumn With
+            {.AllowDBNull = False, .ColumnName = "ItmQntyIn", .DataType = GetType(Integer), .DefaultValue = "1", .ReadOnly = False}
+        Dim ItmPurPrice As New DataColumn With
+            {.AllowDBNull = False, .ColumnName = "ItmPurPrice", .DataType = GetType(Double), .DefaultValue = "0.0", .ReadOnly = False}
+        Dim ItmTotalPrice As New DataColumn With
+            {.AllowDBNull = False, .ColumnName = "ItmTotalPrice", .DataType = GetType(Double), .DefaultValue = "0.0", .ReadOnly = True,
+            .Expression = "ItmQntyIn*ItmPurPrice"}
+        MySrch = New DataTable
+        Dim OItems As New CombinedData
+        MySrch = OItems.GetDataItems
+        With MySrch
+            .Columns("PID").Unique = True
+            .PrimaryKey = New DataColumn() {MySrch.Columns("PID")}
+            .Columns.AddRange({Units, ColAdd, ItmQntyIn, ItmPurPrice, ItmTotalPrice})
+        End With
+        Return MySrch
+    End Function
+    Private Function BindToSrc() As BindingSource
+        BS2 = New BindingSource
+        BS2.DataSource = SetUpDataTable()
+        Return BS2
+    End Function
+    Private Sub BindToDG(Optional Filter As String = "", Optional Sort As String = "")
+        Dim IUnits As New Units
+        IUnits.BindDGColumnUnits(DGready)
+        Dim Binsrc As New BindingSource
+        Binsrc = BindToSrc()
+        With DGready
+            .StandardTab = True
+            .Columns("PID").Visible = False
+            .Columns("Pname").ValueType = GetType(String)
+            .Columns("Pname").Visible = True
+            .Columns("Units").ValueType = GetType(Integer)
+            .Columns("Units").Visible = True
+            .AutoGenerateColumns = True
+            .DataSource = Binsrc
+        End With
+        Binsrc.Filter = Filter
+        Binsrc.Sort = Sort
+    End Sub
     Private Sub POs_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         TempBS = Nothing
         BS2 = Nothing
@@ -20,46 +66,18 @@ Public Class POs
         If e.Control AndAlso e.KeyCode = Keys.F Then
             TextBox1.Select()
         End If
-        If e.Control AndAlso e.KeyCode = Keys.P Then
+        If e.Control AndAlso e.KeyCode = Keys.P AndAlso Label3.Enabled = True Then
             Label3_Click(sender, e)
         End If
     End Sub
     Private Sub ComboBox2_DropDown(sender As Object, e As EventArgs) Handles ComboBox2.DropDown
         'Vendors
-        Dim Vends As New Vendors
-        Vends.BindCboVends(ComboBox2)
+        Dim VendsItms As New CombinedData With {.Key_ID = "VenID", .Val_Nm = "VendNm", .Tbl_Nm = "Vendors"}
+        VendsItms.BindVendors(ComboBox2)
     End Sub
     Private Sub POs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
-        DGready.StandardTab = True
-        'Set ValueType of DGReady
-        DGready.Columns("Pname").ValueType = GetType(String)
-        DGready.Columns("Units").ValueType = GetType(Integer)
-        Dim OItems As New CombinedData
-        MySrch = New DataTable
-        MySrch = OItems.GetDataItems
-        MySrch.Columns("PID").Unique = True
-        MySrch.PrimaryKey = New DataColumn() {MySrch.Columns("PID")}
         Try
-            Dim ColAdd As New DataColumn With
-            {.AllowDBNull = True, .ColumnName = "ColAdd", .DataType = GetType(Boolean), .ReadOnly = False, .ColumnMapping = MappingType.Element,
-            .DefaultValue = False}
-            MySrch.Columns.Add(ColAdd)
-            Dim Units As New DataColumn With
-            {.AllowDBNull = True, .ColumnName = "Units", .DataType = GetType(Integer), .ColumnMapping = MappingType.Element, .ReadOnly = False}
-            MySrch.Columns.Add(Units)
-            Dim ItmQntyIn As New DataColumn With
-            {.AllowDBNull = False, .ColumnName = "ItmQntyIn", .DataType = GetType(Integer), .DefaultValue = "1", .ReadOnly = False}
-            MySrch.Columns.Add(ItmQntyIn)
-            Dim ItmPurPrice As New DataColumn With
-            {.AllowDBNull = False, .ColumnName = "ItmPurPrice", .DataType = GetType(Double), .DefaultValue = "0.0", .ReadOnly = False}
-            MySrch.Columns.Add(ItmPurPrice)
-            Dim ItmTotalPrice As New DataColumn With
-            {.AllowDBNull = False, .ColumnName = "ItmTotalPrice", .DataType = GetType(Double), .DefaultValue = "0.0", .ReadOnly = True,
-            .Expression = "ItmQntyIn*ItmPurPrice"}
-            MySrch.Columns.Add(ItmTotalPrice)
-            Dim IUnits As New Units
-            IUnits.BindDGColumnUnits(DGready)
         Catch ex As Exception
             LblSts.Text = ("عملية غير صحيحة : ") & ex.Message
             PictureBox1.Image = My.Resources.Cancel
@@ -112,22 +130,29 @@ Public Class POs
     Private Sub MnuNew_Click(sender As Object, e As EventArgs) Handles MnuNew.Click
         MnuSave.Enabled = False
         MnuEdit.Enabled = False
+        Pno1.Text = Module1.GenerateRandomString
         LblSts.Text = String.Empty
         PictureBox1.Image = Nothing
-        'All Selected Items to store
+        'preview
         TempDT = New DataTable
+        TempBS = New BindingSource
+        If Not IsNothing(DGPerv) Then
+            DGPerv.DataSource = Nothing
+            DGPerv.Visible = False
+        End If
+        'All Selected Items to store
+        BS2 = New BindingSource
+        If DGready.Visible = False Then DGready.Visible = True
+        Label3.Text = "معاينة أمر الشراء"
+        Label3.Enabled = False
+
         BSTotal = New BindingSource
         BS_SellPrice = New BindingSource
-        DGready.DataSource = Nothing
         TextBox1.Text = String.Empty
         ComboBox1.SelectedIndex = -1
         ComboBox2.SelectedIndex = -1
         Pno1.Text = String.Empty
         TextBox7.Text = String.Empty
-        Label3.Enabled = False
-        If DGready.Visible = False Then DGready.Visible = True
-        If Not IsNothing(DGPerv) Then DGPerv.Dispose()
-        Label3.Text = "معاينة أمر الشراء"
     End Sub
 #Region "Sell Prices Panel"
     Private StartUpHeight As Integer = 279
@@ -214,12 +239,14 @@ Public Class POs
 #End Region
     Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
         RemoveHandler DGready.SelectionChanged, AddressOf DGReady_SelectionChanged
+        TempDT.Columns("ItmTotalPrice").Expression = "[ItmQntyIn]*[ItmPurPrice]"
         ActiveControl = Label3
         DGready.Visible = False
         DGPerv = New PO_preview With {.Location = DGready.Location, .Size = DGready.Size, .Visible = True}
         TempBS = New BindingSource
         TempBS.DataSource = TempDT
         DGPerv.DataSource = TempBS
+        TempBS.ResetBindings(True)
         Controls.Add(DGPerv)
         MnuSave.Enabled = True
     End Sub
@@ -268,22 +295,30 @@ Public Class POs
     End Sub
     Private Sub DGready_DataBindingComplete(sender As Object, e As DataGridViewBindingCompleteEventArgs) Handles DGready.DataBindingComplete
         If DGready.Columns.Contains("ColAdd") Then
-            DGready.RowTemplate.Height = 35
-            DGready.Columns("ColAdd").HeaderText = "اضافة/حذف"
-            DGready.Columns("ColAdd").DisplayIndex = 6
-            DGready.Columns("ColAdd").ValueType = GetType(Boolean)
-            DGready.Columns("ColAdd").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
-            DirectCast(DGready.Columns("ColAdd"), DataGridViewCheckBoxColumn).TrueValue = True
-            DirectCast(DGready.Columns("ColAdd"), DataGridViewCheckBoxColumn).FalseValue = False
-            DirectCast(DGready.Columns("ColAdd"), DataGridViewCheckBoxColumn).ThreeState = False
-            DirectCast(DGready.Columns("ColAdd"), DataGridViewCheckBoxColumn).DefaultCellStyle.NullValue = False
-            DGready.Columns("Pname").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-            DGready.Columns("ItmQntyIn").HeaderText = "الكمية"
-            DGready.Columns("ItmQntyIn").AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
-            DGready.Columns("ItmPurPrice").HeaderText = "سعر الوحدة"
-            DGready.Columns("ItmPurPrice").DefaultCellStyle.Format = "C2"
-            DGready.Columns("ItmTotalPrice").HeaderText = "اجمالي الصنف"
-            DGready.Columns("ItmTotalPrice").DefaultCellStyle.Format = "C2"
+            With DGready
+                .RowTemplate.Height = 35
+                .Columns("ColAdd").HeaderText = "اضافة/حذف"
+                .Columns("ColAdd").DisplayIndex = 6
+                .Columns("ColAdd").ValueType = GetType(Boolean)
+                .Columns("ColAdd").AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader
+                DirectCast(.Columns("ColAdd"), DataGridViewCheckBoxColumn).TrueValue = True
+                DirectCast(.Columns("ColAdd"), DataGridViewCheckBoxColumn).FalseValue = False
+                DirectCast(.Columns("ColAdd"), DataGridViewCheckBoxColumn).ThreeState = False
+                DirectCast(.Columns("ColAdd"), DataGridViewCheckBoxColumn).DefaultCellStyle.NullValue = False
+                .Columns("PID").Visible = False
+                .Columns("Pname").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                .Columns("Pname").HeaderText = "الصنف"
+                .Columns("Units").HeaderText = "الوحدة"
+                .Columns("Units").DataPropertyName = "Units"
+                .Columns("ItmQntyIn").HeaderText = "الكمية"
+                .Columns("ItmQntyIn").HeaderText = "الكمية"
+                .Columns("ItmQntyIn").AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
+                .Columns("ItmPurPrice").HeaderText = "سعر الوحدة"
+                .Columns("ItmPurPrice").DefaultCellStyle.Format = "C2"
+                .Columns("ItmTotalPrice").HeaderText = "اجمالي الصنف"
+                .Columns("ItmTotalPrice").DefaultCellStyle.Format = "C2"
+                .Invalidate()
+            End With
         End If
         If IsNothing(TempDT) Then Exit Sub
         If TempDT.Columns.Count = 0 Then
@@ -325,12 +360,22 @@ Public Class POs
     End Sub
     Private Sub DGready_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.CellValueChanged
         If e.ColumnIndex < 0 OrElse e.RowIndex < 0 Then Exit Sub
+        'Get Changes Added After First AcceptChanges
+        Dim Addedrows() As DataRow = TempDT.Select("PID='" & CInt(DGready("PID", e.RowIndex).Value.ToString) & "'")
+        If Not DGready.CurrentCell Is DGready("ColAdd", e.RowIndex) Then
+            If Addedrows.Length > 0 Then
+                Addedrows(0)(e.ColumnIndex) = DGready(e.ColumnIndex, e.RowIndex).Value
+                TempDT.AcceptChanges()
+                TempBS.ResetBindings(True)
+                DGPerv.Refresh()
+            End If
+        End If
         If DGready.Columns(e.ColumnIndex).Name = "ColAdd" Then
             Dim checkCell As DataGridViewCheckBoxCell = CType(DGready.Rows(e.RowIndex).Cells("ColAdd"), DataGridViewCheckBoxCell)
             If checkCell.Value = True Then
                 Dim CellValues As DataGridViewCellCollection = DGready.CurrentRow.Cells
                 For Each CelVal As DataGridViewCell In CellValues
-                    If IsDBNull(CelVal.Value) OrElse IsNothing(CelVal.Value) Then
+                    If IsDBNull(CelVal.Value) OrElse IsNothing(CelVal.Value) OrElse CelVal.Value = 0.ToString Then
                         MsgBox("يجب تعبئة كل بيانات الصنف المختار")
                         DGready.CurrentRow.Cells("ColAdd").Value = False
                         DGready.CancelEdit()
@@ -369,7 +414,8 @@ Public Class POs
                         TempDT.Rows.Remove(rows(0))
                         TempDT.AcceptChanges()
                         TempBS = New BindingSource
-                        TempBS.DataSource = TempDT.GetChanges
+                        TempBS.DataSource = TempDT
+                        TempBS.ResetBindings(True)
                         Label3.Text = "معاينة أمر الشراء (" & TempDT.Rows.Count.ToString & ")"
                     End If
                 End If
@@ -382,15 +428,19 @@ Public Class POs
     Private currentRow, currentCell As Integer
     Private resetRow As Boolean = False
     Private Sub DGReady_SelectionChanged(sender As Object, e As EventArgs) Handles DGready.SelectionChanged
-        If IsNothing(DGready.CurrentCell) Then Exit Sub
-        If DGready("ColAdd", currentRow).Value = True Then
-            resetRow = True
-        End If
-        If resetRow Then
-            resetRow = False
-            DGready.CurrentCell = DGready.Rows(currentRow).Cells(currentCell)
-            'DGready.CurrentCell.OwningRow.Selected = True
-        End If
+        Try
+            If IsNothing(DGready.CurrentCell) Then Exit Sub
+            If DGready("ColAdd", currentRow).Value = True Then
+                resetRow = True
+            End If
+            If resetRow Then
+                resetRow = False
+                DGready.CurrentCell = DGready.Rows(currentRow).Cells(currentCell)
+                'DGready.CurrentCell.OwningRow.Selected = True
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
     Private Sub DGReady_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.CellEndEdit
         resetRow = True
@@ -407,9 +457,6 @@ Public Class POs
         DataGridView1.Rows(0).Cells("InvTotal").Value = poTotal
 #End Region
     End Sub
-    Private Sub _MPback_Click(sender As Object, e As EventArgs) Handles _MPback.Click
-        Dispose()
-    End Sub
     Private Sub DGready_RowHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DGready.RowHeaderMouseClick
         If IsNothing(DGready.CurrentCell) Then
             Exit Sub
@@ -418,6 +465,14 @@ Public Class POs
             resetRow = False
             DGready.CurrentCell = DGready("Pname", e.RowIndex)
             DGready.CurrentCell.OwningRow.Selected = True
+        End If
+    End Sub
+    Private Sub DGready_KeyDown(sender As Object, e As KeyEventArgs) Handles DGready.KeyDown
+        If e.KeyCode = Keys.F10 Then
+            DGready.Select()
+            If DGready.Columns.Count > 0 Then
+                DGready.CurrentRow.Cells("ColAdd").Value = Not DGready.CurrentRow.Cells("ColAdd").Value
+            End If
         End If
     End Sub
 #End Region
@@ -438,19 +493,16 @@ Public Class POs
         End Try
 
     End Sub
+    Private BGS As New BindingSource
     Private Sub TextBox1_GotFocus(sender As Object, e As EventArgs) Handles TextBox1.GotFocus
         Try
             If DGready.Visible = False Then DGready.Visible = True
             If Not IsNothing(DGPerv) Then DGPerv.Dispose()
             AddHandler DGready.SelectionChanged, AddressOf DGReady_SelectionChanged
-            MySrch.Columns("ItmTotalPrice").Expression = "[ItmQntyIn]*[ItmPurPrice]"
-            BS2 = New BindingSource
-            BS2.DataSource = MySrch
-            Dim IUnits As New Units
-            IUnits.BindDGColumnUnits(DGready)
             MnuSave.Enabled = False
         Catch ex As Exception
             LblSts.Text = ex.Message
+            PictureBox1.Image = My.Resources.Cancel
         End Try
     End Sub
     Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
@@ -462,19 +514,41 @@ Public Class POs
             End If
             If DGready.Visible = False Then DGready.Visible = True
             If Not IsNothing(TempBS) Then TempBS.Dispose()
-            Dim Filter As String =
-                "Pname LIKE '%" & TextBox1.Text & "%'"
-            With DGready
-                .AutoGenerateColumns = True
-                .DataSource = BS2
-            End With
-            BS2.Filter = Filter
-            BS2.Sort = "Pname ASC"
+            Dim Filter = "Pname LIKE '%" & TextBox1.Text & "%'"
+            Dim Sort = "Pname ASC"
+            BindToDG(Filter, SORT)
         Catch ex As Exception
             LblSts.Text = ("عملية غير صحيحة : ") & ex.Message
             PictureBox1.Image = My.Resources.Cancel
             Exit Sub
         End Try
+    End Sub
+#End Region
+    Private Sub _MPback_Click(sender As Object, e As EventArgs) Handles _MPback.Click
+        Dispose()
+    End Sub
+#Region "Save new PO"
+    Private Sub MnuSave_Click(sender As Object, e As EventArgs) Handles MnuSave.Click
+        If IsNothing(ComboBox1.SelectedValue) OrElse IsNothing(ComboBox2.SelectedValue) Then
+            LblSts.Text = "يجب تحديد المورد و طريقة الدفع"
+            PictureBox1.Image = My.Resources.Cancel
+            Exit Sub
+        End If
+        If String.IsNullOrEmpty(TextBox7.Text) Then TextBox7.Text = "لا يوجد"
+        If Label3.Enabled = False Then
+            MsgBox("يجب تصفية الفاتورة - معاينة أمر الشراء أولا")
+            Exit Sub
+        End If
+        PictureBox1.Image = Nothing
+        LblSts.Text = String.Empty
+        Dim NewPO As New PO_Details With
+            {
+        .PMID = CInt(ComboBox1.SelectedValue.ToString),
+        .VendID = CInt(ComboBox2.SelectedValue.ToString),
+        .PONotes = TextBox7.Text}
+        Pno1.Text = NewPO.SaveNewPO(DGPerv).ToString
+        LblSts.Text = "تم حفظ أمر الشراء"
+        PictureBox1.Image = My.Resources.Apply
     End Sub
 #End Region
 End Class
