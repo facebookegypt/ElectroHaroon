@@ -133,6 +133,9 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
         Public Property PONotes As String
         Public Property PO_num As String
         Public Property PO_Date As Date
+        Public Property Dscnt As Double
+        Public Property InvNet As Double
+        Public Property InvPaid As Double
         Public Sub New()
             ConnectionString = GetEncryConStr()
         End Sub
@@ -147,6 +150,10 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
                             INSERT INTO InvDetails (PID,UnitID,QntyIn,PurUnitPrice,InvID) 
             VALUES (?,?,?,?,?);
                         </sql>
+            Dim InsertTotalSql = <sql>
+                                INSERT INTO PurInvTotals (PO_Numbr,PurDscnt,PurInvNet,PurInvPaid) 
+            VALUES (?,?,?,?);
+                            </sql>
             Dim SelectSql = <sql>
                                 SELECT @@IDENTITY;
                             </sql>
@@ -154,7 +161,8 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
             Using CN As New OleDbConnection(ConnectionString),
                 InsertCMD As New OleDbCommand(InsertSql, CN) With {.CommandType = CommandType.Text},
                 SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text},
-                InsertDetails As New OleDbCommand(InsertSqlDetails, CN) With {.CommandType = CommandType.Text}
+                InsertDetails As New OleDbCommand(InsertSqlDetails, CN) With {.CommandType = CommandType.Text},
+                InsertTotals As New OleDbCommand(InsertTotalSql, CN) With {.CommandType = CommandType.Text}
                 Try
                     With InsertCMD.Parameters
                         .AddWithValue("?", VendID)
@@ -163,6 +171,7 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
                     End With
                     CN.Open()
                     InsertCMD.ExecuteNonQuery()
+                    InsertCMD.Parameters.Clear()
                     PMKey = CInt(SelectCMD.ExecuteScalar.ToString)
                     For Each Irow As DataGridViewRow In DG.Rows
                         With InsertDetails.Parameters
@@ -176,6 +185,14 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
                         Saved += 1
                         InsertDetails.Parameters.Clear()
                     Next
+                    With InsertTotals.Parameters
+                        .AddWithValue("?", PMKey)
+                        .AddWithValue("?", Dscnt)
+                        .AddWithValue("?", InvNet)
+                        .AddWithValue("?", InvPaid)
+                    End With
+                    InsertTotals.ExecuteNonQuery()
+                    InsertTotals.Parameters.Clear()
                 Catch ex As Exception
                     MsgBox("خطأ فى حفظ أمر شراء جديد : " & vbCrLf & ex.Message,
                    MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,
@@ -215,5 +232,44 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
             End Using
             Return Ntbl
         End Function
+        Public Sub CreateQuerPO()
+            Dim SqlStrDrop =
+                <sql>
+                    DROP VIEW Q_po
+                </sql>.Value
+            Dim SqlStrCreate =
+                <sql>
+                    CREATE VIEW Q_po AS SELECT PurInv.InvID, Products.PID, Products.Pname, Units.UnitNm, Products.Pdesc, Products.FrstQnty, 
+                Stores.StoreNm, Products.Pnotes, PurInv.PO_Date, Vendors.VendNm, PayTypes.PTNm, InvDetails.QntyIn, InvDetails.PurUnitPrice, 
+                InvDetails.PurUnitTotal, PurInvTotals.PurDscnt, PurInvTotals.PurInvNet, PurInvTotals.PurInvPaid, PurInvTotals.PurInvRest, 
+                Kinds.KindNm, SellPriceGrps.GSellPrice, PurInv.InvNotes FROM Units INNER JOIN ((Kinds INNER JOIN SellPriceGrps ON 
+                Kinds.KindID = SellPriceGrps.KindID) INNER JOIN (PurInvTotals INNER JOIN (Stores INNER JOIN (Products INNER JOIN (Vendors 
+                INNER JOIN (PayTypes INNER JOIN (InvDetails INNER JOIN PurInv ON InvDetails.InvID = PurInv.InvID) ON 
+                PayTypes.PTID = PurInv.PTID) ON Vendors.VenID = PurInv.VenID) ON Products.PID = InvDetails.PID) ON 
+                Stores.StoreID = Products.StoreID) ON PurInvTotals.PO_Numbr = PurInv.InvID) ON SellPriceGrps.PID = Products.PID) ON 
+                Units.UnitID = InvDetails.UnitID GROUP BY PurInv.InvID, Products.PID, Products.Pname, Units.UnitNm, Products.Pdesc, 
+                Products.FrstQnty, Stores.StoreNm, Products.Pnotes, PurInv.PO_Date, Vendors.VendNm, PayTypes.PTNm, InvDetails.QntyIn, 
+                InvDetails.PurUnitPrice, InvDetails.PurUnitTotal, PurInvTotals.PurDscnt, PurInvTotals.PurInvNet, PurInvTotals.PurInvPaid, 
+                PurInvTotals.PurInvRest, Kinds.KindNm, SellPriceGrps.GSellPrice, PurInv.InvNotes HAVING (((PurInv.InvID)=<%= InvID %>));
+                </sql>.Value
+            Using cn As New OleDbConnection(ConnectionString),
+                    CMDCreateQ As New OleDbCommand(SqlStrCreate, cn) With {.CommandType = CommandType.Text},
+                    CMDDropQ As New OleDbCommand(SqlStrDrop, cn) With {.CommandType = CommandType.Text}
+                cn.Open()
+                Try
+                    CMDDropQ.ExecuteNonQuery()
+                    CMDCreateQ.ExecuteNonQuery()
+                Catch ex As OleDbException
+                    CMDCreateQ.ExecuteNonQuery()
+                Finally
+                    CMDCreateQ.Parameters.Clear()
+                    CMDCreateQ.Dispose()
+                    CMDDropQ.Dispose()
+                    cn.Dispose()
+                    InvPreview.TargetForm = "PODetails_Prev"
+                    InvPreview.ShowDialog()
+                End Try
+            End Using
+        End Sub
     End Class
 End Namespace

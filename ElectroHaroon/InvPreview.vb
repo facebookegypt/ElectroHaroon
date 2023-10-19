@@ -43,7 +43,9 @@ Public Class InvPreview
             Case Is = "PODetails_Prev"
                 Label14.Text = "معاينة أمر التوريد"
                 Cryp.Load(IO.Path.Combine(Application.StartupPath, "Reports", "PurOrdrPrev_RPT.rpt"))
-                Cryp.SetDataSource(GetData("SELECT * FROM Pur_Ordr_Prev;"))
+                Dim ThisDT As New DataTable
+                ThisDT = GetData("SELECT * FROM Q_po;")
+                Cryp.SetDataSource(ThisDT)
                 With CrpSalInv
                     .ReportSource = Cryp
                     Dim Obj As ReportObject

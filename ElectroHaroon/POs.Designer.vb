@@ -23,13 +23,13 @@ Partial Class POs
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(POs))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me._MP = New System.Windows.Forms.ToolStripMenuItem()
@@ -150,7 +150,6 @@ Partial Class POs
         '
         'MnuPrint
         '
-        Me.MnuPrint.Enabled = False
         Me.MnuPrint.Font = New System.Drawing.Font("Times New Roman", 11.25!, System.Drawing.FontStyle.Bold)
         Me.MnuPrint.Name = "MnuPrint"
         Me.MnuPrint.ShortcutKeyDisplayString = "Ctrl+W"
@@ -201,14 +200,14 @@ Partial Class POs
         Me.DGready.BackgroundColor = System.Drawing.Color.Snow
         Me.DGready.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DGready.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle1.BackColor = System.Drawing.Color.Azure
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.SteelBlue
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Linen
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DGready.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle8.BackColor = System.Drawing.Color.Azure
+        DataGridViewCellStyle8.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle8.ForeColor = System.Drawing.Color.SteelBlue
+        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.Linen
+        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DGready.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle8
         Me.DGready.ColumnHeadersHeight = 50
         Me.DGready.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.DGready.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PID, Me.Pname, Me.Units})
@@ -220,14 +219,14 @@ Partial Class POs
         Me.DGready.Name = "DGready"
         Me.DGready.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DGready.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.MintCream
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.DimGray
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle9.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.MintCream
+        DataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.DimGray
+        DataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle9
         Me.DGready.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DGready.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DGready.Size = New System.Drawing.Size(1056, 570)
@@ -266,14 +265,14 @@ Partial Class POs
         Me.DataGridView1.BackgroundColor = System.Drawing.Color.Snow
         Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle3.BackColor = System.Drawing.Color.Azure
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.Color.SteelBlue
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Linen
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle10.BackColor = System.Drawing.Color.Azure
+        DataGridViewCellStyle10.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle10.ForeColor = System.Drawing.Color.SteelBlue
+        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Linen
+        DataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle10
         Me.DataGridView1.ColumnHeadersHeight = 50
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.InvTotal, Me.InvDscnt, Me.InvNet, Me.InvPaid, Me.InvRest})
@@ -285,14 +284,14 @@ Partial Class POs
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle7.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.MintCream
-        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.DimGray
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle14.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle14.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle14.SelectionBackColor = System.Drawing.Color.MintCream
+        DataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.DimGray
+        DataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DataGridView1.RowHeadersDefaultCellStyle = DataGridViewCellStyle14
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DataGridView1.Size = New System.Drawing.Size(1056, 114)
@@ -300,16 +299,16 @@ Partial Class POs
         '
         'InvTotal
         '
-        DataGridViewCellStyle4.Format = "C2"
-        DataGridViewCellStyle4.NullValue = "0.00"
-        Me.InvTotal.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle11.Format = "C2"
+        DataGridViewCellStyle11.NullValue = "0.00"
+        Me.InvTotal.DefaultCellStyle = DataGridViewCellStyle11
         Me.InvTotal.HeaderText = "اجمالي الفاتورة"
         Me.InvTotal.Name = "InvTotal"
         '
         'InvDscnt
         '
-        DataGridViewCellStyle5.BackColor = System.Drawing.Color.Snow
-        Me.InvDscnt.DefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle12.BackColor = System.Drawing.Color.Snow
+        Me.InvDscnt.DefaultCellStyle = DataGridViewCellStyle12
         Me.InvDscnt.HeaderText = "الخصم"
         Me.InvDscnt.Name = "InvDscnt"
         '
@@ -320,8 +319,8 @@ Partial Class POs
         '
         'InvPaid
         '
-        DataGridViewCellStyle6.BackColor = System.Drawing.Color.Snow
-        Me.InvPaid.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle13.BackColor = System.Drawing.Color.Snow
+        Me.InvPaid.DefaultCellStyle = DataGridViewCellStyle13
         Me.InvPaid.HeaderText = "المدفوع للمورد"
         Me.InvPaid.Name = "InvPaid"
         '
@@ -354,6 +353,7 @@ Partial Class POs
         Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox1.MaxLength = 20
         Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
         Me.TextBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.TextBox1.Size = New System.Drawing.Size(411, 30)
         Me.TextBox1.TabIndex = 429

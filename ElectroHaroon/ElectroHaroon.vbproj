@@ -274,11 +274,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Reports\PurOrdrPrev_RPT.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>PurOrdrPrev_RPT.rpt</DependentUpon>
       <SubType>Component</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Reports\SalInv.vb">
       <AutoGen>True</AutoGen>
@@ -430,7 +429,6 @@
     <EmbeddedResource Include="Reports\PurOrdrPrev_RPT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>PurOrdrPrev_RPT.vb</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\SalInv.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -539,7 +537,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Debug\" />
+    <Folder Include="bin\Debug\Reports\" />
     <Folder Include="db\" />
   </ItemGroup>
   <ItemGroup>

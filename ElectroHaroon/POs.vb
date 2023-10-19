@@ -5,51 +5,95 @@ Public Class POs
     Private TempDT As DataTable
     Private TempDR As DataRow
     Private Function SetUpDataTable() As DataTable
+        Dim MySrch1 As New DataTable
+        Dim OItems As New CombinedData
+        MySrch1 = OItems.GetDataItems
         Dim ColAdd As New DataColumn With
             {.AllowDBNull = True, .ColumnName = "ColAdd", .DataType = GetType(Boolean), .ReadOnly = False, .ColumnMapping = MappingType.Element,
             .DefaultValue = False}
+        MySrch1.Columns.Add(ColAdd)
         Dim Units As New DataColumn With
             {.AllowDBNull = True, .ColumnName = "Units", .DataType = GetType(Integer), .ColumnMapping = MappingType.Element, .ReadOnly = False}
+        MySrch1.Columns.Add(Units)
         Dim ItmQntyIn As New DataColumn With
             {.AllowDBNull = False, .ColumnName = "ItmQntyIn", .DataType = GetType(Integer), .DefaultValue = "1", .ReadOnly = False}
+        MySrch1.Columns.Add(ItmQntyIn)
         Dim ItmPurPrice As New DataColumn With
             {.AllowDBNull = False, .ColumnName = "ItmPurPrice", .DataType = GetType(Double), .DefaultValue = "0.0", .ReadOnly = False}
-        Dim ItmTotalPrice As New DataColumn With
-            {.AllowDBNull = False, .ColumnName = "ItmTotalPrice", .DataType = GetType(Double), .DefaultValue = "0.0", .ReadOnly = True,
-            .Expression = "ItmQntyIn*ItmPurPrice"}
-        MySrch = New DataTable
-        Dim OItems As New CombinedData
-        MySrch = OItems.GetDataItems
-        With MySrch
+        MySrch1.Columns.Add(ItmPurPrice)
+        Dim ItmTotalPrice As New DataColumn
+        With ItmTotalPrice
+            .AllowDBNull = False
+            .ColumnName = "ItmTotalPrice"
+            .DataType = GetType(Double)
+            .DefaultValue = "0.0"
+            .ReadOnly = True
+            .Expression = "[ItmQntyIn]*[ItmPurPrice]"
+        End With
+        MySrch1.Columns.Add(ItmTotalPrice)
+        With MySrch1
             .Columns("PID").Unique = True
-            .PrimaryKey = New DataColumn() {MySrch.Columns("PID")}
-            .Columns.AddRange({Units, ColAdd, ItmQntyIn, ItmPurPrice, ItmTotalPrice})
+            .PrimaryKey = New DataColumn() {MySrch1.Columns("PID")}
         End With
-        Return MySrch
+        Return MySrch1
     End Function
-    Private Function BindToSrc() As BindingSource
-        BS2 = New BindingSource
-        BS2.DataSource = SetUpDataTable()
-        Return BS2
-    End Function
-    Private Sub BindToDG(Optional Filter As String = "", Optional Sort As String = "")
-        Dim IUnits As New Units
-        IUnits.BindDGColumnUnits(DGready)
-        Dim Binsrc As New BindingSource
-        Binsrc = BindToSrc()
-        With DGready
-            .StandardTab = True
-            .Columns("PID").Visible = False
-            .Columns("Pname").ValueType = GetType(String)
-            .Columns("Pname").Visible = True
-            .Columns("Units").ValueType = GetType(Integer)
-            .Columns("Units").Visible = True
-            .AutoGenerateColumns = True
-            .DataSource = Binsrc
-        End With
-        Binsrc.Filter = Filter
-        Binsrc.Sort = Sort
+#Region "Search"
+    Private Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyDown
+        Try
+            If e.KeyCode = Keys.Enter Then
+                If DGready.RowCount > 0 Then
+                    DGready.Select()
+                    DGready.CurrentCell = DGready.Rows(0).Cells("Units")
+                    DGready.BeginEdit(False)
+                End If
+            End If
+        Catch ex As Exception
+            LblSts.Text = ("عملية غير صحيحة :  ") & ex.Message
+            PictureBox1.Image = My.Resources.Cancel
+            Exit Sub
+        End Try
+
     End Sub
+    Private Sub TextBox1_GotFocus(sender As Object, e As EventArgs) Handles TextBox1.GotFocus
+        Try
+            If DGready.Visible = False Then DGready.Visible = True
+            If Not IsNothing(DGPerv) Then DGPerv.Dispose()
+            AddHandler DGready.SelectionChanged, AddressOf DGReady_SelectionChanged
+            MnuSave.Enabled = False
+            MySrch = New DataTable
+            MySrch = SetUpDataTable()
+            BS2 = New BindingSource
+        Catch ex As Exception
+            LblSts.Text = ex.Message
+            PictureBox1.Image = My.Resources.Cancel
+        End Try
+    End Sub
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
+        Try
+            If String.IsNullOrEmpty(TextBox1.Text) Then
+                DGready.AutoGenerateColumns = False
+                DGready.DataSource = Nothing
+                Exit Sub
+            End If
+            If DGready.Visible = False Then DGready.Visible = True
+            If Not IsNothing(TempBS) Then TempBS.Dispose()
+            Dim Filter = "Pname LIKE '%" & TextBox1.Text & "%'"
+            Dim dataRows As DataRow() = MySrch.Select(Filter)
+            If dataRows.Count <= 0 Then
+                Exit Sub
+            End If
+            Dim Myu As New DataTable
+            Myu = dataRows.CopyToDataTable
+            Myu.Columns("ItmTotalPrice").Expression = "[ItmQntyIn]*[ItmPurPrice]"
+            BS2.DataSource = Myu
+            DGready.DataSource = BS2
+        Catch ex As Exception
+            LblSts.Text = ("عملية غير صحيحة : ") & ex.Message
+            PictureBox1.Image = My.Resources.Cancel
+            Exit Sub
+        End Try
+    End Sub
+#End Region
     Private Sub POs_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         TempBS = Nothing
         BS2 = Nothing
@@ -78,6 +122,24 @@ Public Class POs
     Private Sub POs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
         Try
+            MySrch = New DataTable
+            MySrch = SetUpDataTable()
+            MySrch.Clear()
+            BS2 = New BindingSource
+            BS2.DataSource = MySrch
+            Dim IUnits As New Units
+            IUnits.BindDGColumnUnits(DGready)
+            With DGready
+                .StandardTab = True
+                .Columns("PID").Visible = False
+                .Columns("Pname").ValueType = GetType(String)
+                .Columns("Pname").Visible = True
+                .Columns("Units").ValueType = GetType(Integer)
+                .Columns("Units").Visible = True
+                .AutoGenerateColumns = True
+                .DataSource = BS2
+                .AutoGenerateColumns = False
+            End With
         Catch ex As Exception
             LblSts.Text = ("عملية غير صحيحة : ") & ex.Message
             PictureBox1.Image = My.Resources.Cancel
@@ -128,6 +190,7 @@ Public Class POs
         End With
     End Sub
     Private Sub MnuNew_Click(sender As Object, e As EventArgs) Handles MnuNew.Click
+        TextBox1.ReadOnly = False
         MnuSave.Enabled = False
         MnuEdit.Enabled = False
         Pno1.Text = Module1.GenerateRandomString
@@ -145,7 +208,6 @@ Public Class POs
         If DGready.Visible = False Then DGready.Visible = True
         Label3.Text = "معاينة أمر الشراء"
         Label3.Enabled = False
-
         BSTotal = New BindingSource
         BS_SellPrice = New BindingSource
         TextBox1.Text = String.Empty
@@ -361,67 +423,73 @@ Public Class POs
     Private Sub DGready_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DGready.CellValueChanged
         If e.ColumnIndex < 0 OrElse e.RowIndex < 0 Then Exit Sub
         'Get Changes Added After First AcceptChanges
-        Dim Addedrows() As DataRow = TempDT.Select("PID='" & CInt(DGready("PID", e.RowIndex).Value.ToString) & "'")
-        If Not DGready.CurrentCell Is DGready("ColAdd", e.RowIndex) Then
-            If Addedrows.Length > 0 Then
-                Addedrows(0)(e.ColumnIndex) = DGready(e.ColumnIndex, e.RowIndex).Value
-                TempDT.AcceptChanges()
-                TempBS.ResetBindings(True)
-                DGPerv.Refresh()
-            End If
-        End If
-        If DGready.Columns(e.ColumnIndex).Name = "ColAdd" Then
-            Dim checkCell As DataGridViewCheckBoxCell = CType(DGready.Rows(e.RowIndex).Cells("ColAdd"), DataGridViewCheckBoxCell)
-            If checkCell.Value = True Then
-                Dim CellValues As DataGridViewCellCollection = DGready.CurrentRow.Cells
-                For Each CelVal As DataGridViewCell In CellValues
-                    If IsDBNull(CelVal.Value) OrElse IsNothing(CelVal.Value) OrElse CelVal.Value = 0.ToString Then
-                        MsgBox("يجب تعبئة كل بيانات الصنف المختار")
-                        DGready.CurrentRow.Cells("ColAdd").Value = False
-                        DGready.CancelEdit()
-                        Exit Sub
-                    End If
-                Next
-                Try
-                    TempDR = TempDT.NewRow
-                    TempDR("PID") = CellValues("PID").Value
-                    TempDR("Pname") = CellValues("Pname").Value
-                    TempDR("ColAdd") = CellValues("ColAdd").Value
-                    TempDR("Units") = CellValues("Units").Value
-                    TempDR("ItmQntyIn") = CellValues("ItmQntyIn").Value
-                    TempDR("ItmPurPrice") = CellValues("ItmPurPrice").Value
-                    TempDR("ItmTotalPrice") = CellValues("ItmTotalPrice").Value
-                    TempDT.Rows.Add(TempDR)
+        Try
+            Dim Addedrows() As DataRow = TempDT.Select("PID='" & CInt(DGready("PID", e.RowIndex).Value.ToString) & "'")
+            If Not DGready.CurrentCell Is DGready("ColAdd", e.RowIndex) Then
+                If Addedrows.Length > 0 Then
+                    Addedrows(0)(e.ColumnIndex) = DGready(e.ColumnIndex, e.RowIndex).Value
                     TempDT.AcceptChanges()
-                Catch ex As Exception
-                    LblSts.Text = ex.Message
-                    PictureBox1.Image = My.Resources.Cancel
-                    Exit Sub
-                End Try
-                Try
-                    If Label3.Enabled = False Then Label3.Enabled = True
-                    Label3.Text = "معاينة أمر الشراء (" & TempDT.Rows.Count.ToString & ")"
-                Catch ex As Exception
-                    LblSts.Text = ex.Message
-                    PictureBox1.Image = My.Resources.Cancel
-                End Try
-            Else
-                Dim rows() As DataRow = TempDT.Select("PID='" & CInt(DGready.CurrentRow.Cells("PID").Value.ToString) & "'")
-                If rows.Length = 0 Then
-                    MsgBox("صنف خاطئ")
-                Else
-                    If MsgBox("حذف ?" & rows(0)("Pname"), vbYesNo) = MsgBoxResult.Yes Then
-                        TempDT.Rows.Remove(rows(0))
-                        TempDT.AcceptChanges()
-                        TempBS = New BindingSource
-                        TempBS.DataSource = TempDT
-                        TempBS.ResetBindings(True)
-                        Label3.Text = "معاينة أمر الشراء (" & TempDT.Rows.Count.ToString & ")"
-                    End If
+                    TempBS.ResetBindings(True)
                 End If
             End If
-            DataGridView1.Invalidate()
-        End If
+        Catch ex As Exception
+            LblSts.Text = ex.Message
+            PictureBox1.Image = My.Resources.Cancel
+            Exit Sub
+        End Try
+        If DGready.Columns(e.ColumnIndex).Name = "ColAdd" Then
+                Dim checkCell As DataGridViewCheckBoxCell = CType(DGready.Rows(e.RowIndex).Cells("ColAdd"), DataGridViewCheckBoxCell)
+                If checkCell.Value = True Then
+                    Dim CellValues As DataGridViewCellCollection = DGready.CurrentRow.Cells
+                    For Each CelVal As DataGridViewCell In CellValues
+                        If IsDBNull(CelVal.Value) OrElse IsNothing(CelVal.Value) OrElse CelVal.Value = 0.ToString Then
+                            MsgBox("يجب تعبئة كل بيانات الصنف المختار")
+                            DGready.CurrentRow.Cells("ColAdd").Value = False
+                            DGready.CancelEdit()
+                            Exit Sub
+                        End If
+                    Next
+
+                    Try
+                        TempDR = TempDT.NewRow
+                        TempDR("PID") = CellValues("PID").Value
+                        TempDR("Pname") = CellValues("Pname").Value
+                        TempDR("ColAdd") = CellValues("ColAdd").Value
+                        TempDR("Units") = CellValues("Units").Value
+                        TempDR("ItmQntyIn") = CellValues("ItmQntyIn").Value
+                        TempDR("ItmPurPrice") = CellValues("ItmPurPrice").Value
+                        TempDR("ItmTotalPrice") = CellValues("ItmTotalPrice").Value
+                        TempDT.Rows.Add(TempDR)
+                        TempDT.AcceptChanges()
+                    Catch ex As Exception
+                        LblSts.Text = ex.Message
+                        PictureBox1.Image = My.Resources.Cancel
+                        Exit Sub
+                    End Try
+                    Try
+                        If Label3.Enabled = False Then Label3.Enabled = True
+                        Label3.Text = "معاينة أمر الشراء (" & TempDT.Rows.Count.ToString & ")"
+                    Catch ex As Exception
+                        LblSts.Text = ex.Message
+                        PictureBox1.Image = My.Resources.Cancel
+                    End Try
+                Else
+                    Dim rows() As DataRow = TempDT.Select("PID='" & CInt(DGready.CurrentRow.Cells("PID").Value.ToString) & "'")
+                    If rows.Length = 0 Then
+                        MsgBox("صنف خاطئ")
+                    Else
+                        If MsgBox("حذف ?" & rows(0)("Pname"), vbYesNo) = MsgBoxResult.Yes Then
+                            TempDT.Rows.Remove(rows(0))
+                            TempDT.AcceptChanges()
+                            TempBS = New BindingSource
+                            TempBS.DataSource = TempDT
+                            TempBS.ResetBindings(True)
+                            Label3.Text = "معاينة أمر الشراء (" & TempDT.Rows.Count.ToString & ")"
+                        End If
+                    End If
+                End If
+                DataGridView1.Invalidate()
+            End If
     End Sub
 #End Region
 #Region "Stay in the same Cell After cellEndEdit"
@@ -457,6 +525,18 @@ Public Class POs
         DataGridView1.Rows(0).Cells("InvTotal").Value = poTotal
 #End Region
     End Sub
+
+    Private Sub MnuPrint_Click(sender As Object, e As EventArgs) Handles MnuPrint.Click
+        Dim PrintPO As New PO_Details
+        If String.IsNullOrEmpty(Pno1.Text) Then
+            Dim Pno = InputBox("ادخل رقم أمر الشراء", "طباعة أمر شراء")
+            PrintPO.InvID = CInt(Pno)
+        Else
+            PrintPO.InvID = CInt(Pno1.Text)
+        End If
+        PrintPO.CreateQuerPO()
+    End Sub
+
     Private Sub DGready_RowHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DGready.RowHeaderMouseClick
         If IsNothing(DGready.CurrentCell) Then
             Exit Sub
@@ -474,54 +554,6 @@ Public Class POs
                 DGready.CurrentRow.Cells("ColAdd").Value = Not DGready.CurrentRow.Cells("ColAdd").Value
             End If
         End If
-    End Sub
-#End Region
-#Region "Search"
-    Private Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyDown
-        Try
-            If e.KeyCode = Keys.Enter Then
-                If DGready.RowCount > 0 Then
-                    DGready.Select()
-                    DGready.CurrentCell = DGready.Rows(0).Cells("Units")
-                    DGready.BeginEdit(False)
-                End If
-            End If
-        Catch ex As Exception
-            LblSts.Text = ("عملية غير صحيحة : ") & ex.Message
-            PictureBox1.Image = My.Resources.Cancel
-            Exit Sub
-        End Try
-
-    End Sub
-    Private BGS As New BindingSource
-    Private Sub TextBox1_GotFocus(sender As Object, e As EventArgs) Handles TextBox1.GotFocus
-        Try
-            If DGready.Visible = False Then DGready.Visible = True
-            If Not IsNothing(DGPerv) Then DGPerv.Dispose()
-            AddHandler DGready.SelectionChanged, AddressOf DGReady_SelectionChanged
-            MnuSave.Enabled = False
-        Catch ex As Exception
-            LblSts.Text = ex.Message
-            PictureBox1.Image = My.Resources.Cancel
-        End Try
-    End Sub
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
-        Try
-            If String.IsNullOrEmpty(TextBox1.Text) Then
-                DGready.AutoGenerateColumns = False
-                DGready.DataSource = Nothing
-                Exit Sub
-            End If
-            If DGready.Visible = False Then DGready.Visible = True
-            If Not IsNothing(TempBS) Then TempBS.Dispose()
-            Dim Filter = "Pname LIKE '%" & TextBox1.Text & "%'"
-            Dim Sort = "Pname ASC"
-            BindToDG(Filter, SORT)
-        Catch ex As Exception
-            LblSts.Text = ("عملية غير صحيحة : ") & ex.Message
-            PictureBox1.Image = My.Resources.Cancel
-            Exit Sub
-        End Try
     End Sub
 #End Region
     Private Sub _MPback_Click(sender As Object, e As EventArgs) Handles _MPback.Click
@@ -545,10 +577,14 @@ Public Class POs
             {
         .PMID = CInt(ComboBox1.SelectedValue.ToString),
         .VendID = CInt(ComboBox2.SelectedValue.ToString),
-        .PONotes = TextBox7.Text}
+        .PONotes = TextBox7.Text,
+        .Dscnt = CDbl(DataGridView1.Rows(0).Cells("InvDscnt").Value.ToString),
+        .InvNet = CDbl(DataGridView1.Rows(0).Cells("InvNet").Value.ToString),
+        .InvPaid = CDbl(DataGridView1.Rows(0).Cells("InvPaid").Value.ToString)}
         Pno1.Text = NewPO.SaveNewPO(DGPerv).ToString
         LblSts.Text = "تم حفظ أمر الشراء"
         PictureBox1.Image = My.Resources.Apply
+        MnuPrint.Enabled = True
     End Sub
 #End Region
 End Class
