@@ -23,11 +23,11 @@ Partial Class ItemsFrm
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ItemsFrm))
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me._MP = New System.Windows.Forms.ToolStripMenuItem()
         Me.MnuNew = New System.Windows.Forms.ToolStripMenuItem()
@@ -45,6 +45,7 @@ Partial Class ItemsFrm
         Me._MPback = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.CboStores = New System.Windows.Forms.ComboBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -78,7 +79,6 @@ Partial Class ItemsFrm
         Me.Kinds = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.GsellPrice = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Stores = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.Label9 = New System.Windows.Forms.Label()
         Me.MenuStrip1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -265,10 +265,24 @@ Partial Class ItemsFrm
         Me.Button1.UseCompatibleTextRendering = True
         Me.Button1.UseVisualStyleBackColor = False
         '
+        'Label9
+        '
+        Me.Label9.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label9.AutoEllipsis = True
+        Me.Label9.BackColor = System.Drawing.Color.Transparent
+        Me.Label9.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        Me.Label9.Location = New System.Drawing.Point(362, 34)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(165, 29)
+        Me.Label9.TabIndex = 443
+        Me.Label9.Text = "المخزن"
+        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'CboStores
         '
         Me.CboStores.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CboStores.BackColor = System.Drawing.Color.AliceBlue
+        Me.CboStores.BackColor = System.Drawing.Color.WhiteSmoke
         Me.CboStores.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CboStores.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.CboStores.Font = New System.Drawing.Font("Traditional Arabic", 11.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
@@ -564,14 +578,14 @@ Partial Class ItemsFrm
         Me.DGready.BackgroundColor = System.Drawing.Color.Snow
         Me.DGready.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DGready.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle6.BackColor = System.Drawing.Color.Azure
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle6.ForeColor = System.Drawing.Color.SteelBlue
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Linen
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DGready.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.Azure
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.SteelBlue
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Linen
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DGready.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.DGready.ColumnHeadersHeight = 50
         Me.DGready.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.DGready.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PID, Me.Pname, Me.Pdesc, Me.Pcost, Me.FrstQnty, Me.MinQ, Me.BarCode, Me.Pnotes, Me.Kinds, Me.GsellPrice, Me.Stores})
@@ -583,14 +597,14 @@ Partial Class ItemsFrm
         Me.DGready.Name = "DGready"
         Me.DGready.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.DGready.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle10.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        DataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black
-        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.MintCream
-        DataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.DimGray
-        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle10
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Traditional Arabic", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.MintCream
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.DimGray
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DGready.RowHeadersDefaultCellStyle = DataGridViewCellStyle5
         Me.DGready.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DGready.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.DGready.Size = New System.Drawing.Size(1339, 444)
@@ -621,9 +635,9 @@ Partial Class ItemsFrm
         'Pcost
         '
         Me.Pcost.DataPropertyName = "Pcost"
-        DataGridViewCellStyle7.Format = "C2"
-        DataGridViewCellStyle7.NullValue = "0.00"
-        Me.Pcost.DefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle2.Format = "C2"
+        DataGridViewCellStyle2.NullValue = "0.00"
+        Me.Pcost.DefaultCellStyle = DataGridViewCellStyle2
         Me.Pcost.HeaderText = "تكلفة الوحدة"
         Me.Pcost.Name = "Pcost"
         Me.Pcost.ReadOnly = True
@@ -665,9 +679,9 @@ Partial Class ItemsFrm
         'GsellPrice
         '
         Me.GsellPrice.DataPropertyName = "GsellPrice"
-        DataGridViewCellStyle8.Format = "C2"
-        DataGridViewCellStyle8.NullValue = "0.00"
-        Me.GsellPrice.DefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle3.Format = "C2"
+        DataGridViewCellStyle3.NullValue = "0.00"
+        Me.GsellPrice.DefaultCellStyle = DataGridViewCellStyle3
         Me.GsellPrice.HeaderText = "السعر"
         Me.GsellPrice.Name = "GsellPrice"
         Me.GsellPrice.ReadOnly = True
@@ -675,26 +689,12 @@ Partial Class ItemsFrm
         'Stores
         '
         Me.Stores.DataPropertyName = "Stores"
-        DataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle9.NullValue = "اختر المخزن"
-        Me.Stores.DefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle4.NullValue = "اختر المخزن"
+        Me.Stores.DefaultCellStyle = DataGridViewCellStyle4
         Me.Stores.HeaderText = "المخزن"
         Me.Stores.Name = "Stores"
         Me.Stores.ReadOnly = True
-        '
-        'Label9
-        '
-        Me.Label9.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label9.AutoEllipsis = True
-        Me.Label9.BackColor = System.Drawing.Color.Transparent
-        Me.Label9.Font = New System.Drawing.Font("Times New Roman", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(178, Byte))
-        Me.Label9.Location = New System.Drawing.Point(362, 34)
-        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(165, 29)
-        Me.Label9.TabIndex = 443
-        Me.Label9.Text = "المخزن"
-        Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'ItemsFrm
         '

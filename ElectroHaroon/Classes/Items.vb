@@ -153,8 +153,12 @@ Public Class Items
         Dim InsertSql = <sql>
                             INSERT INTO Products (Pname,Pdesc,Pcost,FrstQnty,MinQ,BarCode,StoreID,Pnotes) VALUES (?,?,?,?,?,?,?,?);
                         </sql>
+        Dim SelectSql = <sql>
+                                SELECT @@IDENTITY;
+                            </sql>
         Using CN As New OleDbConnection(ConnectionString),
-                InsertCMD As New OleDbCommand(InsertSql, CN) With {.CommandType = CommandType.Text}
+            InsertCMD As New OleDbCommand(InsertSql, CN) With {.CommandType = CommandType.Text},
+            SelectCMD As New OleDbCommand(SelectSql, CN) With {.CommandType = CommandType.Text}
             With InsertCMD.Parameters
                 .AddWithValue("?", ItmNm)
                 .AddWithValue("?", ItmDesc)
@@ -168,6 +172,11 @@ Public Class Items
             Try
                 CN.Open()
                 Saved = InsertCMD.ExecuteNonQuery
+                Dim NewItem = CInt(SelectCMD.ExecuteScalar.ToString)
+                KID = 1
+                ItmID = NewItem
+                ItmSellPrice = 0.0
+                UpdateInsertSellP(False)
             Catch ex As Exception
                 MsgBox("خطأ فى حفظ صنف جديد : " & vbCrLf & ex.Message,
                        MsgBoxStyle.MsgBoxRight + MsgBoxStyle.MsgBoxRtlReading + MsgBoxStyle.Critical,

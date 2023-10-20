@@ -119,6 +119,83 @@ Public Class POs
         Dim VendsItms As New CombinedData With {.Key_ID = "VenID", .Val_Nm = "VendNm", .Tbl_Nm = "Vendors"}
         VendsItms.BindVendors(ComboBox2)
     End Sub
+    Private Sub BindTotalsDG()
+        'Invoice Totals
+        TotalTbl = New DataTable
+        TotalTbl.TableName = "Totals"
+        Dim ColInvTotal As New DataColumn
+        With ColInvTotal
+            .AllowDBNull = False
+            .ColumnName = "InvTotal"
+            .ColumnMapping = MappingType.Element
+            .DataType = GetType(Double)
+            .DefaultValue = "0.00"
+            .ReadOnly = False
+        End With
+        Dim ColInvDscnt As New DataColumn
+        With ColInvDscnt
+            .AllowDBNull = False
+            .ColumnName = "InvDscnt"
+            .ColumnMapping = MappingType.Element
+            .DataType = GetType(Double)
+            .DefaultValue = "0.00"
+            .ReadOnly = False
+        End With
+        Dim ColInvNet As New DataColumn
+        With ColInvNet
+            .AllowDBNull = False
+            .ColumnName = "InvNet"
+            .ColumnMapping = MappingType.Element
+            .DataType = GetType(Double)
+            .DefaultValue = "0.00"
+            .ReadOnly = True
+            .Expression = "[InvTotal]-[InvDscnt]"
+        End With
+        Dim ColInvPaid As New DataColumn
+        With ColInvPaid
+            .AllowDBNull = False
+            .ColumnName = "InvPaid"
+            .ColumnMapping = MappingType.Element
+            .DataType = GetType(Double)
+            .DefaultValue = "0.00"
+            .ReadOnly = False
+        End With
+        Dim ColInvRest As New DataColumn
+        With ColInvRest
+            .AllowDBNull = False
+            .ColumnName = "InvRest"
+            .ColumnMapping = MappingType.Element
+            .DataType = GetType(Double)
+            .DefaultValue = "0.00"
+            .ReadOnly = True
+            .Expression = "[InvNet]-[InvPaid]"
+        End With
+        TotalTbl.Columns.AddRange({ColInvTotal, ColInvDscnt, ColInvNet, ColInvPaid, ColInvRest})
+        Dim row As DataRow = TotalTbl.NewRow
+        TotalTbl.Rows.Add(row)
+        Dim view As New DataView
+        view.Table = TotalTbl
+        BSTotal = New BindingSource
+        BSTotal.DataSource = view
+        With DataGridView1
+            .RowTemplate.Height = 40
+            .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            .Columns(0).DataPropertyName = "InvTotal"
+            .Columns(0).ValueType = Type.GetType("System.Double")
+            .Columns(0).ReadOnly = True
+            .Columns(1).DataPropertyName = "InvDscnt"
+            .Columns(1).ValueType = Type.GetType("System.Double")
+            .Columns(2).DataPropertyName = "InvNet"
+            .Columns(2).ValueType = Type.GetType("System.Double")
+            .Columns(3).DataPropertyName = "InvPaid"
+            .Columns(3).ValueType = Type.GetType("System.Double")
+            .Columns(4).DataPropertyName = "InvRest"
+            .Columns(4).ValueType = Type.GetType("System.Double")
+            .AutoGenerateColumns = False
+            .DataSource = BSTotal
+            .DefaultCellStyle.Format = "C2"
+        End With
+    End Sub
     Private Sub POs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         KeyPreview = True
         Try
@@ -144,50 +221,7 @@ Public Class POs
             LblSts.Text = ("عملية غير صحيحة : ") & ex.Message
             PictureBox1.Image = My.Resources.Cancel
         End Try
-        'Invoice Totals
-        TotalTbl = New DataTable
-        Dim ColInvTotal As New DataColumn With
-        {.AllowDBNull = False, .ColumnName = "InvTotal", .ColumnMapping = MappingType.Element,
-        .DataType = GetType(Double), .DefaultValue = "0.00", .ReadOnly = False}
-        Dim ColInvDscnt As New DataColumn With
-        {.AllowDBNull = False, .ColumnName = "InvDscnt", .ColumnMapping = MappingType.Element,
-        .DataType = GetType(Double), .DefaultValue = "0.00", .ReadOnly = False}
-        Dim ColInvNet As New DataColumn With
-        {.AllowDBNull = False, .ColumnName = "InvNet", .ColumnMapping = MappingType.Element,
-        .DataType = GetType(Double), .DefaultValue = "0.00", .ReadOnly = True, .Expression = "[InvTotal]-[InvDscnt]"}
-        Dim ColInvPaid As New DataColumn With
-        {.AllowDBNull = False, .ColumnName = "InvPaid", .ColumnMapping = MappingType.Element,
-        .DataType = GetType(Double), .DefaultValue = "0.00", .ReadOnly = False}
-        Dim ColInvRest As New DataColumn With
-        {.AllowDBNull = False, .ColumnName = "InvRest", .ColumnMapping = MappingType.Element,
-        .DataType = GetType(Double), .DefaultValue = "0.00", .ReadOnly = True, .Expression = "[InvNet]-[InvPaid]"}
-        TotalTbl.Columns.AddRange({ColInvTotal, ColInvDscnt, ColInvNet, ColInvPaid, ColInvRest})
-        Dim row As DataRow
-        ' Add one row. Since it has default values, 
-        ' no need to set values yet.
-        row = TotalTbl.NewRow
-        TotalTbl.Rows.Add(row)
-        BSTotal = New BindingSource
-        BSTotal.DataSource = TotalTbl
-        With DataGridView1
-            .RowTemplate.Height = 40
-            .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-
-            .Columns(0).DataPropertyName = "InvTotal"
-            .Columns(0).ValueType = Type.GetType("System.Double")
-            .Columns(0).ReadOnly = True
-            .Columns(1).DataPropertyName = "InvDscnt"
-            .Columns(1).ValueType = Type.GetType("System.Double")
-            .Columns(2).DataPropertyName = "InvNet"
-            .Columns(2).ValueType = Type.GetType("System.Double")
-            .Columns(3).DataPropertyName = "InvPaid"
-            .Columns(3).ValueType = Type.GetType("System.Double")
-            .Columns(4).DataPropertyName = "InvRest"
-            .Columns(4).ValueType = Type.GetType("System.Double")
-            .AutoGenerateColumns = False
-            .DataSource = BSTotal
-            .DefaultCellStyle.Format = "C2"
-        End With
+        BindTotalsDG()
     End Sub
     Private Sub MnuNew_Click(sender As Object, e As EventArgs) Handles MnuNew.Click
         TextBox1.ReadOnly = False
@@ -208,7 +242,7 @@ Public Class POs
         If DGready.Visible = False Then DGready.Visible = True
         Label3.Text = "معاينة أمر الشراء"
         Label3.Enabled = False
-        BSTotal = New BindingSource
+        BindTotalsDG()
         BS_SellPrice = New BindingSource
         TextBox1.Text = String.Empty
         ComboBox1.SelectedIndex = -1
@@ -311,6 +345,15 @@ Public Class POs
         TempBS.ResetBindings(True)
         Controls.Add(DGPerv)
         MnuSave.Enabled = True
+#Region "Totals"
+        Dim poTotal As Double
+        For Each Irow As DataGridViewRow In DGPerv.Rows
+            If Irow.Cells("ColAdd").Value = True Then
+                poTotal += CDbl(Irow.Cells("ItmQntyIn").Value * Irow.Cells("ItmPurPrice").Value)
+            End If
+        Next
+        DataGridView1.Rows(0).Cells("InvTotal").Value = poTotal
+#End Region
     End Sub
     Private Sub ComboBox1_DropDown(sender As Object, e As EventArgs) Handles ComboBox1.DropDown
         Dim PayTypes As New CombinedData With {.Key_ID = "PTID", .Val_Nm = "PTNm", .Tbl_Nm = "PayTypes"}
@@ -520,7 +563,6 @@ Public Class POs
             If Irow.Cells("ColAdd").Value = True Then
                 poTotal += CDbl(Irow.Cells("ItmQntyIn").Value * Irow.Cells("ItmPurPrice").Value)
             End If
-            'Irow("ItmTotalPrice") = CDbl(Irow("ItmQntyIn").ToString) * CDbl(Irow("ItmPurPrice").ToString)
         Next
         DataGridView1.Rows(0).Cells("InvTotal").Value = poTotal
 #End Region
@@ -536,7 +578,22 @@ Public Class POs
         End If
         PrintPO.CreateQuerPO()
     End Sub
-
+    Private Sub MnuEdit_Click(sender As Object, e As EventArgs) Handles MnuEdit.Click
+        Dim PrintPO As New PO_Details
+        Dim Pno = InputBox("ادخل رقم أمر الشراء", "تعديل أمر شراء")
+        PrintPO.InvID = CInt(Pno)
+        PrintPO.EditPO()
+    End Sub
+#Region "Print All POS"
+    Private Sub MnuItems_Click(sender As Object, e As EventArgs) Handles MnuItems.Click
+        Dim PrintPO As New PO_Details
+        PrintPO.CreateQuerAllPos()
+    End Sub
+    Private Sub MnuLesItms_Click(sender As Object, e As EventArgs) Handles MnuLesItms.Click
+        Dim LessItms As New PO_Details
+        LessItms.CreateQuerLessItms()
+    End Sub
+#End Region
     Private Sub DGready_RowHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DGready.RowHeaderMouseClick
         If IsNothing(DGready.CurrentCell) Then
             Exit Sub
@@ -561,18 +618,6 @@ Public Class POs
     End Sub
 #Region "Save new PO"
     Private Sub MnuSave_Click(sender As Object, e As EventArgs) Handles MnuSave.Click
-        If IsNothing(ComboBox1.SelectedValue) OrElse IsNothing(ComboBox2.SelectedValue) Then
-            LblSts.Text = "يجب تحديد المورد و طريقة الدفع"
-            PictureBox1.Image = My.Resources.Cancel
-            Exit Sub
-        End If
-        If String.IsNullOrEmpty(TextBox7.Text) Then TextBox7.Text = "لا يوجد"
-        If Label3.Enabled = False Then
-            MsgBox("يجب تصفية الفاتورة - معاينة أمر الشراء أولا")
-            Exit Sub
-        End If
-        PictureBox1.Image = Nothing
-        LblSts.Text = String.Empty
         Dim NewPO As New PO_Details With
             {
         .PMID = CInt(ComboBox1.SelectedValue.ToString),
@@ -581,7 +626,33 @@ Public Class POs
         .Dscnt = CDbl(DataGridView1.Rows(0).Cells("InvDscnt").Value.ToString),
         .InvNet = CDbl(DataGridView1.Rows(0).Cells("InvNet").Value.ToString),
         .InvPaid = CDbl(DataGridView1.Rows(0).Cells("InvPaid").Value.ToString)}
-        Pno1.Text = NewPO.SaveNewPO(DGPerv).ToString
+        If IsNothing(ComboBox1.SelectedValue) OrElse IsNothing(ComboBox2.SelectedValue) Then
+            LblSts.Text = "يجب تحديد المورد و طريقة الدفع"
+            PictureBox1.Image = My.Resources.Cancel
+            Exit Sub
+        End If
+        If String.IsNullOrEmpty(TextBox7.Text) Then TextBox7.Text = "لا يوجد"
+        If Label3.Enabled = False Then
+            LblSts.Text = "يجب تصفية الفاتورة - معاينة أمر الشراء أولا"
+            PictureBox1.Image = My.Resources.Cancel
+            Exit Sub
+        End If
+        If NewPO.InvNet <= 0.0 Then
+            LblSts.Text = "لم تقم بادخال المدفوع للمورد"
+            PictureBox1.Image = My.Resources.Cancel
+            Exit Sub
+        End If
+        PictureBox1.Image = Nothing
+        LblSts.Text = String.Empty
+        Try
+            Dim Saved = NewPO.SaveNewPO(DGPerv).ToString
+            MnuNew_Click(sender, e)
+            Pno1.Text = Saved
+        Catch ex As Exception
+            LblSts.Text = "مشكلة فى حفظ أمر الشراء"
+            PictureBox1.Image = My.Resources.Cancel
+            Exit Sub
+        End Try
         LblSts.Text = "تم حفظ أمر الشراء"
         PictureBox1.Image = My.Resources.Apply
         MnuPrint.Enabled = True

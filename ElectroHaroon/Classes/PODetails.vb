@@ -209,6 +209,9 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
             End Using
             Return PMKey
         End Function
+        Public Sub EditPO()
+
+        End Sub
         Public Function GetData() As DataTable
             Dim Ntbl As New DataTable
             Dim SelectSql = <sql>
@@ -270,6 +273,42 @@ ORDER BY Products.PID, SellPriceGrps.KindID;"
                     InvPreview.ShowDialog()
                 End Try
             End Using
+        End Sub
+        Public Sub CreateQuerAllPos()
+            Dim SqlStrDrop =
+                <sql>
+                    DROP VIEW All_P_Ordrs;
+                </sql>.Value
+            Dim SqlStrCreate =
+                <sql>
+                    CREATE VIEW All_P_Ordrs AS SELECT Vendors.VendNm, PayTypes.PTNm, PurInv.InvID, PurInv.PO_Date, PurInv.InvNotes, 
+                Sum(InvDetails.PurUnitTotal) AS SumOfPurUnitTotal, PurInvTotals.PurDscnt, PurInvTotals.PurInvNet, PurInvTotals.PurInvPaid, 
+                PurInvTotals.PurInvRest FROM ((Vendors INNER JOIN (PayTypes INNER JOIN PurInv ON PayTypes.PTID = PurInv.PTID) ON 
+                Vendors.VenID = PurInv.VenID) INNER JOIN InvDetails ON PurInv.InvID = InvDetails.InvID) INNER JOIN PurInvTotals ON 
+                InvDetails.InvID = PurInvTotals.PO_Numbr GROUP BY Vendors.VendNm, PayTypes.PTNm, PurInv.InvID, PurInv.PO_Date, 
+                PurInv.InvNotes, PurInvTotals.PurDscnt, PurInvTotals.PurInvNet, PurInvTotals.PurInvPaid, PurInvTotals.PurInvRest;
+                </sql>.Value
+            Using cn As New OleDbConnection(ConnectionString),
+                    CMDCreateQ As New OleDbCommand(SqlStrCreate, cn) With {.CommandType = CommandType.Text},
+                    CMDDropQ As New OleDbCommand(SqlStrDrop, cn) With {.CommandType = CommandType.Text}
+                cn.Open()
+                Try
+                    CMDDropQ.ExecuteNonQuery()
+                    CMDCreateQ.ExecuteNonQuery()
+                Catch ex As OleDbException
+                    CMDCreateQ.ExecuteNonQuery()
+                Finally
+                    CMDCreateQ.Parameters.Clear()
+                    CMDCreateQ.Dispose()
+                    CMDDropQ.Dispose()
+                    cn.Dispose()
+                    InvPreview.TargetForm = "All_Pur_O"
+                    InvPreview.ShowDialog()
+                End Try
+            End Using
+        End Sub
+        Public Sub CreateQuerLessItms()
+
         End Sub
     End Class
 End Namespace
